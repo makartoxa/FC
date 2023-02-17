@@ -19,10 +19,8 @@ import tottenham from "../logo/tottenham.png"
 import westham from "../logo/westham.png"
 import wolverhampton from "../logo/wolverhampton.png"
 
-// import mcity from "../logo/mcity.png"
-
 import {useEffect, useState} from "react";
-import {Button, SelectPicker, InputNumber} from "rsuite";
+import {Button, SelectPicker} from "rsuite";
 
 import './FootballResults.scss'
 
@@ -162,11 +160,9 @@ export const FootballResults = () => {
 
 	const saveResult = (match) => {
 		const filterField = match.map(el => !el.home || !el.homeScore || !el.awayScore || !el.away)
-
-
-		// if (filterField[0] || filterField[1]) {
-		// 	return alert('Error, not all fields are filled, please fill in all fields')
-		// } else {
+		if (filterField[0] || filterField[1]) {
+			return alert('Error, not all fields are filled, please fill in all fields')
+		} else {
 			///
 			// const inputData = localStorage.getItem('inputData');
 			// const matchDays = inputData ? JSON.parse(inputData) : [];
@@ -233,7 +229,7 @@ export const FootballResults = () => {
 			setSelectedDropMenuTeams([]);
 
 		}
-	// }
+	}
 
 	const getAvailableOptions = (placement, oppositeValue) => {
 		const inputData = localStorage.getItem('inputData');
@@ -376,7 +372,7 @@ export const FootballResults = () => {
 						disabled={saveButtonDisabled}
 						appearance="ghost"
 						color="red">
-						Save
+						Submit
 					</Button>
 				</div>
 

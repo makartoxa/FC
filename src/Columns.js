@@ -4,23 +4,23 @@ export const COLUMNS = [
 		accessor: 'fc_name'
 	},
 	{
-		Header: 'MatchDay',
+		Header: 'G',
 		accessor: 'matchDay'
 	},
 	{
-		Header: 'Goals +',
+		Header: 'SB',
 		accessor: 'goals-'
 	},
 	{
-		Header: 'Goals -',
+		Header: 'CB',
 		accessor: 'goals-'
 	},
 	{
-		Header: 'Goals Dif',
+		Header: 'DB',
 		accessor: 'goalDif'
 	},
 	{
-		Header: 'Points',
+		Header: 'P',
 		accessor: 'points'
 	}
 ];

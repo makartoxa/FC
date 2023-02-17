@@ -9,6 +9,7 @@
   background-color:#f9f9b1;
   padding: 10px 20px 10px 20px;
   font-weight: bold;
+  color: black;
 
 }
 
@@ -65,7 +66,7 @@
   font-size: 14px;
 }
 .cell {
-  width: 15%;
+  width: 7%;
   height: 40px;
   padding:5px 5px 5px 5px;
   display: flex;
@@ -76,7 +77,7 @@
 }
 
 .club-cell {
-  width: 38%;
+  width: 65%;
   justify-content: flex-start;
 }
 
@@ -91,7 +92,7 @@
     width: 70vw;
   }
 }
-@media (max-width: 840px) {
+@media (max-width: 820px) {
   .footballTable {
     width: 80vw;
   }
@@ -116,13 +117,63 @@
     padding-right: 0;
   }
   .table-container {
-    width: 450px;
+    width: 550px;
     overflow: scroll;
+  }
+  .club-cell {
+    width: 48%;
+  }
+}
+@media (max-width: 414px) {
+  .footballTable {
+    width: 90vw;
+  }
+  .table-container {
+    width: 80vw;
+  }
+  .cell {
+    width: 8%;
+    font-size: 12px;
+  }
+  .club-cell {
+    width: 60%;
+    font-size: 12px;
+  }
+}
+@media (max-width: 375px) {
+  .footballTable {
+    width: 90vw;
+  }
+  .table-container {
+    width: 79vw;
+  }
+  .cell {
+    width: 8%;
+    font-size: 12px;
+  }
+  .club-cell {
+    width: 60%;
+    font-size: 12px;
   }
 }
 @media (max-width: 280px) {
   .footballTable {
     width: 90vw;
+  }
+  .footballTableBody {
+    margin-left: 20px;
+    padding-left: 0;
+  }
+  .table-container {
+    width: 95vw;
+  }
+  .cell {
+    width: 8%;
+    font-size: 12px;
+  }
+  .club-cell {
+    width: 60%;
+    font-size: 12px;
   }
 }
 

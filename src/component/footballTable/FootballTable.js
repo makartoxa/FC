@@ -61,7 +61,7 @@ export const FootballTable = ( ) => {
 											<div style={{padding: '5px'}}>
 												<img src={club.label} width="25px" height="25px" align="middle"/>
 											</div>
-											{club.name}
+											{club.name.length < 13 ? club.name : `${club.name.slice(0, 13)}...`}
 										</div>
 										<div className="cell">
 											{club.games ?? 0}
