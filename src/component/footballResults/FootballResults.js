@@ -20,38 +20,40 @@ import westham from "../logo/westham.png"
 import wolverhampton from "../logo/wolverhampton.png"
 
 import {useEffect, useState} from "react";
-import {Button, SelectPicker} from "rsuite";
+import {Button, SelectPicker, InputNumber, Message} from "rsuite";
+import PageNextIcon from '@rsuite/icons/PageNext';
+import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 
 import './FootballResults.scss'
 
 
-const teams = [
-	{id: '1', name: 'Arsenal', label: arsenal},
-	{id: '2', name: 'Aston Villa', label: astonVilla},
-	{id: '3', name: 'Brighton', label: brighton},
-	{id: '4', name: 'Brentford', label: brentford},
-	{id: '5', name: 'Bournemouth', label: bouremounth},
-	{id: '6', name: 'Crystal Palace', label: crystalPalace},
-	{id: '7', name: 'Chelsea', label: chelsea},
-	{id: '8', name: 'Fulham', label: fulham},
-	{id: '9', name: 'Everton', label: everton},
-	{id: '10', name: 'Forest', label: forest},
-	{id: '11', name: 'Manchester City', label: manchester_city},
-	{id: '12', name: 'Manchester United', label: m_u},
-	{id: '13', name: 'Newcastle United', label: newCastle},
-	{id: '14', name: 'Leeds', label: leeds},
-	{id: '15', name: 'Tottenham', label: tottenham},
-	{id: '16', name: 'Liverpool', label: liverpool},
-	{id: '17', name: 'Leicester City', label: leicester},
-	{id: '18', name: 'Southampton', label: sauthampton},
-	{id: '19', name: 'West Ham United', label: westham},
-	{id: '20', name: 'Wolverhampton', label: wolverhampton}
+export const TEAMS = [
+	{id: '1', fcName: 'Arsenal', label: arsenal},
+	{id: '2', fcName: 'Aston Villa', label: astonVilla},
+	{id: '3', fcName: 'Brighton', label: brighton},
+	{id: '4', fcName: 'Brentford', label: brentford},
+	{id: '5', fcName: 'Bournemouth', label: bouremounth},
+	{id: '6', fcName: 'Crystal Palace', label: crystalPalace},
+	{id: '7', fcName: 'Chelsea', label: chelsea},
+	{id: '8', fcName: 'Fulham', label: fulham},
+	{id: '9', fcName: 'Everton', label: everton},
+	{id: '10', fcName: 'Forest', label: forest},
+	{id: '11', fcName: 'Manchester City', label: manchester_city},
+	{id: '12', fcName: 'Manchester United', label: m_u},
+	{id: '13', fcName: 'Newcastle United', label: newCastle},
+	{id: '14', fcName: 'Leeds', label: leeds},
+	{id: '15', fcName: 'Tottenham', label: tottenham},
+	{id: '16', fcName: 'Liverpool', label: liverpool},
+	{id: '17', fcName: 'Leicester City', label: leicester},
+	{id: '18', fcName: 'Southampton', label: sauthampton},
+	{id: '19', fcName: 'West Ham United', label: westham},
+	{id: '20', fcName: 'Wolverhampton', label: wolverhampton}
 ];
 
 export const dataMatchDays = (() => {
 	const days = [];
 
-	for(let i = 0; i < (teams.length - 1) * 2; i++) {
+	for(let i = 0; i < (TEAMS.length - 1) * 2; i++) {
 		days.push({
 			value: i + 1,
 			label: i + 1
@@ -61,18 +63,8 @@ export const dataMatchDays = (() => {
 	return days;
 })();
 
-export const teamsArray = teams.sort((a, b) => {
-	if (a.name < b.name) {
-		return -1;
-	}
-	if (a.name > b.name) {
-		return 1;
-	}
-	return 0;
-})
-
 const selectDaysData = dataMatchDays.map(day => ({label: day.label, value: day.value}));
-const selectFootballClub = teamsArray.map(team => ({value: team.id, label: team.name}));
+const selectFootballClub = TEAMS.map(team => ({value: team.id, label: team.fcName}));
 
 const getPoints = (firstScore, secondScore) => {
 	let points = 0;
@@ -93,12 +85,38 @@ export const FootballResults = () => {
 	const [matchDay, setMatchDay] = useState(1);
 	const [matches, setMatches] = useState([])
 	const [saveButtonDisabled, setSaveButtonDisabled] = useState(false);
-	const [selectedDropMenuTeams, setSelectedDropMenuTeams] = useState([])
+	const [selectedDropMenuTeams, setSelectedDropMenuTeams] = useState([]);
+	const [dayButtonMinus, setDayButtonMinus] = useState(false)
+	const [dayButtonPlus, setDayButtonPlus] = useState(false)
 
+	useEffect(() => {
+
+		const inputData = JSON.parse(localStorage.getItem('inputData'))
+		if (inputData) {
+			if (inputData.length !== dataMatchDays.length) {
+				setMatchDay(parseInt(inputData.length) + 1)
+			} else {
+				setMatchDay(inputData.length)
+			}
+		}
+	}, [])
 
 	useEffect(() => {
 		setSelectedDropMenuTeams([])
 		const inputData = JSON.parse(localStorage.getItem('inputData'));
+
+		if (matchDay === 1) {
+			setDayButtonMinus(true)
+		} else {
+			setDayButtonMinus(false)
+		};
+
+		if (matchDay === dataMatchDays.length) {
+			setDayButtonPlus(true)
+		} else {
+			setDayButtonPlus(false)
+		}
+
 		if (inputData) {
 			const currentDay = inputData.find(day => day.matchDay === matchDay);
 
@@ -106,9 +124,10 @@ export const FootballResults = () => {
 				setSaveButtonDisabled(true);
 				setMatches(currentDay.matches);
 			} else {
+
 				const createDataResult = [];
 
-				for (let i = 0; i < teamsArray.length / 2; i++) {
+				for (let i = 0; i < TEAMS.length / 2; i++) {
 					createDataResult.push({home: '', homeScore: '', awayScore: '', away: '', matchId: ''})
 				}
 				setMatches(createDataResult);
@@ -118,7 +137,7 @@ export const FootballResults = () => {
 		} else {
 			const createDataResult = [];
 
-			for (let i = 0; i < teamsArray.length / 2; i++) {
+			for (let i = 0; i < TEAMS.length / 2; i++) {
 				createDataResult.push({home: '', homeScore: '', awayScore: '', away: '', matchId: ''})
 			}
 			setMatches(createDataResult);
@@ -127,10 +146,26 @@ export const FootballResults = () => {
 		}
 	}, [matchDay])
 
+	const handleMinus = () => {
+		setMatchDay(parseInt(matchDay) - 1);
+	};
+	const handlePlus = () => {
+		setMatchDay(parseInt(matchDay) + 1);
+	};
+
+	const clearDataMatches = () => {
+		const createMatches = [];
+
+		for (let i = 0; i < TEAMS.length / 2; i++) {
+			createMatches.push({home: '', homeScore: '', awayScore: '', away: '', matchId: ''})
+		}
+		setMatches(createMatches);
+		setSelectedDropMenuTeams([]);
+	}
 
 	const disabledItemsDropMenu = (match, id, value, name) => {
 		let arr = [{team: value, id, name}];
-		const searchSameTeam = selectedDropMenuTeams.find(el => el.id === id && el.name === name);
+		const searchSameTeam = selectedDropMenuTeams.find(el => el.id === id && el.fcName === name);
 
 		if (!searchSameTeam) {
 			setSelectedDropMenuTeams([...selectedDropMenuTeams, ...arr])
@@ -138,7 +173,7 @@ export const FootballResults = () => {
 			const arrNew = [];
 
 			selectedDropMenuTeams.filter(team => {
-				if (team.id !== id || team.name !== name) {
+				if (team.id !== id || team.fcName !== name) {
 					arrNew.push(team)
 				}
 			})
@@ -146,9 +181,7 @@ export const FootballResults = () => {
 		}
 	};
 
-
 	const chooseClub = (match, i, value, name) => {
-		console.log('i', i);
 		const newArray = [...match];
 		newArray[i][name] = value;
 		newArray[i].matchId = newArray[i].home && newArray[i].away ? newArray[i].home + '-' + newArray[i].away : newArray[i][name]
@@ -189,7 +222,7 @@ export const FootballResults = () => {
 				localStorage.setItem('inputData', JSON.stringify(sumInputData))
 			}
 
-			let teams = [...teamsArray]
+			let teams = [...TEAMS]
 			sumInputData.forEach(matchDayData => {
 				matchDayData.matches.forEach(match => {
 
@@ -270,42 +303,67 @@ export const FootballResults = () => {
 				}
 			}
 
-			const gamesByTeam = teams.map(team => ({
+			const gamesByTeam = TEAMS.map(team => ({
 				id: team.id,
 				gamesCount: teamIds.filter(id => id === team.id).length
 			}));
 
 			illegalTeams = gamesByTeam
-				.filter(team => team.gamesCount >= teams.length - 1)
+				.filter(team => team.gamesCount >= TEAMS.length - 1)
 				.map(team => team.id)
 		}
 
 		return [...selectedDropMenuTeams.map(el => el.team), ...illegalTeams].filter(id => id);
 	}
 
+	const reset = () => {
+		const response = window.confirm("Are you sure you want to delete all data? It will be impossible to restore them!");
+
+		if (response) {
+			alert("Data completely deleted");
+			localStorage.clear();
+			window.location.reload();
+		} else {
+			alert("Сancel");
+		}
+	}
+
 
 	return (
-		<div className='football-results'>
-			<div className="match-day">
-				<div className="text-menu">Match Day #</div>
-				<SelectPicker
-					className="dropdown-menu-day"
-					value={matchDay}
-					data={selectDaysData}
-					onChange={setMatchDay}
-					cleanable={false}
-					searchable={false}
-				/>
+		<div className='matches-container'>
+			<div className="matches-day">
+				<div className="matches-day__text-menu">
+					Match Day #
+				</div>
+				<div className="matches-day__menu-day">
+					<Button onClick={handleMinus}
+					        disabled={dayButtonMinus}>
+						<PagePreviousIcon />
+					</Button>
+					<SelectPicker
+						className="matches-day__choose-day"
+						value={matchDay}
+						data={selectDaysData}
+						onChange={setMatchDay}
+						cleanable={false}
+						searchable={false}
+					/>
+					<Button onClick={handlePlus}
+					        disabled={dayButtonPlus}>
+						<PageNextIcon />
+					</Button>
+
+				</div>
 			</div>
-			<div className="results">
+			<div className="matches-result">
 				{
 					matches.map((match, i) => (
-						<div className="result-football-match-day">
-							<div className="football-match"
+						<div className="matches-result__match-day">
+							<div className="matches-result__football-match"
 							     key={i}>
 								<div>
 									<SelectPicker
-										className="dropdown-menu-clubs"
+										className="matches-result__menu-clubs"
 										placeholder='Chose FC'
 										placement={"auto"}
 										data={selectFootballClub}
@@ -318,36 +376,41 @@ export const FootballResults = () => {
 										}}
 									/>
 								</div>
-								<div>
-									<input
-										className="enter-check"
-										type="number"
-										value={match.homeScore >= 0 && match.homeScore.length < 2 ? match.homeScore : ''}
-										disabled={saveButtonDisabled}
-										aria-label="Text input with segmented dropdown button"
-										onChange={(e) => {
-											const newArray = [...matches];
-											newArray[i].homeScore = e.target.value;
-											setMatches(newArray);
-										}}
-									/>
-									<span style={{margin: '5px'}}>-</span>
-									<input
-										className="enter-check"
-										type="number"
-										value={match.awayScore >= 0  && match.awayScore.length < 2 ? match.awayScore : ''}
-										disabled={saveButtonDisabled}
-										aria-label="Text input with segmented dropdown button"
-										onChange={(e) => {
-											const newArray = [...matches];
-											newArray[i].awayScore = e.target.value;
-											setMatches(newArray);
-										}}
-									/>
+								<div className="matches-result__input-block">
+									<div className="matches-result__input">
+										<InputNumber
+											min={0}
+											max={1000}
+											placeholder={'Score'}
+											value={match.homeScore}
+											disabled={saveButtonDisabled}
+											onChange={(value, event) => {
+											    const newArray = [...matches];
+												newArray[i].homeScore = value;
+											    setMatches(newArray);
+											    }
+											}
+										/>
+									</div>
+									<span className="matches-result__inputElement">-</span>
+									<div className="matches-result__input">
+										<InputNumber
+											min={0}
+											max={1000}
+											placeholder={'Score'}
+											value={match.awayScore}
+											disabled={saveButtonDisabled}
+												onChange={(value,e) => {
+													const newArray = [...matches];
+													newArray[i].awayScore = value;
+													setMatches(newArray);
+												}}
+										/>
+									</div>
 								</div>
 								<div>
 									<SelectPicker
-										className="dropdown-menu-clubs"
+										className="matches-result__menu-clubs"
 										placeholder='Chose FC'
 										placement={"auto"}
 										data={selectFootballClub}
@@ -365,19 +428,38 @@ export const FootballResults = () => {
 						</div>
 					))
 				}
-				<div className="result-block-save">
-					<Button
-						style={{color: '#9F0013'}}
-						onClick={() => saveResult(matches)}
-						disabled={saveButtonDisabled}
-						appearance="ghost"
-						color="red">
-						Submit
-					</Button>
+				<div className="matches-result__block-save">
+					<div className="matches-result__button">
+						<Button
+							style={{color: '#9F0013'}}
+							onClick={() => reset()}
+							appearance="ghost"
+							color="red">
+							Reset
+						</Button>
+					</div>
+					<div className="matches-result__button">
+						<Button
+							style={{color: '#a6a605'}}
+							onClick={() => clearDataMatches()}
+							disabled={saveButtonDisabled}
+							appearance="ghost"
+							color="yellow">
+							Clear
+						</Button>
+					</div>
+					<div className="matches-result__button">
+						<Button
+							style={{color: '#3a9306'}}
+							onClick={() => saveResult(matches)}
+							disabled={saveButtonDisabled}
+							appearance="ghost"
+							color="green">
+							Submit
+						</Button>
+					</div>
 				</div>
-
 			</div>
-
 		</div>
 	)
 }

@@ -1,26 +1,26 @@
 export const COLUMNS = [
 	{
-		Header: 'FC Club',
-		accessor: 'fc_name'
+		key: 'fcName',
+		label: 'FC Club',
 	},
 	{
-		Header: 'G',
-		accessor: 'matchDay'
+		key: 'games',
+		label: 'G'
 	},
 	{
-		Header: 'SB',
-		accessor: 'goals-'
+		key: 'goalsPlus',
+		label: 'SB',
 	},
 	{
-		Header: 'CB',
-		accessor: 'goals-'
+		key: 'goalsMinus',
+		label: 'CB'
 	},
 	{
-		Header: 'DB',
-		accessor: 'goalDif'
+		key: 'goalsDifference',
+		label: 'DB'
 	},
 	{
-		Header: 'P',
-		accessor: 'points'
+		key: 'points',
+		label: 'P'
 	}
 ];

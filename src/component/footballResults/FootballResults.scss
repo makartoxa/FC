@@ -1,198 +1,197 @@
 @import '../../style/variables.scss';
-.football-results {
+.matches-container {
   display: block;
   align-items: center;
   margin: 0 auto;
   background-color:ghostwhite;
   width: 50vw;
-
-
 }
 
-.match-day {
-  margin: 0 auto;
-  background-color: #f9f9b1;
+.matches-day {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  background-color: #fafa64;
   width: 100%;
-  //height: 8vh;
-  align-items: center;
+
+
+  &__text-menu {
+    display: flex;
+    color: black;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+  }
+
+  &__choose-day {
+    padding: 0 5px;
+  }
+
+  &__menu-day {
+    display: flex;
+    color: black;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+  }
 }
 
-.text-menu {
-  color: black;
-  align-items: center;
-  padding: 5px;
-  //border-bottom: 1px solid black;
-}
-
-.dropdown-menu-day {
-  display: flex;
-  //margin: 0 auto;
-  color: black;
-  padding: 5px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  border-radius: 10px;
-  width: 80px;
-  text-decoration: none;
-}
-
-.dropdown-menu-clubs {
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  border-radius: 15px;
-  width: 200px;
-  text-decoration: none;
-  color: black;
-}
-
-.enter-check {
-  text-align: center;
-  border: none;
-  background-color: ghostwhite;
-  width: 35px;
-  right: 10px;
-  left: 10px;
-  padding: 5px;
-  margin: 0 auto;
-  border-bottom: solid 1px grey;
-  outline:none;
-}
-
-.enter-check:active {
-  border-bottom: solid 1px grey;
-}
-
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.results {
+.matches-result {
   padding: 10px;
   height: 87vh;
   overflow: scroll;
+
+  &__match-day {
+    margin: 0 auto;
+    padding: 10px;
+    border-bottom: solid 1px black;
+  }
+
+  &__football-match {
+    padding: 10px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__menu-clubs {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+    width: 200px;
+    text-decoration: none;
+    color: black;
+  }
+
+  &__input-block {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  &__input {
+    width: 80px;
+    height: 35px;
+  }
+
+  &__inputElement {
+    text-align: center;
+    padding: 8px;
+  }
+  &__block-save {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    padding-top: 10px ;
+    text-align: center;
+  }
+  &__button {
+    padding: 5px;
+  }
 }
 
-.result-football-match-day {
-  margin: 0 auto;
-  padding: 10px;
-  border-bottom: solid 1px black;
-
-}
-
-.football-match {
-  padding: 10px;
-  margin: 0 auto;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-}
-
-.result-block-save {
-  margin: 0 auto;
-  padding: 20px;
-  text-align: center;
-}
-
-.save-result {
-  background-color: black;
-  color: whitesmoke;
-  text-decoration: none;
-  border-radius: 7px;
-  border: none;
-  padding: 5px 15px 5px 15px;
-
-}
-
-.save-result:hover {
-  background-color: black;
-  color: $main-color;
-}
-
+//media width
 
 @media (max-width: 1280px) {
-  .football-results {
+  .matches-container {
     width: 70vw;
   }
 }
 
-@media (max-width: 1120px) {
-  .football-results {
-    width: 70vw;
-  }
-}
 @media (max-width: 840px) {
-  .football-results {
+  .matches-container {
     width: 80vw;
   }
 }
 
 @media (max-width: 750px) {
-  .football-results {
-    width: 80vw;
-  }
-  .football-match {
-    display: block;
-    justify-content: center;
+  .matches-result {
+    &__football-match {
+      display: block;
+    }
   }
 }
-@media (max-width: 280px) {
-  .football-results {
+
+@media (max-width: 414px) {
+  .matches-container {
     width: 90vw;
   }
 }
 
-////
+@media (max-width: 280px) {
+
+  .matches-day {
+    display: block;
+    &__text-menu {
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .matches-result {
+    &__match-day {
+      padding: 0;
+    }
+  }
+}
+
+//media height
 
 @media (max-height: 1368px) {
-  .results {
+  .matches-result {
     height: 93vh;
   }
 }
 
 @media (max-height: 1180px) {
-  .results {
+  .matches-result {
     height: 91vh;
   }
 }
 
 @media (max-height: 1024px) {
-  .results {
+  .matches-result {
     height: 90vh;
   }
 }
-@media (max-height: 896px) {
-  .results {
+@media (max-height: 915px) {
+  .matches-result {
     height: 89vh;
   }
 }
+@media (max-height: 844px) {
+  .matches-result {
+    height: 88vh;
+  }
+}
 @media (max-height: 800px) {
-  .results {
+  .matches-result {
     height: 87vh;
   }
 }
-@media (max-height: 667px) {
-  .results {
-    height: 85vh;
-  }
-}
-@media (max-height: 653px) {
-  .results {
+@media (max-height: 740px) {
+  .matches-result {
     height: 86vh;
   }
 }
-@media (max-height: 600px) {
-  .results {
+@media (max-height: 667px) {
+  .matches-result {
+    height: 85vh;
+  }
+}
+
+@media (max-height: 653px) {
+  .matches-result {
     height: 82vh;
   }
 }
 
 @media (max-height: 300px) {
-  .results {
+  .matches-result {
     height: 81vh;
   }
 }
