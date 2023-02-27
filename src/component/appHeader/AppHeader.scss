@@ -31,8 +31,8 @@
   &__menu {
     display: flex;
     align-items: center;
-    font-size: 28px;
-    line-height: 28px;
+    font-size: 18px;
+    line-height: 18px;
     gap: 10px;
   }
 
@@ -87,7 +87,7 @@
       height: 100vh;
       background-color: black;
       z-index: 10;
-      transition: left 1ms;
+      transition: left 500ms;
     }
   }
 
@@ -111,9 +111,5 @@
     &__title {
       font-size: 18px;
     }
-  }
-
-  .active {
-    left: 0;
   }
 }

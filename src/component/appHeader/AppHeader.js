@@ -17,7 +17,8 @@ export const AppHeader = () => {
 				</div>
 				<div className={`app-header__menu ${active ? 'active' : ''}` }
 				     onClick={() => setActive(!active)}>
-					<NavLink to='/' >Home</NavLink>
+					<NavLink to='/'>Home</NavLink>
+					<NavLink to='/table' >Table</NavLink>
 					<NavLink to='/results'>Results</NavLink>
 				</div>
 				<div className="app-header__mobile-btn"

@@ -1,0 +1,70 @@
+.create-league {
+  width: 50vw;
+  margin: 0 auto;
+  font-size: 18px;
+  &__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fafa64;
+    color: black;
+    padding: 10px;
+  }
+  &__container {
+    background-color: ghostwhite;
+    height: 87vh;
+    padding: 20px;
+  }
+  &__name-league {
+    padding-bottom: 10px;
+  }
+  &__name-text {
+    padding-bottom: 10px;
+  }
+  &__add-team {
+    display: flex;
+    justify-content: left;
+    align-items: normal;
+    padding-bottom: 10px;
+    gap: 10px;
+  }
+  &__input {
+    width: 250px;
+    height: 35px;
+  }
+  &__up-loader {
+    height: 35px;
+  }
+  &__button-delete {
+    //color: red;
+    //height: 35px;
+    //width: 35px;
+    margin-left: 10px;
+  }
+  &__new-field {
+    padding-bottom: 10px;
+    border-bottom: solid 1px black;
+  }
+  &__submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .create-league {
+    width: 70vw;
+  }
+}
+@media (max-width: 820px) {
+  .create-league {
+    width: 80vw;
+  }
+}
+@media (max-width: 420px) {
+  .create-league {
+    width: 90vw;
+  }
+}

@@ -12,6 +12,7 @@
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  color: black;
   background-color: #fafa64;
   width: 100%;
 
@@ -92,6 +93,21 @@
   &__button {
     padding: 5px;
   }
+  &__ended {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px;
+    font-weight: 450;
+    font-size: 16px;
+    color: black;
+    background-color: #fafa64;
+  }
+}
+
+.active {
+  display: flex;
 }
 
 //media width

@@ -6,8 +6,12 @@
 }
 
 .football-container-header {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 10px;
   background-color: #fafa64;
-  padding: 15px 20px;
+  padding: 0 20px;
   font-weight: 500;
   color: black;
   font-size: 16px;
@@ -39,9 +43,9 @@
   align-items: center;
 
   &__cell {
-    width: 7%;
+    width: 6%;
     height: 40px;
-    padding: 5px;
+    padding: 2px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -52,7 +56,7 @@
   }
 
   &__club-cell {
-    width: 65%;
+    width: 70%;
     justify-content: flex-start;
     height: 40px;
     padding:5px;
@@ -73,6 +77,10 @@
   &__cell-label {
     padding: 5px;
   }
+
+  &__cell-label-img {
+    object-fit: contain;
+  }
 }
 
 .table-data {
@@ -84,15 +92,30 @@
 
 // media width
 
-@media (max-width: 1200px) {
+@media (max-width: 1280px) {
   .football-container {
-    width: 60vw;
+    width: 70vw;
   }
 }
 
 @media (max-width: 1120px) {
   .football-container {
     width: 70vw;
+  }
+  .table-header {
+    &__cell {
+      width: 7%;
+      font-size: 12px;
+    }
+    &__club-cell {
+      width: 65%;
+      font-size: 12px;
+    }
+    &__club {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 }
 @media (max-width: 820px) {
@@ -106,15 +129,31 @@
     width: 90vw;
   }
 }
-@media (max-width: 540px) {
+@media (max-width: 545px) {
   .football-container {
     width: 80vw;
+  }
+  .table-header {
+    &__cell {
+      width: 10%;
+      font-size: 12px;
+    }
+
+    &__club-cell {
+      width: 50%;
+      font-size: 12px;
+    }
   }
 }
 @media (max-width: 440px) {
   .table-header {
+    &__cell {
+      width: 11%;
+      font-size: 12px;
+    }
     &__club-cell {
-      width: 48%;
+      width: 45%;
+      font-size: 12px;
     }
   }
 }
@@ -122,33 +161,11 @@
   .football-container {
     width: 90vw;
   }
-
-  .table-header {
-    &__cell {
-      width: 8%;
-      font-size: 12px;
-    }
-    &__club-cell {
-      width: 60%;
-      font-size: 12px;
-    }
-  }
 }
 
 @media (max-width: 375px) {
   .football-container-header {
     padding: 10px 20px;
-  }
-
-  .table-header {
-    &__cell {
-      width: 8%;
-      font-size: 12px;
-    }
-    &__club-cell {
-      width: 60%;
-      font-size: 12px;
-    }
   }
 }
 
@@ -159,20 +176,10 @@
     margin-left: 10px;
   }
   .football-container-body {
-    width: 280px;
+    width: 300px;
     padding: 0;
     display: flex;
     justify-content: center;
-  }
-  .table-header {
-    &__cell {
-      width: 8%;
-      font-size: 12px;
-    }
-    &__club-cell {
-      width: 60%;
-      font-size: 12px;
-    }
   }
 }
 

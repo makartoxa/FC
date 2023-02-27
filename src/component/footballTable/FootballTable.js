@@ -1,6 +1,7 @@
 
 import { COLUMNS } from "../../Columns";
 import { TEAMS } from "../footballResults/FootballResults";
+import epl from "../logo/epl.png"
 
 import { useEffect, useState } from "react";
 import SortDownIcon from '@rsuite/icons/SortDown';
@@ -132,6 +133,7 @@ export function FootballTable() {
 	return (
 		<div className="football-container">
 			<div className="football-container-header">
+				<img src={ epl } width="75px"/>
 				<span>England Premier League</span>
 			</div>
 			<div className="football-container-body-scroll">
@@ -159,10 +161,12 @@ export function FootballTable() {
 												{ i + 1 }
 											</div>
 											<div className="table-header__cell-label">
-												<img src={club.label} width="25px" height="25px" align="middle"/>
+												<img className="table-header__cell-label-img" src={club.label} width="25px" height="25px" align="middle"/>
 											</div>
-											{club.fcName}
-											{/*{club.fcName.length <= 13 ? club.fcName : `${club.fcName.slice(0, 13)}...`}*/}
+											<div className="table-header__club">
+												{club.fcName}
+											</div>
+											{/*{club.fcName.length <= 10 ? club.fcName : `${club.fcName.slice(0, 10)}...`}*/}
 										</div>
 										<div className="table-header__cell">
 											{club.games ?? 0}

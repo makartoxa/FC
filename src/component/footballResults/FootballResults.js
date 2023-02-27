@@ -19,8 +19,8 @@ import tottenham from "../logo/tottenham.png"
 import westham from "../logo/westham.png"
 import wolverhampton from "../logo/wolverhampton.png"
 
-import {useEffect, useState} from "react";
-import {Button, SelectPicker, InputNumber, Message} from "rsuite";
+import {useEffect, useState, useRef, useMemo} from "react";
+import {Button, SelectPicker, InputNumber, DatePicker} from "rsuite";
 import PageNextIcon from '@rsuite/icons/PageNext';
 import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 
@@ -59,38 +59,33 @@ export const dataMatchDays = (() => {
 			label: i + 1
 		})
 	}
-
 	return days;
 })();
 
 const selectDaysData = dataMatchDays.map(day => ({label: day.label, value: day.value}));
 const selectFootballClub = TEAMS.map(team => ({value: team.id, label: team.fcName}));
 
-const getPoints = (firstScore, secondScore) => {
-	let points = 0;
-
-	if (firstScore === secondScore) {
-		points = 1;
-	} else if (firstScore > secondScore) {
-		points = 3
-	}
-
-	return points;
-}
-
 
 export const FootballResults = () => {
 
-// useState
+	//------------> useState
+
 	const [matchDay, setMatchDay] = useState(1);
-	const [matches, setMatches] = useState([])
+	const [matches, setMatches] = useState([]);
+	const [disDays, setDisDays] = useState([])
 	const [saveButtonDisabled, setSaveButtonDisabled] = useState(false);
 	const [selectedDropMenuTeams, setSelectedDropMenuTeams] = useState([]);
-	const [dayButtonMinus, setDayButtonMinus] = useState(false)
-	const [dayButtonPlus, setDayButtonPlus] = useState(false)
+	const [dayButtonMinus, setDayButtonMinus] = useState(false);
+	const [dayButtonPlus, setDayButtonPlus] = useState(false);
+	const [seasonEnded, setSeasonEnded] = useState(false);
+
+	const dayKey = useMemo(() => `matchDay_${matchDay}`, [matchDay]);
+
+	//------------> go to matchDay, when field do not have data
+
+
 
 	useEffect(() => {
-
 		const inputData = JSON.parse(localStorage.getItem('inputData'))
 		if (inputData) {
 			if (inputData.length !== dataMatchDays.length) {
@@ -99,7 +94,15 @@ export const FootballResults = () => {
 				setMatchDay(inputData.length)
 			}
 		}
+
+		let days = [];
+		for(let i = inputData ? inputData.length + 1 : 1; i < ( (TEAMS.length - 1) * 2); i++) {
+			days.push(i + 1)
+		}
+		return setDisDays(days)
 	}, [])
+
+	//------------> render field, select and input
 
 	useEffect(() => {
 		setSelectedDropMenuTeams([])
@@ -109,9 +112,11 @@ export const FootballResults = () => {
 			setDayButtonMinus(true)
 		} else {
 			setDayButtonMinus(false)
-		};
+		}
 
 		if (matchDay === dataMatchDays.length) {
+			setDayButtonPlus(true)
+		} else if (matchDay === (inputData ? inputData.length + 1 : 1)) {
 			setDayButtonPlus(true)
 		} else {
 			setDayButtonPlus(false)
@@ -119,66 +124,95 @@ export const FootballResults = () => {
 
 		if (inputData) {
 			const currentDay = inputData.find(day => day.matchDay === matchDay);
-
 			if (currentDay) {
 				setSaveButtonDisabled(true);
 				setMatches(currentDay.matches);
 			} else {
-
 				const createDataResult = [];
 
 				for (let i = 0; i < TEAMS.length / 2; i++) {
 					createDataResult.push({home: '', homeScore: '', awayScore: '', away: '', matchId: ''})
 				}
+
 				setMatches(createDataResult);
 				setSaveButtonDisabled(false)
 
 			}
 		} else {
 			const createDataResult = [];
-
 			for (let i = 0; i < TEAMS.length / 2; i++) {
 				createDataResult.push({home: '', homeScore: '', awayScore: '', away: '', matchId: ''})
 			}
+
 			setMatches(createDataResult);
 			setSaveButtonDisabled(false)
 
 		}
+
+		const localDayKey = localStorage.getItem('dayKey');
+		const jsonDayKey = localDayKey ? JSON.parse(localDayKey) : [];
+		const dayInLocal = jsonDayKey.find(day => day.matchDay === matchDay)
+		if (dayInLocal) {
+			setMatches(dayInLocal.matches)
+			setSelectedDropMenuTeams(dayInLocal.selectedDropMenuTeams)
+		} else {
+			return
+		}
+
 	}, [matchDay])
+
+
+	// ------------> save data, if you updated page, or you went to next day
+
+	useEffect(() => {
+		const inputData = localStorage.getItem('inputData');
+		const inputDataJson = inputData ? JSON.parse(inputData) : [];
+		const dayInLocal = inputDataJson.find(day => day.matchDay === matchDay);
+
+		const localDayKey = localStorage.getItem('dayKey');
+		const jsonDayKey = localDayKey ? JSON.parse(localDayKey) : [];
+		const doubleDayInLocal = jsonDayKey.find(day => day.matchDay !== matchDay)
+
+		if (matches.length > 0) {
+			const data = [{matchDay: matchDay, matches: matches, selectedDropMenuTeams: selectedDropMenuTeams}]
+			if (dayInLocal) {
+				return
+			} else {
+				if (doubleDayInLocal) {
+					const deleteDoubleDay = jsonDayKey.filter(day => day.matchDay !== matchDay)
+					const push = [...deleteDoubleDay, data]
+					const dayMatch = JSON.stringify(push)
+					localStorage.setItem('dayKey', dayMatch)
+				} else {
+					const dayMatch = JSON.stringify(data)
+					localStorage.setItem('dayKey', dayMatch)
+				}
+			}
+		}
+
+		getAvailableOptions();
+	}, [matches])
+
+	//------------> function button, getPoints, selectTeam, disableTeam
+
+	const getPoints = (firstScore, secondScore) => {
+		let points = 0;
+
+		if (firstScore === secondScore) {
+			points = 1;
+		} else if (firstScore > secondScore) {
+			points = 3
+		}
+
+		return points;
+	}
 
 	const handleMinus = () => {
 		setMatchDay(parseInt(matchDay) - 1);
 	};
+
 	const handlePlus = () => {
 		setMatchDay(parseInt(matchDay) + 1);
-	};
-
-	const clearDataMatches = () => {
-		const createMatches = [];
-
-		for (let i = 0; i < TEAMS.length / 2; i++) {
-			createMatches.push({home: '', homeScore: '', awayScore: '', away: '', matchId: ''})
-		}
-		setMatches(createMatches);
-		setSelectedDropMenuTeams([]);
-	}
-
-	const disabledItemsDropMenu = (match, id, value, name) => {
-		let arr = [{team: value, id, name}];
-		const searchSameTeam = selectedDropMenuTeams.find(el => el.id === id && el.fcName === name);
-
-		if (!searchSameTeam) {
-			setSelectedDropMenuTeams([...selectedDropMenuTeams, ...arr])
-		} else {
-			const arrNew = [];
-
-			selectedDropMenuTeams.filter(team => {
-				if (team.id !== id || team.fcName !== name) {
-					arrNew.push(team)
-				}
-			})
-			setSelectedDropMenuTeams([...arrNew, ...arr])
-		}
 	};
 
 	const chooseClub = (match, i, value, name) => {
@@ -189,7 +223,78 @@ export const FootballResults = () => {
 		disabledItemsDropMenu(match, value)
 	};
 
-	console.log('matches', matches);
+	const disabledItemsDropMenu = (match, id, value, name) => {
+		let arr = [{team: value, id, name}];
+		const searchSameTeam = selectedDropMenuTeams.find(el => el.id === id && el.name === name);
+
+		if (!searchSameTeam) {
+			setSelectedDropMenuTeams([...selectedDropMenuTeams, ...arr])
+		} else {
+			const arrNew = [];
+
+			selectedDropMenuTeams.filter(team => {
+				if (team.id !== id || team.name !== name) {
+					arrNew.push(team)
+				}
+			})
+			setSelectedDropMenuTeams([...arrNew, ...arr])
+		}
+	};
+
+	const getAvailableOptions = (placement, oppositeValue) => {
+		const inputData = localStorage.getItem('inputData');
+		const matchDays = inputData ? JSON.parse(inputData) : [];
+
+		let allMatches = [];
+		matchDays.forEach(matchDay => {
+			allMatches = [...allMatches, ...matchDay.matches.map(match => match.matchId)]
+		});
+
+		let illegalTeams = [];
+
+		if (oppositeValue) {
+			switch (placement) {
+				case 'home': {
+					illegalTeams = allMatches
+						.filter(matchId => matchId.endsWith(`-${oppositeValue}`))
+						.map(matchId => matchId.replace(`-${oppositeValue}`, ''))
+					break;
+				}
+				case 'away': {
+					illegalTeams = allMatches
+						.filter(matchId => matchId.startsWith(`${oppositeValue}-`))
+						.map(matchId => matchId.replace(`${oppositeValue}-`, ''))
+					break;
+				}
+			}
+		} else {
+			let teamIds = [];
+			switch (placement) {
+				case 'home': {
+					teamIds = allMatches.map(matchId => matchId.split('-')[0])
+					break;
+				}
+				case 'away': {
+					teamIds = allMatches.map(matchId => matchId.split('-')[1])
+					break;
+				}
+			}
+
+			const gamesByTeam = TEAMS.map(team => ({
+				id: team.id,
+				gamesCount: teamIds.filter(id => id === team.id).length
+			}));
+
+			illegalTeams = gamesByTeam
+				.filter(team => team.gamesCount >= TEAMS.length - 1)
+				.map(team => team.id)
+		}
+
+		return [...selectedDropMenuTeams.map(el => el.team), ...illegalTeams].filter(id => id);
+	}
+
+
+	//------------> reset, clear, save
 
 	const saveResult = (match) => {
 		const filterField = match.map(el => !el.home || !el.homeScore || !el.awayScore || !el.away)
@@ -253,67 +358,30 @@ export const FootballResults = () => {
 				})
 			})
 
-			if (inputDataLocal) {
-
-			}
-
+			const newDisDays = disDays.slice(1, disDays.length)
 			localStorage.setItem('tableData', JSON.stringify(teams))
 			setSaveButtonDisabled(true)
 			setSelectedDropMenuTeams([]);
+			setDisDays(newDisDays)
+			if (matchDay === dataMatchDays.length) {
+				setDayButtonPlus(true)
+				setSeasonEnded(true)
+			} else {
+				setDayButtonPlus(false)
+			}
 
 		}
+		localStorage.removeItem('dayKey')
 	}
 
-	const getAvailableOptions = (placement, oppositeValue) => {
-		const inputData = localStorage.getItem('inputData');
-		const matchDays = inputData ? JSON.parse(inputData) : [];
+	const clearDataMatches = () => {
+		const createMatches = [];
 
-		let allMatches = [];
-		matchDays.forEach(matchDay => {
-			allMatches = [...allMatches, ...matchDay.matches.map(match => match.matchId)]
-		});
-
-		let illegalTeams = [];
-
-		if (oppositeValue) {
-			switch (placement) {
-				case 'home': {
-					illegalTeams = allMatches
-						.filter(matchId => matchId.endsWith(`-${oppositeValue}`))
-						.map(matchId => matchId.replace(`-${oppositeValue}`, ''))
-					break;
-				}
-				case 'away': {
-					illegalTeams = allMatches
-						.filter(matchId => matchId.startsWith(`${oppositeValue}-`))
-						.map(matchId => matchId.replace(`${oppositeValue}-`, ''))
-					break;
-				}
-			}
-		} else {
-			let teamIds = [];
-			switch (placement) {
-				case 'home': {
-					teamIds = allMatches.map(matchId => matchId.split('-')[0])
-					break;
-				}
-				case 'away': {
-					teamIds = allMatches.map(matchId => matchId.split('-')[1])
-					break;
-				}
-			}
-
-			const gamesByTeam = TEAMS.map(team => ({
-				id: team.id,
-				gamesCount: teamIds.filter(id => id === team.id).length
-			}));
-
-			illegalTeams = gamesByTeam
-				.filter(team => team.gamesCount >= TEAMS.length - 1)
-				.map(team => team.id)
+		for (let i = 0; i < TEAMS.length / 2; i++) {
+			createMatches.push({home: '', homeScore: '', awayScore: '', away: '', matchId: ''})
 		}
-
-		return [...selectedDropMenuTeams.map(el => el.team), ...illegalTeams].filter(id => id);
+		setMatches(createMatches);
+		setSelectedDropMenuTeams([]);
 	}
 
 	const reset = () => {
@@ -344,6 +412,7 @@ export const FootballResults = () => {
 						className="matches-day__choose-day"
 						value={matchDay}
 						data={selectDaysData}
+						disabledItemValues={disDays}
 						onChange={setMatchDay}
 						cleanable={false}
 						searchable={false}
@@ -352,7 +421,9 @@ export const FootballResults = () => {
 					        disabled={dayButtonPlus}>
 						<PageNextIcon />
 					</Button>
-
+					<span style={{paddingLeft: '10px'}}>
+						from {dataMatchDays.length}
+					</span>
 				</div>
 			</div>
 			<div className="matches-result">
@@ -364,7 +435,7 @@ export const FootballResults = () => {
 								<div>
 									<SelectPicker
 										className="matches-result__menu-clubs"
-										placeholder='Chose FC'
+										placeholder='Choose home team'
 										placement={"auto"}
 										data={selectFootballClub}
 										value={match.home}
@@ -388,8 +459,7 @@ export const FootballResults = () => {
 											    const newArray = [...matches];
 												newArray[i].homeScore = value;
 											    setMatches(newArray);
-											    }
-											}
+										    }}
 										/>
 									</div>
 									<span className="matches-result__inputElement">-</span>
@@ -411,7 +481,7 @@ export const FootballResults = () => {
 								<div>
 									<SelectPicker
 										className="matches-result__menu-clubs"
-										placeholder='Chose FC'
+										placeholder='Choose away team'
 										placement={"auto"}
 										data={selectFootballClub}
 										value={match.away}
@@ -458,6 +528,9 @@ export const FootballResults = () => {
 							Submit
 						</Button>
 					</div>
+				</div>
+				<div className={`matches-result__ended ${seasonEnded ? 'active' : ''}`}>
+					The season is over, thanks for being with us!
 				</div>
 			</div>
 		</div>

@@ -1,4 +1,5 @@
 import { AppHeader } from "../appHeader/AppHeader";
+import { AddTeams } from "../addTeams/AddTeams";
 import { FootballTable } from "../footballTable/FootballTable";
 import { FootballResults } from "../footballResults/FootballResults";
 import { Routes, Route } from "react-router-dom";
@@ -10,8 +11,8 @@ export const App = () => {
 		<div className="font-img">
 			<AppHeader/>
 				<Routes>
-					<Route path='/' element={<FootballTable />} />
-
+					<Route path='/' element={<AddTeams />} />
+					<Route path='/table' element={<FootballTable />} />
 					<Route path='/results' element={<FootballResults />} />
 				</Routes>
 		</div>
