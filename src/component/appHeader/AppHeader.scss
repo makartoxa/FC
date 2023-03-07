@@ -2,6 +2,7 @@
 
 .app-header {
   width: 100%;
+
   &__box {
     padding: 10px 15px 10px 15px;
     background-color: black;
@@ -31,7 +32,7 @@
   &__menu {
     display: flex;
     align-items: center;
-    font-size: 18px;
+    font-size: 14px;
     line-height: 18px;
     gap: 10px;
   }
@@ -92,8 +93,9 @@
   }
 
   .active {
-    left: 0;
-  }
+    left: 0%;
+  };
+
 }
 
 @media (max-width: 300px) {

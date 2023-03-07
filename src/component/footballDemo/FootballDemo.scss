@@ -1,0 +1,34 @@
+
+.app-header {
+
+  &__sub-menu {
+    height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    background-color: black;
+    border-top: solid 1px white;
+    //border-bottom: solid 2px white;
+    gap: 15px;
+  }
+
+  &__sub-menu a {
+    text-decoration: none;
+    color: white;
+  }
+
+  &__sub-menu a.active {
+    text-decoration: none;
+    color: #7F0013;
+  }
+
+  &__sub-menu a:hover {
+    text-decoration: none;
+    color: #9F0013;
+  }
+}
+
+.activeMenu {
+  display: flex;
+}

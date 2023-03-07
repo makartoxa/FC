@@ -1,13 +1,13 @@
-
 import { COLUMNS } from "../../Columns";
-import { TEAMS } from "../footballResults/FootballResults";
-import epl from "../logo/epl.png"
+import { LEAGUE } from "../footballResults/FootballResults";
 
 import { useEffect, useState } from "react";
 import SortDownIcon from '@rsuite/icons/SortDown';
 import SortUpIcon from '@rsuite/icons/SortUp';
-
+import '../footballDemo/FootballDemo.scss'
 import './FootballTable.scss'
+import {NavLink, Outlet} from "react-router-dom";
+import {FootballDemo} from "../footballDemo/FootballDemo";
 
 const DEFAULT_SORT_BY = {
 	column: 'points',
@@ -43,12 +43,13 @@ const sortByDefault = (a, b) => {
 
 //@ts-ignore
 export function FootballTable() {
-	const [tableData, setTableData] = useState(TEAMS);
+	const [active, setActive] = useState(false)
+	const [tableData, setTableData] = useState(LEAGUE[0].teams);
 	const [sortBy, setSortBy] = useState(DEFAULT_SORT_BY)
 
 	const getStorageData = () => {
 		const local = localStorage.getItem('tableData');
-		return local ? JSON.parse(local) : TEAMS;
+		return local ? JSON.parse(local) : LEAGUE[0].teams;
 	}
 
 	useEffect(() => {
@@ -130,11 +131,12 @@ export function FootballTable() {
 		}
 	}
 
+
 	return (
 		<div className="football-container">
 			<div className="football-container-header">
-				<img src={ epl } width="75px"/>
-				<span>England Premier League</span>
+				<img src={ LEAGUE[0].league[0].label } width="75px"/>
+				<span>{ LEAGUE[0].league[0].leagueName }</span>
 			</div>
 			<div className="football-container-body-scroll">
 				<div className="football-container-body">
@@ -188,7 +190,6 @@ export function FootballTable() {
 								))
 							}
 						</div>
-
 					</div>
 				</div>
 			</div>

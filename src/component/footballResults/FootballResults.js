@@ -1,3 +1,4 @@
+import epl from "../logo/epl.png"
 import arsenal from "../logo/arsenal.png"
 import astonVilla from "../logo/astonVilla.png"
 import bouremounth from "../logo/bouremounth.png"
@@ -25,35 +26,42 @@ import PageNextIcon from '@rsuite/icons/PageNext';
 import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 
 import './FootballResults.scss'
+import {FootballDemo} from "../footballDemo/FootballDemo";
+import {NavLink} from "react-router-dom";
 
-
-export const TEAMS = [
-	{id: '1', fcName: 'Arsenal', label: arsenal},
-	{id: '2', fcName: 'Aston Villa', label: astonVilla},
-	{id: '3', fcName: 'Brighton', label: brighton},
-	{id: '4', fcName: 'Brentford', label: brentford},
-	{id: '5', fcName: 'Bournemouth', label: bouremounth},
-	{id: '6', fcName: 'Crystal Palace', label: crystalPalace},
-	{id: '7', fcName: 'Chelsea', label: chelsea},
-	{id: '8', fcName: 'Fulham', label: fulham},
-	{id: '9', fcName: 'Everton', label: everton},
-	{id: '10', fcName: 'Forest', label: forest},
-	{id: '11', fcName: 'Manchester City', label: manchester_city},
-	{id: '12', fcName: 'Manchester United', label: m_u},
-	{id: '13', fcName: 'Newcastle United', label: newCastle},
-	{id: '14', fcName: 'Leeds', label: leeds},
-	{id: '15', fcName: 'Tottenham', label: tottenham},
-	{id: '16', fcName: 'Liverpool', label: liverpool},
-	{id: '17', fcName: 'Leicester City', label: leicester},
-	{id: '18', fcName: 'Southampton', label: sauthampton},
-	{id: '19', fcName: 'West Ham United', label: westham},
-	{id: '20', fcName: 'Wolverhampton', label: wolverhampton}
-];
+const localLeague = localStorage.getItem('league_APL')
+ const team = JSON.parse(localLeague)
+export const LEAGUE = team ? team : [{
+	league:
+		[{leagueName: 'England Premier League',
+		label: epl}],
+	teams:
+		[{id: '1', fcName: 'Arsenal', label: arsenal},
+		{id: '2', fcName: 'Aston Villa', label: astonVilla},
+		{id: '3', fcName: 'Brighton', label: brighton},
+		{id: '4', fcName: 'Brentford', label: brentford},
+		{id: '5', fcName: 'Bournemouth', label: bouremounth},
+		{id: '6', fcName: 'Crystal Palace', label: crystalPalace},
+		{id: '7', fcName: 'Chelsea', label: chelsea},
+		{id: '8', fcName: 'Fulham', label: fulham},
+		{id: '9', fcName: 'Everton', label: everton},
+		{id: '10', fcName: 'Forest', label: forest},
+		{id: '11', fcName: 'Manchester City', label: manchester_city},
+		{id: '12', fcName: 'Manchester United', label: m_u},
+		{id: '13', fcName: 'Newcastle United', label: newCastle},
+		{id: '14', fcName: 'Leeds', label: leeds},
+		{id: '15', fcName: 'Tottenham', label: tottenham},
+		{id: '16', fcName: 'Liverpool', label: liverpool},
+		{id: '17', fcName: 'Leicester City', label: leicester},
+		{id: '18', fcName: 'Southampton', label: sauthampton},
+		{id: '19', fcName: 'West Ham United', label: westham},
+		{id: '20', fcName: 'Wolverhampton', label: wolverhampton}]
+}];
 
 export const dataMatchDays = (() => {
 	const days = [];
 
-	for(let i = 0; i < (TEAMS.length - 1) * 2; i++) {
+	for(let i = 0; i < (LEAGUE[0].teams.length - 1) * 2; i++) {
 		days.push({
 			value: i + 1,
 			label: i + 1
@@ -63,7 +71,7 @@ export const dataMatchDays = (() => {
 })();
 
 const selectDaysData = dataMatchDays.map(day => ({label: day.label, value: day.value}));
-const selectFootballClub = TEAMS.map(team => ({value: team.id, label: team.fcName}));
+const selectFootballClub = LEAGUE[0].teams.map(team => ({value: team.id, label: team.fcName}));
 
 
 export const FootballResults = () => {
@@ -96,7 +104,7 @@ export const FootballResults = () => {
 		}
 
 		let days = [];
-		for(let i = inputData ? inputData.length + 1 : 1; i < ( (TEAMS.length - 1) * 2); i++) {
+		for(let i = inputData ? inputData.length + 1 : 1; i < ( (LEAGUE[0].teams.length - 1) * 2); i++) {
 			days.push(i + 1)
 		}
 		return setDisDays(days)
@@ -130,7 +138,7 @@ export const FootballResults = () => {
 			} else {
 				const createDataResult = [];
 
-				for (let i = 0; i < TEAMS.length / 2; i++) {
+				for (let i = 0; i < LEAGUE[0].teams.length / 2; i++) {
 					createDataResult.push({home: '', homeScore: '', awayScore: '', away: '', matchId: ''})
 				}
 
@@ -140,7 +148,7 @@ export const FootballResults = () => {
 			}
 		} else {
 			const createDataResult = [];
-			for (let i = 0; i < TEAMS.length / 2; i++) {
+			for (let i = 0; i < LEAGUE[0].teams.length / 2; i++) {
 				createDataResult.push({home: '', homeScore: '', awayScore: '', away: '', matchId: ''})
 			}
 
@@ -280,13 +288,13 @@ export const FootballResults = () => {
 				}
 			}
 
-			const gamesByTeam = TEAMS.map(team => ({
+			const gamesByTeam = LEAGUE[0].teams.map(team => ({
 				id: team.id,
 				gamesCount: teamIds.filter(id => id === team.id).length
 			}));
 
 			illegalTeams = gamesByTeam
-				.filter(team => team.gamesCount >= TEAMS.length - 1)
+				.filter(team => team.gamesCount >= LEAGUE[0].teams.length - 1)
 				.map(team => team.id)
 		}
 
@@ -327,7 +335,7 @@ export const FootballResults = () => {
 				localStorage.setItem('inputData', JSON.stringify(sumInputData))
 			}
 
-			let teams = [...TEAMS]
+			let teams = [...LEAGUE[0].teams]
 			sumInputData.forEach(matchDayData => {
 				matchDayData.matches.forEach(match => {
 
@@ -377,7 +385,7 @@ export const FootballResults = () => {
 	const clearDataMatches = () => {
 		const createMatches = [];
 
-		for (let i = 0; i < TEAMS.length / 2; i++) {
+		for (let i = 0; i < LEAGUE[0].teams.length / 2; i++) {
 			createMatches.push({home: '', homeScore: '', awayScore: '', away: '', matchId: ''})
 		}
 		setMatches(createMatches);
@@ -422,8 +430,8 @@ export const FootballResults = () => {
 						<PageNextIcon />
 					</Button>
 					<span style={{paddingLeft: '10px'}}>
-						from {dataMatchDays.length}
-					</span>
+					from {dataMatchDays.length}
+				</span>
 				</div>
 			</div>
 			<div className="matches-result">
@@ -456,10 +464,10 @@ export const FootballResults = () => {
 											value={match.homeScore}
 											disabled={saveButtonDisabled}
 											onChange={(value, event) => {
-											    const newArray = [...matches];
+												const newArray = [...matches];
 												newArray[i].homeScore = value;
-											    setMatches(newArray);
-										    }}
+												setMatches(newArray);
+											}}
 										/>
 									</div>
 									<span className="matches-result__inputElement">-</span>
@@ -470,11 +478,11 @@ export const FootballResults = () => {
 											placeholder={'Score'}
 											value={match.awayScore}
 											disabled={saveButtonDisabled}
-												onChange={(value,e) => {
-													const newArray = [...matches];
-													newArray[i].awayScore = value;
-													setMatches(newArray);
-												}}
+											onChange={(value,e) => {
+												const newArray = [...matches];
+												newArray[i].awayScore = value;
+												setMatches(newArray);
+											}}
 										/>
 									</div>
 								</div>

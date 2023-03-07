@@ -1,8 +1,8 @@
-import {NavLink} from "react-router-dom";
-import {AiOutlineMenu, AiOutlineClose} from "react-icons/ai";
-import MenuIcon from '@rsuite/icons/Menu';
+import { NavLink } from "react-router-dom";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { useState } from "react";
+
 import './AppHeader.scss';
-import {useState} from "react";
 
 export const AppHeader = () => {
 
@@ -18,9 +18,10 @@ export const AppHeader = () => {
 				<div className={`app-header__menu ${active ? 'active' : ''}` }
 				     onClick={() => setActive(!active)}>
 					<NavLink to='/'>Home</NavLink>
-					<NavLink to='/table' >Table</NavLink>
-					<NavLink to='/results'>Results</NavLink>
+					<NavLink to='leagues'>Leagues</NavLink>
+					<NavLink to='demo'>Demo</NavLink>
 				</div>
+				{/*<Outlet />*/}
 				<div className="app-header__mobile-btn"
 				     onClick={() => setActive(!active)}>
 					{active ? <AiOutlineClose size="25px" color="#7F0013"/> : <AiOutlineMenu size="25px" color="#7F0013"/>}
