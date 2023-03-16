@@ -1,37 +1,39 @@
 import {useEffect, useMemo, useState} from "react";
 
-import {Button, Input, Uploader} from 'rsuite';
+import {Breadcrumb, Button, Input, Uploader} from 'rsuite';
 import { AiOutlineClose } from "react-icons/ai";
 
 import './CreateLeague.scss'
 
-export const CreateLeague = () => {
-	const [league, setLeague] = useState([])
+export const CreateLeague = ({ update, setUpdate }) => {
+	const [leagueData, setLeagueData] = useState([])
 	const [teams, setTeams] = useState([])
 	const [fields, setNewField] = useState(2)
 
-	console.log('league', league);
+	console.log('leagueData', leagueData);
 	console.log('teams', teams);
 
 	useEffect(() => {
 		if (teams.length % 2 !== 0) {
 			setTeams([...teams,
-				{ id: fields , fcName: '', label: ''}])
+				{ id: `${fields}` , fcName: '', label: ''}])
 		} else if (teams.length % 2 === 0) {
 			setTeams([...teams,
-				{ id: fields - 1, fcName: '', label: ''},
-				{ id: fields, fcName: '', label: ''}])
+				{ id: `${fields - 1}`, fcName: '', label: ''},
+				{ id: `${fields}`, fcName: '', label: ''}])
 		}
+		console.log('teams', teams);
 	}, [fields])
 
 	const fillLeague = (value) => {
-		const newArray = [{
+		let objLeague = {
 			leagueName: '',
 			label: ''
-		}];
-		newArray[0].leagueName = value;
-		newArray[0].label = value.slice(0, 1);
-		setLeague(newArray);
+		};
+		objLeague.leagueName = value;
+		objLeague.label = value.slice(0, 1);
+		console.log('objLeague', objLeague);
+		setLeagueData(objLeague);
 	}
 
 	const fillTeams = (value, i) => {
@@ -79,38 +81,32 @@ export const CreateLeague = () => {
 		)
 	}
 
-	const dataLeague = () => {
-
-	}
 
 	const createLeague = () => {
+
 		if (teams.length === 0) {
 			alert("There are two commands must minimum in league ")
 		} else if (teams.length % 2 === 0) {
-			let newTable = [];
+			const oldLeaguesLocal = localStorage.getItem('leagues')
+			const oldLeagues = oldLeaguesLocal ? JSON.parse(oldLeaguesLocal) : [];
 			let newTeams = '';
 			let newLeague = '';
-			if (league.length === 0 || league.find(name => name.leagueName === '')) {
+			if (leagueData.length === 0 || leagueData.leagueName === '') {
 				alert('You do not add league')
 				return
 			} else {
-				console.log('league', league)
-				newLeague = {league: [...league]}
+				newLeague = leagueData
 			};
-
 
 			if (teams.find(team => team.fcName === '')) {
 				alert('You do not add all team name ')
 				return
 			} else {
-				console.log('2')
 				newTeams = {teams: [...teams]}
 			}
-			newTable = [Object.assign(newLeague, newTeams)]
-			const leagueName = `league_${league[0].leagueName}`
-			localStorage.removeItem('dayKey')
-			localStorage.setItem(leagueName, JSON.stringify(newTable))
-			console.log('newTable', newTable);
+			const newLeagues = [...oldLeagues, Object.assign(newLeague, newTeams)]
+			localStorage.setItem('leagues', JSON.stringify(newLeagues))
+			setUpdate(!update)
 		} else {
 			alert("The number of commands must be paired")
 		}
@@ -129,7 +125,7 @@ export const CreateLeague = () => {
 					<div className="create-league__add-team">
 						<Input className="create-league__input league"
 						       placeholder="Name of league" type='text'
-						       value={league.leagueName}
+						       value={leagueData.leagueName}
 						       onChange={value => {
 							       fillLeague(value)
 						       }}/>

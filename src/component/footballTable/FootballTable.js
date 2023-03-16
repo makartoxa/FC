@@ -1,65 +1,64 @@
 import { COLUMNS } from "../../Columns";
-import { LEAGUE } from "../footballResults/FootballResults";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SortDownIcon from '@rsuite/icons/SortDown';
 import SortUpIcon from '@rsuite/icons/SortUp';
-import '../footballDemo/FootballDemo.scss'
+import TrashIcon from '@rsuite/icons/Trash';
 import './FootballTable.scss'
-import {NavLink, Outlet} from "react-router-dom";
-import {FootballDemo} from "../footballDemo/FootballDemo";
+import { NavLink } from "react-router-dom";
+import {FootballHeader} from "../footballHeader/FootballHeader";
 
-const DEFAULT_SORT_BY = {
-	column: 'points',
-	direction: 'default' // 'down', 'up', 'default'
-}
 
-const sortByDefault = (a, b) => {
-	let sort = b.points - a.points
+export function FootballTable({ league, color }) {
 
-	if (!sort) {
-		console.log('1');
-		sort = b.goalsDifference - a.goalsDifference
-
-		if (!sort) {
-			console.log('2');
-			const nameA = a.fcName.toLowerCase();
-			const nameB = b.fcName.toLowerCase();
-
-			if (nameB < nameA) {
-				console.log('3');
-				sort = 1;
-			} else if (nameB > nameA) {
-				console.log('4');
-				sort = -1
-			} else {
-				sort = 0;
-			}
-		}
+	const DEFAULT_SORT_BY = {
+		column: 'points',
+		direction: 'default' // 'down', 'up', 'default'
 	}
 
-	return sort
-}
-
-//@ts-ignore
-export function FootballTable() {
-	const [active, setActive] = useState(false)
-	const [tableData, setTableData] = useState(LEAGUE[0].teams);
+	const [tableData, setTableData] = useState(league.teams);
 	const [sortBy, setSortBy] = useState(DEFAULT_SORT_BY)
 
-	const getStorageData = () => {
-		const local = localStorage.getItem('tableData');
-		return local ? JSON.parse(local) : LEAGUE[0].teams;
+	console.log('label.length', league.label);
+	console.log('img', (typeof (league.label) !== "string"));
+	const sortByDefault = (a, b) => {
+		let sort = b.points - a.points
+
+		if (!sort) {
+			console.log('1');
+			sort = b.goalsDifference - a.goalsDifference
+
+			if (!sort) {
+				console.log('2');
+				const nameA = a.fcName.toLowerCase();
+				const nameB = b.fcName.toLowerCase();
+
+				if (nameB < nameA) {
+					console.log('3');
+					sort = 1;
+				} else if (nameB > nameA) {
+					console.log('4');
+					sort = -1
+				} else {
+					sort = 0;
+				}
+			}
+		}
+
+		return sort
 	}
 
-	useEffect(() => {
-		setTableData(getStorageData().sort(sortByDefault))
-	}, [])
+
+	const storageData = useMemo(() => {
+		const local = localStorage.getItem(`dataTable_${league.leagueName}`);
+		const localData = local ? JSON.parse(local) : league.teams
+		setTableData(localData.sort(sortByDefault))
+
+		return localData;
+	}, [league])
 
 	useEffect(() => {
-		const data = getStorageData();
-
-		const newData = [...data].sort((a, b) => {
+		const newData = [...storageData].sort((a, b) => {
 			if (sortBy.column === 'fcName') {
 				const nameA = a.fcName.toLowerCase();
 				const nameB = b.fcName.toLowerCase();
@@ -134,10 +133,12 @@ export function FootballTable() {
 
 	return (
 		<div className="football-container">
-			<div className="football-container-header">
-				<img src={ LEAGUE[0].league[0].label } width="75px"/>
-				<span>{ LEAGUE[0].league[0].leagueName }</span>
-			</div>
+			{/*<Breadcrumb style={{backgroundColor: 'ghostwhite', margin: '0 auto', padding: '10px', borderBottom: '1px solid black'}}>*/}
+			{/*	<Breadcrumb.Item href="/" style={{color: 'black', textDecoration: 'none'}}>Home</Breadcrumb.Item>*/}
+			{/*	<Breadcrumb.Item href={`/${league.leagueName}/table`} style={{color: 'black', textDecoration: 'none'}}>{league.leagueName}</Breadcrumb.Item>*/}
+			{/*	<Breadcrumb.Item  style={{color: '#9F0013'}}>Table</Breadcrumb.Item>*/}
+			{/*</Breadcrumb>*/}
+			<FootballHeader league={league} color={color}/>
 			<div className="football-container-body-scroll">
 				<div className="football-container-body">
 					<div className="table-header">
@@ -163,7 +164,13 @@ export function FootballTable() {
 												{ i + 1 }
 											</div>
 											<div className="table-header__cell-label">
-												<img className="table-header__cell-label-img" src={club.label} width="25px" height="25px" align="middle"/>
+												{
+													club.label.length > 1  ? (
+													<img className="table-header__cell-label-img" src={club.label} width="25px" height="25px" align="middle"/>
+													) : (
+														<div style={{padding: '5px 10px', backgroundColor: color(), color: 'white',  borderRadius: '100%'}}>{club.label}</div>
+													)
+												}
 											</div>
 											<div className="table-header__club">
 												{club.fcName}

@@ -1,21 +1,14 @@
 .football-container {
   width: 50vw;
-  background-color: ghostwhite;
   align-items: center;
   margin: 0 auto;
+  opacity: 85%;
 }
 
-.football-container-header {
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  gap: 10px;
-  background-color: #fafa64;
-  padding: 0 20px;
-  font-weight: 500;
-  color: black;
-  font-size: 16px;
-}
+
+
+
+
 
 //.football-container-body-scroll {
 //  width: 100%;
@@ -23,10 +16,15 @@
 //}
 
 .football-container-body {
+  height: 76vh;
+  margin: 10px 0 0 0;
   padding: 10px 20px;
+  background-color: ghostwhite;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: start;
   align-items: center;
 }
 
@@ -35,7 +33,8 @@
   overflow: scroll;
 }
 
-.table-header {
+
+  .table-header {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -185,60 +184,59 @@
 
 ////
 
-@media (max-height: 1368px) {
-  .table-data {
-    height: 88vh;
-  }
-}
-
-@media (max-height: 1180px) {
-  .table-data {
-    height: 86vh;
-  }
-}
-
-@media (max-height: 1024px) {
-  .table-data {
-    height: 84vh;
-  }
-}
+//@media (max-height: 1368px) {
+//  .table-data {
+//    height: 88vh;
+//  }
+//}
+//
+//@media (max-height: 1180px) {
+//  .table-data {
+//    height: 86vh;
+//  }
+//}
+//
+//@media (max-height: 1024px) {
+//  .table-data {
+//    height: 84vh;
+//  }
+//}
 @media (max-height: 915px) {
-  .table-data {
-    height: 82vh;
-  }
+  .football-container-body {
+    height: 80vh;}
+
 }
-@media (max-height: 898px) {
-  .table-data {
-    height: 81vh;
-  }
-}
+//@media (max-height: 898px) {
+//  .table-data {
+//    height: 81vh;
+//  }
+//}
 @media (max-height: 844px) {
-  .table-data {
-    height: 80vh;
-  }
+  .football-container-body {
+    height: 78vh;}
 }
-@media (max-height: 800px) {
-  .table-data {
-    height: 79vh;
-  }
-}
-@media (max-height: 740px) {
-  .table-data {
-    height: 77vh;
-  }
-}
-@media (max-height: 667px) {
-  .table-data {
-    height: 76vh;
-  }
-}
-@media (max-height: 653px) {
-  .table-data {
-    height: 80vh;
-  }
-}
-@media (max-height: 600px) {
-  .table-data {
-    height: 72vh;
-  }
-}
+//@media (max-height: 800px) {
+//  .table-data {
+//    height: 79vh;
+//  }
+//}
+//@media (max-height: 740px) {
+//  .table-data {
+//    height: 77vh;
+//  }
+//}
+//@media (max-height: 667px) {
+//  .table-data {
+//    height: 76vh;
+//  }
+//}
+//@media (max-height: 653px) {
+//  .table-data {
+//    height: 80vh;
+//  }
+//}
+//@media (max-height: 600px) {
+//  .table-data {
+//    height: 72vh;
+//  }
+//}

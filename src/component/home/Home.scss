@@ -1,6 +1,10 @@
+
 .home {
-  background-color: whitesmoke;
-  height: 93vh;
+  background-image: url('https://phonoteka.org/uploads/posts/2021-05/1621701522_5-phonoteka_org-p-sinii-fon-futbol-5.jpg');
+  //background-color: whitesmoke;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 94vh;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -18,7 +22,8 @@
 
   &__menu a {
     text-decoration: none;
-    color: black;
+    color: whitesmoke;
+    padding: 10px;
   }
 
   &__menu a.active {
@@ -28,7 +33,14 @@
 
   &__menu a:hover {
     text-decoration: none;
-    color: #9F0013;
+    color: black;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    opacity: 80%;
+  }
+  &__menu a:active {
+    //background-color: #30ff2175;
+    background-color: #23b3fad9;;
   }
 
 }

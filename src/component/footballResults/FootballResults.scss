@@ -3,17 +3,26 @@
   display: block;
   align-items: center;
   margin: 0 auto;
-  background-color:ghostwhite;
   width: 50vw;
+  opacity: 85%;
+}
+
+.football-container-results {
+  margin-top: 10px;
+  box-shadow: 0 0 10px rgba(35, 179, 250, 0.85);
+  background-color: ghostwhite;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+
 }
 
 .matches-day {
+  padding-top: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
   color: black;
-  background-color: #fafa64;
   width: 100%;
 
 
@@ -40,11 +49,12 @@
 
 .matches-result {
   padding: 10px;
-  height: 87vh;
+  height: 69vh;
   overflow: scroll;
 
   &__match-day {
     margin: 0 auto;
+    background-color:ghostwhite;
     padding: 10px;
     border-bottom: solid 1px black;
   }
@@ -157,57 +167,57 @@
 
 //media height
 
-@media (max-height: 1368px) {
-  .matches-result {
-    height: 93vh;
-  }
-}
+//@media (max-height: 1368px) {
+//  .matches-result {
+//    height: 93vh;
+//  }
+//}
 
-@media (max-height: 1180px) {
-  .matches-result {
-    height: 91vh;
-  }
-}
-
-@media (max-height: 1024px) {
-  .matches-result {
-    height: 90vh;
-  }
-}
+//@media (max-height: 1180px) {
+//  .matches-result {
+//    height: 91vh;
+//  }
+//}
+//
+//@media (max-height: 1024px) {
+//  .matches-result {
+//    height: 90vh;
+//  }
+//}
 @media (max-height: 915px) {
   .matches-result {
-    height: 89vh;
+    height: 74vh;
   }
 }
 @media (max-height: 844px) {
   .matches-result {
-    height: 88vh;
+    height: 71vh;
   }
 }
-@media (max-height: 800px) {
-  .matches-result {
-    height: 87vh;
-  }
-}
-@media (max-height: 740px) {
-  .matches-result {
-    height: 86vh;
-  }
-}
-@media (max-height: 667px) {
-  .matches-result {
-    height: 85vh;
-  }
-}
-
-@media (max-height: 653px) {
-  .matches-result {
-    height: 82vh;
-  }
-}
-
-@media (max-height: 300px) {
-  .matches-result {
-    height: 81vh;
-  }
-}
+//@media (max-height: 800px) {
+//  .matches-result {
+//    height: 87vh;
+//  }
+//}
+//@media (max-height: 740px) {
+//  .matches-result {
+//    height: 86vh;
+//  }
+//}
+//@media (max-height: 667px) {
+//  .matches-result {
+//    height: 85vh;
+//  }
+//}
+//
+//@media (max-height: 653px) {
+//  .matches-result {
+//    height: 82vh;
+//  }
+//}
+//
+//@media (max-height: 300px) {
+//  .matches-result {
+//    height: 81vh;
+//  }
+//}

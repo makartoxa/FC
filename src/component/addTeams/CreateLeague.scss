@@ -1,20 +1,39 @@
 .create-league {
   width: 50vw;
+  opacity: 90%;
   margin: 0 auto;
   font-size: 18px;
+  &__nav {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 45px;
+    background-color: ghostwhite;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    margin: 0 auto;
+    padding: 10px;
+    border-bottom: 1px solid black
+  }
   &__header {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #fafa64;
+    height: 70px;
+    background-color: #23b3fad9;;
+    border-radius: 10px;
+    margin: 10px 0;
     color: black;
     padding: 10px;
   }
   &__container {
     background-color: ghostwhite;
     overflow: scroll;
-    height: 87vh;
+    height: 78vh;
     padding: 20px;
+    border-top: 1px solid black;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
   }
   &__name-league {
     padding-bottom: 10px;

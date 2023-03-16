@@ -1,0 +1,77 @@
+
+.rs-navbar-item {
+  color: white;
+}
+
+.rs-dropdown-menu {
+  background-color: black;
+}
+
+.rs-dropdown-item {
+  color: white;
+  text-decoration: none;
+}
+
+.rs-dropdown-item:active {
+  color: #9F0013;
+  text-decoration: none;
+  background-color: black;
+}
+
+.rs-dropdown-item-toggle:active {
+  color: white;
+  text-decoration: none;
+}
+
+///house
+.rs-navbar-subtle .rs-navbar-item.rs-navbar-item-active {
+  color: #7F0013;
+}
+//sub menu
+.rs-navbar .rs-dropdown-item:focus {
+  background-color: black;
+  color: white;
+}
+
+.rs-navbar .rs-dropdown-item:hover {
+  background-color: black;
+  color: #9F0013;
+}
+
+.rs-dropdown-item:focus-visible {
+  background-color: black;
+  color: #9F0013;
+}
+///// menu
+.rs-navbar-subtle .rs-navbar-item:hover {
+  background-color: black;
+  color: #9F0013;
+}
+.rs-navbar-subtle .rs-navbar-item:focus {
+  background-color: black;
+  color: #7F0013;
+}
+////
+.rs-dropdown-item-submenu:hover > .rs-dropdown-item-toggle {
+  background-color: black;
+  color: #9F0013;
+}
+
+.rs-dropdown-item-submenu:active > .rs-dropdown-item-toggle {
+  background-color: black;
+  color: #7F0013;
+}
+////link
+a {
+  color: white;
+  text-decoration: none;
+}
+a:hover {
+  color: #9F0013;
+  text-decoration: none;
+}
+a:focus {
+  color: #7F0013;
+  text-decoration: none;
+}
+

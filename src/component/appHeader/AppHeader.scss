@@ -4,9 +4,9 @@
   width: 100%;
 
   &__box {
-    padding: 10px 15px 10px 15px;
-    background-color: black;
-    height: 80%;
+    padding: 0 15px;
+    background-color: #0b0b3ed1;
+    height: 80px;
     display: flex;
     justify-content: space-between;
     border-bottom: solid 1px black;
@@ -25,38 +25,104 @@
     gap: 10px;
   }
 
+  &__title a {
+    text-decoration: none;
+    color: white;
+  }
+
   &__name {
-    color: #7F0013;
+    //color: #7F0013; #23b3fa
+    color: #23b3fad9;
   }
 
   &__menu {
     display: flex;
+    justify-content: right;
     align-items: center;
     font-size: 14px;
     line-height: 18px;
     gap: 10px;
+
   }
 
   &__menu a {
     text-decoration: none;
     color: white;
+    font-size: 16px;
+    padding: 20px 10px;
   }
 
   &__menu a.active {
     text-decoration: none;
-    color: #7F0013;
+    //color: #7F0013;
+    color: #0e8ac7;
   }
 
   &__menu a:hover {
     text-decoration: none;
-    color: #9F0013;
+    //color: #9F0013;
+    color: #23b3fa;
+
   }
 
   &__mobile-btn {
     display: none;
-    color: white;
   }
+
 }
+
+/* Dropdown Button */
+.dropbtn {
+  background-color: rgba(11, 11, 62, 0);
+  color: white;
+  font-size: 16px;
+  border: none;
+  padding: 20px 10px;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  z-index: 9999;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  padding: 5px 0 0 0;
+  display: none;
+  position: absolute;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  right: 0;
+  background-color: #0d1459;
+  text-align: center;
+  color: white;
+  min-width: 145px;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: white;
+  padding: 10px 15px;
+  text-decoration: none;
+  display: block;
+}
+
+
+.dropdown:hover .dropbtn {
+  //color: #9F0013;
+  color: #23b3fa;
+}
+
+.show {
+  display: block;
+}
+
+
+
+
+
 
 @media (max-width: 750px) {
   .app-header {
@@ -71,6 +137,7 @@
 
     &__title {
       font-size: 25px;
+      height: 55px;
     }
 
     &__menu {
@@ -78,24 +145,46 @@
       flex-direction: column;
       justify-content: center;
       position: fixed;
-      font-size: 30px;
+      //font-size: 30px;
       left: -100%;
       right: 0;
       top: 0;
       bottom: 0;
-      gap: 40px;
       width: 100%;
       height: 100vh;
       background-color: black;
       z-index: 10;
       transition: left 500ms;
     }
+    &__menu a.active {
+      font-size: 24px;
+    }
+    &__menu a {
+      font-size: 22px;
+    }
+    .dropbtn {
+      font-size: 22px;
+    }
+    .dropdown-content {
+      padding: 0;
+      gap: 10px;
+      text-align: center;
+      color: white;
+      background-color: black;
+      position: inherit;
+    }
+    .dropdown-content a {
+      font-size: 16px;
+      padding: 0 10px 15px;
+    }
+    .dropdown {
+      display: contents;
+    }
   }
 
   .active {
     left: 0%;
   };
-
 }
 
 @media (max-width: 300px) {
@@ -108,10 +197,6 @@
       top: 11px;
       cursor: pointer;
       z-index: 10;
-    }
-
-    &__title {
-      font-size: 18px;
     }
   }
 }
