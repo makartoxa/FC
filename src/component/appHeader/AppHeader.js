@@ -41,6 +41,14 @@ export const AppHeader = ({ update, dummyLeague }) => {
 
 	return (
 		<div className="app-header">
+			<div className="app-header-menu__mobile-btn"
+			     onClick={ () => setActive(!active) }>
+				{
+					active
+						? <AiOutlineClose size="25px" color="#0e8ac7" />
+						: <AiOutlineMenu size="25px" color="#0e8ac7" />
+				}
+			</div>
 			<div className="app-header-title">
 				<div className="app-header-title__name">
 					Football
@@ -96,14 +104,6 @@ export const AppHeader = ({ update, dummyLeague }) => {
 						</NavLink>
 					</div>
 				</div>
-			</div>
-			<div className="app-header-menu__mobile-btn"
-			     onClick={ () => setActive(!active) }>
-				{
-					active
-						? <AiOutlineClose size="25px" color="#0e8ac7" />
-						: <AiOutlineMenu size="25px" color="#0e8ac7" />
-				}
 			</div>
 		</div>
 	)

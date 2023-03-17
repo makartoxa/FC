@@ -1,6 +1,6 @@
 import { AppHeader } from "../appHeader/AppHeader";
 import { Home } from "../home/Home"
-import { CreateLeague } from "../addTeams/CreateLeague";
+import { CreateLeague } from "../createLeague/CreateLeague";
 import { FootballTable } from "../footballTable/FootballTable";
 import { FootballResults} from "../footballResults/FootballResults";
 import { DUMMY_LEAGUE } from "../../DUMMY_LEAGUE";

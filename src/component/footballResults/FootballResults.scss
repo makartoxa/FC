@@ -5,16 +5,15 @@
   margin: 0 auto;
   width: 50vw;
   opacity: 85%;
+  height: calc(100vh - 90px);
 }
 
 .football-container-results {
   margin-top: 10px;
-  height: calc(100vh - 230px);
+  height: calc(100vh - 240px);
   box-shadow: 0 0 10px rgba(35, 179, 250, 0.85);
   background-color: ghostwhite;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-
+  border-radius: 10px;
 }
 
 .matches-day {
@@ -51,7 +50,7 @@
 
 .matches-result {
   padding: 10px;
-  height: calc(100vh - 290px);
+  height: calc(100vh - 300px);
   overflow: scroll;
 
   &__match-day {
@@ -167,49 +166,3 @@
   }
 }
 
-//media height
-
-//@media (max-height: 1368px) {
-//  .matches-result {
-//    height: 93vh;
-//  }
-//}
-
-//@media (max-height: 1180px) {
-//  .matches-result {
-//    height: 91vh;
-//  }
-//}
-//
-//@media (max-height: 1024px) {
-//  .matches-result {
-//    height: 90vh;
-//  }
-//}
-///@media (max-height: 800px) {
-//  .matches-result {
-//    height: 87vh;
-//  }
-//}
-//@media (max-height: 740px) {
-//  .matches-result {
-//    height: 86vh;
-//  }
-//}
-//@media (max-height: 667px) {
-//  .matches-result {
-//    height: 85vh;
-//  }
-//}
-//
-//@media (max-height: 653px) {
-//  .matches-result {
-//    height: 82vh;
-//  }
-//}
-//
-//@media (max-height: 300px) {
-//  .matches-result {
-//    height: 81vh;
-//  }
-//}
