@@ -9,6 +9,7 @@
 
 .football-container-results {
   margin-top: 10px;
+  height: calc(100vh - 230px);
   box-shadow: 0 0 10px rgba(35, 179, 250, 0.85);
   background-color: ghostwhite;
   border-top-left-radius: 10px;
@@ -19,6 +20,7 @@
 .matches-day {
   padding-top: 10px;
   display: flex;
+  height: 60px;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
@@ -49,7 +51,7 @@
 
 .matches-result {
   padding: 10px;
-  height: 69vh;
+  height: calc(100vh - 290px);
   overflow: scroll;
 
   &__match-day {
@@ -184,17 +186,7 @@
 //    height: 90vh;
 //  }
 //}
-@media (max-height: 915px) {
-  .matches-result {
-    height: 74vh;
-  }
-}
-@media (max-height: 844px) {
-  .matches-result {
-    height: 71vh;
-  }
-}
-//@media (max-height: 800px) {
+///@media (max-height: 800px) {
 //  .matches-result {
 //    height: 87vh;
 //  }

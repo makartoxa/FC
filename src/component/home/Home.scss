@@ -1,10 +1,11 @@
 
 .home {
-  background-image: url('https://phonoteka.org/uploads/posts/2021-05/1621701522_5-phonoteka_org-p-sinii-fon-futbol-5.jpg');
-  //background-color: whitesmoke;
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 94vh;
+  //background-image: url('https://phonoteka.org/uploads/posts/2021-05/1621701522_5-phonoteka_org-p-sinii-fon-futbol-5.jpg');
+  ////background-color: whitesmoke;
+  //background-size: cover;
+  //background-repeat: no-repeat;
+  //background-position: center;
+  height: calc(100vh - 80px);
   display: flex;
   justify-content: center;
   flex-direction: column;

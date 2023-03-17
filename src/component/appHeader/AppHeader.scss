@@ -1,123 +1,143 @@
 @import '../../style/variables.scss';
 
 .app-header {
-  width: 100%;
+  padding: 0 40px 0 20px;
+  background-color: #0b0b3ed1;
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  &__box {
-    padding: 0 15px;
-    background-color: #0b0b3ed1;
-    height: 80px;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: solid 1px black;
-  }
-
-  &__title a {
-    text-decoration: none;
-    color: white;
-  }
-
-  &__title {
-    color: white;
-    font-size: 28px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  &__title a {
-    text-decoration: none;
-    color: white;
-  }
-
+.app-header-title {
+  color: white;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   &__name {
-    //color: #7F0013; #23b3fa
     color: #23b3fad9;
   }
+}
 
-  &__menu {
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    font-size: 14px;
-    line-height: 18px;
-    gap: 10px;
+.app-header-title a {
+  text-decoration: none;
+  color: white;
+}
 
-  }
+.app-header-title a:hover {
+  color: #23b3fad9
+}
 
-  &__menu a {
-    text-decoration: none;
-    color: white;
-    font-size: 16px;
-    padding: 20px 10px;
-  }
+.app-header-title a:active {
+  color: rgba(1, 148, 253, 0.85)
+}
 
-  &__menu a.active {
-    text-decoration: none;
-    //color: #7F0013;
-    color: #0e8ac7;
-  }
-
-  &__menu a:hover {
-    text-decoration: none;
-    //color: #9F0013;
-    color: #23b3fa;
+.app-header-menu {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  font-size: 14px;
+  line-height: 18px;
+  &__home {
 
   }
-
   &__mobile-btn {
     display: none;
   }
-
 }
 
-/* Dropdown Button */
-.dropbtn {
-  background-color: rgba(11, 11, 62, 0);
+.app-header-menu a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 75px;
+  width: 100px;
+  margin-top: 5px;
+  padding: 0 5px;
+  text-decoration: none;
   color: white;
-  font-size: 16px;
-  border: none;
-  padding: 20px 10px;
+  font-size: 18px;
 }
 
-/* The container <div> - needed to position the dropdown content */
+.app-header-menu a.active {
+  text-decoration: none;
+  color: #0e8ac7;
+}
+
+.app-header-menu a:hover {
+  text-decoration: none;
+  color: #23b3fa;
+}
+
+.app-header-menu a:active {
+  text-decoration: none;
+  color: rgba(1, 148, 253, 0.85);
+}
+
+.dropbtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 75px;
+  width: 140px;
+  padding: 0 5px;
+  background-color: rgba(2, 2, 171, 0);
+  color: white;
+  font-size: 18px;
+  border: none;
+}
+
 .dropdown {
+  margin-top: 5px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   position: relative;
   display: inline-block;
   z-index: 9999;
 }
 
-/* Dropdown Content (Hidden by Default) */
 .dropdown-content {
-  padding: 5px 0 0 0;
   display: none;
-  position: absolute;
-  border-bottom-left-radius: 10px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   border-bottom-right-radius: 10px;
-  right: 0;
+  border-bottom-left-radius: 10px;
+  position: absolute;
+  left: 0;
   background-color: #0d1459;
-  text-align: center;
   color: white;
-  min-width: 145px;
+  width: 140px;
+  max-height: 200px;
   z-index: 1;
+  overflow: scroll;
 }
 
 .dropdown-content a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
-  padding: 10px 15px;
+  padding-bottom: 5px;
+  font-size: 14px;
+  height: 40px;
+  min-height: 35px;
+  width: 100%;
   text-decoration: none;
-  display: block;
 }
 
-
 .dropdown:hover .dropbtn {
-  //color: #9F0013;
   color: #23b3fa;
 }
 
 .show {
-  display: block;
+  display: flex;
 }
+.show-background {
+  background-color: #0d1459;
+}
+
 
 
 

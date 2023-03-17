@@ -32,7 +32,7 @@ export const App = () => {
 		<div className="font-img">
 			<AppHeader update={update} dummyLeague={DUMMY_LEAGUE}/>
 				<Routes>
-					<Route path='/' element={<Home />} />
+					<Route path='/' element={<Home dummyLeague={DUMMY_LEAGUE} />} />
 					<Route path="new_league" element={<CreateLeague update={update} setUpdate={setUpdate}/>} />
 					{
 						leagues.map((league, i) => (

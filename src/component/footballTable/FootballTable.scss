@@ -16,7 +16,7 @@
 //}
 
 .football-container-body {
-  height: 76vh;
+  height: calc(100vh - 230px);
   margin: 10px 0 0 0;
   padding: 10px 20px;
   background-color: ghostwhite;
@@ -30,6 +30,7 @@
 
 .table-data-scroll{
   width: 100%;
+
   overflow: scroll;
 }
 
@@ -201,20 +202,20 @@
 //    height: 84vh;
 //  }
 //}
-@media (max-height: 915px) {
-  .football-container-body {
-    height: 80vh;}
-
-}
+//@media (max-height: 915px) {
+//  .football-container-body {
+//    height: 80vh;}
+//
+//}
 //@media (max-height: 898px) {
 //  .table-data {
 //    height: 81vh;
 //  }
 //}
-@media (max-height: 844px) {
-  .football-container-body {
-    height: 78vh;}
-}
+//@media (max-height: 844px) {
+//  .football-container-body {
+//    height: 78vh;}
+//}
 //@media (max-height: 800px) {
 //  .table-data {
 //    height: 79vh;
