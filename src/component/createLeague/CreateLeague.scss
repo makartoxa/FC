@@ -68,7 +68,6 @@
     justify-content: center;
     align-items: center;
     padding-bottom: 10px;
-    border-bottom: solid 1px black;
   }
   &__submit {
     display: flex;
@@ -76,8 +75,60 @@
     align-items: center;
     padding-top: 10px;
   }
+  &__button-add {
+    color: rgb(39, 58, 239);
+    font-size: 16px;
+    background-color: ghostwhite;
+    width: 129px;
+    height: 35px;
+    border: 1px solid #002480;
+    border-radius: 5px;
+  }
+  &__button-add:hover {
+    border: 1px solid #062cc5;
+  }
+  &__button-add:active {
+    color: #062cc5;
+    font-weight: 200;
+  }
+  &__button-create {
+    color: rgb(0, 170, 0);
+    font-weight: 400;
+    background-color: ghostwhite;
+    width: 129px;
+    height: 35px;
+    border: 1px solid green;
+    border-radius: 5px;
+  }
+  &__button-create:hover {
+    border: 1px solid #01b601;
+  }
+  &__button-create:active {
+    color: #39c439;
+    font-weight: 200;
+  }
+
+  &__submit:active {
+    border-color: red
+  }
+  &__added {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    height: 40px;
+    text-align: center;
+    background-color: #0a81c2;
+    border-radius: 10px;
+    color: black;
+  }
 }
 
+.show {
+  display: flex;
+  transition-duration: 3s;
+
+}
 .league {
   width: 250px;
 }

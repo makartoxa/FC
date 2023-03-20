@@ -11,6 +11,7 @@
 
 .app-header-title {
   color: white;
+  cursor: default;
   font-size: 28px;
   display: flex;
   align-items: center;
@@ -62,7 +63,11 @@
 
 .app-header-menu a.active {
   text-decoration: none;
-  color: #0e8ac7;
+  color: rgba(7, 131, 199, 0.84);
+}
+.app-header-menu a.active:hover {
+  text-decoration: none;
+  color: #23b3fa;
 }
 
 .app-header-menu a:hover {
@@ -75,7 +80,9 @@
   color: rgba(1, 148, 253, 0.85);
 }
 
-.dropbtn {
+
+
+  .dropbtn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -94,7 +101,7 @@
   border-top-right-radius: 10px;
   position: relative;
   display: inline-block;
-  z-index: 9999;
+  z-index: 2;
 }
 
 .dropdown-content {
@@ -119,7 +126,7 @@
   text-align: center;
   padding-bottom: 5px;
   font-size: 14px;
-  //height: 40px;
+  height: 40px;
   min-height: 35px;
   max-width: 120px;
   width: 100%;
@@ -129,15 +136,27 @@
   text-overflow: ellipsis;
 }
 
-.dropdown:hover .dropbtn {
+.dropbtn:hover {
   color: #23b3fa;
+}
+
+.dropbtn:hover .dropbtn:active {
+  color: rgba(1, 148, 253, 0.85);
 }
 
 .show {
   display: flex;
+
 }
 .show-background {
   background-color: #0d1459;
+}
+.show-color {
+  color: #23b3fa;
+}
+
+.football-container-header-nav__button.active .dropdown-content a {
+  color: yellow;
 }
 
 @media (max-width: 800px) {

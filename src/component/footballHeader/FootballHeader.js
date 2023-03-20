@@ -1,5 +1,6 @@
 import './FootballHeader.scss'
 import TrashIcon from "@rsuite/icons/Trash";
+import CopyIcon from '@rsuite/icons/Copy';
 import { NavLink } from "react-router-dom";
 
 export const FootballHeader = ({ league, color }) => {
@@ -20,8 +21,17 @@ export const FootballHeader = ({ league, color }) => {
 					)
 					}
 				</div>
-				<div className="football-container-header-league__delete">
-					<TrashIcon />
+				<div className="football-container-header-league__group-button">
+					<div className="football-container-header-league__copy">
+						<button className="football-container-header-league__buttons">
+							<CopyIcon />
+						</button>
+					</div>
+					<div className="football-container-header-league__delete">
+						<button className="football-container-header-league__buttons">
+							<TrashIcon />
+						</button>
+					</div>
 				</div>
 			</div>
 			<div className="football-container-header-nav">

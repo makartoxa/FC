@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
+import ArrowUpIcon from '@rsuite/icons/ArrowUp';
 
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useEffect, useState } from "react";
@@ -35,7 +36,6 @@ export const AppHeader = ({ update, dummyLeague }) => {
 				}
 			}
 		}
-
 	}
 
 
@@ -57,23 +57,28 @@ export const AppHeader = ({ update, dummyLeague }) => {
 					information portal
 				</NavLink>
 			</div>
-			<div className={`app-header-menu ${active ? 'active' : ''}`}>
+			<div className={`app-header-menu${active ? ' active' : ''}`}>
 				<div className="app-header-menu__home">
 					<NavLink onClick={ () => setActive(!active) }
 					         to='/'>
 						Home
 					</NavLink>
 				</div>
-				<div className={`dropdown ${menuLeague ? 'show-background' : ''}`}>
-					<button className="dropbtn"
-					        onClick={ () => {
-						        setMenuLeague(!menuLeague)
-								setMenuDemo(false)
-					        }}>
-						Leagues <ArrowDownIcon />
+				<div className={`dropdown${menuLeague ? ' show-background' : ''}`}>
+					<button
+						className={`dropbtn${menuLeague ? ' show-color' : ''}`}
+				        onClick={ () => {
+					        setMenuLeague(!menuLeague)
+							setMenuDemo(false)
+				        }}
+					>
+						Leagues
+						{
+							!menuLeague ? <ArrowDownIcon /> : <ArrowUpIcon/>
+						}
 					</button>
 					<div id="myDropdown"
-					     className={`dropdown-content ${menuLeague ? 'show' : ''}`}
+					     className={`dropdown-content${menuLeague ? ' show' : ''}`}
 					     onClick={ () => setActive(!active) }>
 						<NavLink to='/new_league'>
 							Create league
@@ -88,16 +93,19 @@ export const AppHeader = ({ update, dummyLeague }) => {
 						}
 					</div>
 				</div>
-				<div className={`dropdown ${menuDemo ? 'show-background' : ''}`}>
-					<button className="dropbtn"
+				<div className={`dropdown${menuDemo ? ' show-background' : ''}`}>
+					<button className={`dropbtn${menuDemo ? ' show-color' : ''}`}
 					        onClick={ () => {
 						        setMenuDemo(!menuDemo)
 								setMenuLeague(false)
 					        }}>
-						Demo version <ArrowDownIcon />
+						Demo version
+						{
+							!menuDemo ?  <ArrowDownIcon/> : <ArrowUpIcon/>
+						}
 					</button>
 					<div id="myDropdown2"
-					     className={`dropdown-content ${menuDemo ? 'show' : ''}`}
+					     className={`dropdown-content${menuDemo ? ' show' : ''}`}
 					     onClick={ () => setActive(!active) }>
 						<NavLink to={ `/${ encodeURI(dummyLeague.leagueName) }/table` }>
 							Premier league

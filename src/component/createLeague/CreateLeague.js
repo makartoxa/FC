@@ -1,17 +1,19 @@
 import {useEffect, useMemo, useState} from "react";
-
 import {Breadcrumb, Button, Input, Uploader} from 'rsuite';
 import { AiOutlineClose } from "react-icons/ai";
+import { DatePicker, Space } from 'antd';
 
 import './CreateLeague.scss'
+
 
 export const CreateLeague = ({ update, setUpdate }) => {
 	const [leagueData, setLeagueData] = useState([])
 	const [teams, setTeams] = useState([])
 	const [fields, setNewField] = useState(2)
-
-	console.log('leagueData', leagueData);
-	console.log('teams', teams);
+	const [addedLeague, setAddedLeague] = useState(false)
+	const [date, setDate] = useState()
+	const { RangePicker } = DatePicker;
+	console.log('data', date);
 
 	useEffect(() => {
 		if (teams.length % 2 !== 0) {
@@ -22,7 +24,7 @@ export const CreateLeague = ({ update, setUpdate }) => {
 				{ id: `${fields - 1}`, fcName: '', label: ''},
 				{ id: `${fields}`, fcName: '', label: ''}])
 		}
-		console.log('teams', teams);
+		setAddedLeague(false);
 	}, [fields])
 
 	const fillLeague = (value) => {
@@ -32,8 +34,8 @@ export const CreateLeague = ({ update, setUpdate }) => {
 		};
 		objLeague.leagueName = value;
 		objLeague.label = value.slice(0, 1);
-		console.log('objLeague', objLeague);
 		setLeagueData(objLeague);
+		setAddedLeague(false)
 	}
 
 	const fillTeams = (value, i) => {
@@ -44,6 +46,7 @@ export const CreateLeague = ({ update, setUpdate }) => {
 		const updateTeams = teams.filter(team => team.id - 1 !== i)
 		const newTeams = [...updateTeams, team]
 		setTeams(newTeams);
+		setAddedLeague(false)
 	}
 
 	const addFields = () => {
@@ -72,6 +75,10 @@ export const CreateLeague = ({ update, setUpdate }) => {
 				       onChange={value => {
 					       fillTeams(value, i)
 				       }}/>
+				<input type="file"
+				       id="avatar"
+				       name="avatar"
+				       accept="image/png"/>
 				<Button
 					onClick={() => deleteTeamAndField(i)}
 					className="create-league__button-delete">
@@ -104,9 +111,18 @@ export const CreateLeague = ({ update, setUpdate }) => {
 			} else {
 				newTeams = {teams: [...teams]}
 			}
-			const newLeagues = [...oldLeagues, Object.assign(newLeague, newTeams)]
-			localStorage.setItem('leagues', JSON.stringify(newLeagues))
-			setUpdate(!update)
+			const sameNameLeague = oldLeaguesLocal
+				? oldLeagues.find(league => league.leagueName === leagueData.leagueName)
+				: false;
+			console.log('sameNameLeague', sameNameLeague);
+			if (sameNameLeague) {
+				alert("Same name of league exists")
+			} else {
+				const newLeagues = [...oldLeagues, Object.assign(newLeague, newTeams)]
+				localStorage.setItem('leagues', JSON.stringify(newLeagues))
+				setUpdate(!update)
+				setAddedLeague(true);
+			}
 		} else {
 			alert("The number of commands must be paired")
 		}
@@ -131,32 +147,40 @@ export const CreateLeague = ({ update, setUpdate }) => {
 						       }}/>
 					</div>
 				</div>
+				<div style={{display:'flex', alignItems:'center',gap: '10px', justifyContent: 'center', flexDirection: 'column', paddingBottom: '20px'}}>
+					Fill seasons period
+					<Space direction="vertical" size={12}>
+						<RangePicker picker="month"
+						             onChange={(value) => setDate(value)}
+						             bordered={false}/>
+					</Space>
+				</div>
 				<div className="create-league__body">
 					<div className="create-league__name-text">
 						Fill team name and add logo
 					</div>
-					{
-						[...Array(fields)].map((value, i) => newTeamInput(i))
-					}
 					<div className="create-league__new-field">
-						<Button
-							className="create-league__button"
-							style={{color: 'blue'}}
-							appearance="ghost"
+						<button
+							className="create-league__button-add"
 							color={"blue"}
 							onClick={() => addFields()}>
 							+ Add new field
-						</Button>
+						</button>
 					</div>
+
+					{
+						[...Array(fields)].map((value, i) => newTeamInput(i))
+					}
 					<div className="create-league__submit">
-						<Button
-							className="create-league__button"
-							style={{color: 'green'}}
-							appearance="ghost"
-							color={"green"}
+						<button
+							className="create-league__button-create"
 							onClick={() => createLeague()}>
 							Create league
-						</Button>
+						</button>
+					</div>
+					<div className={`create-league__added ${addedLeague ? 'show' : ''}`}
+					     id={'btn'}>
+						Your league added to list!
 					</div>
 				</div>
 			</div>

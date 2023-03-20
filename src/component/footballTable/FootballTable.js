@@ -3,9 +3,8 @@ import { COLUMNS } from "../../Columns";
 import { useEffect, useMemo, useState } from "react";
 import SortDownIcon from '@rsuite/icons/SortDown';
 import SortUpIcon from '@rsuite/icons/SortUp';
-import TrashIcon from '@rsuite/icons/Trash';
 import './FootballTable.scss'
-import { NavLink } from "react-router-dom";
+
 import {FootballHeader} from "../footballHeader/FootballHeader";
 
 
@@ -19,25 +18,19 @@ export function FootballTable({ league, color }) {
 	const [tableData, setTableData] = useState(league.teams);
 	const [sortBy, setSortBy] = useState(DEFAULT_SORT_BY)
 
-	console.log('label.length', league.label);
-	console.log('img', (typeof (league.label) !== "string"));
 	const sortByDefault = (a, b) => {
 		let sort = b.points - a.points
 
 		if (!sort) {
-			console.log('1');
 			sort = b.goalsDifference - a.goalsDifference
 
 			if (!sort) {
-				console.log('2');
 				const nameA = a.fcName.toLowerCase();
 				const nameB = b.fcName.toLowerCase();
 
 				if (nameB < nameA) {
-					console.log('3');
 					sort = 1;
 				} else if (nameB > nameA) {
-					console.log('4');
 					sort = -1
 				} else {
 					sort = 0;
@@ -161,21 +154,20 @@ export function FootballTable({ league, color }) {
 									     key={club.id}>
 										<div className="table-header__club-cell">
 											<div className="table-header__cell-number">
-												{ i + 1 }
+												{ i + 1 }.
 											</div>
 											<div className="table-header__cell-label">
 												{
-													club.label.length > 1  ? (
-													<img className="table-header__cell-label-img" src={club.label} width="25px" height="25px" align="middle"/>
-													) : (
-														<div style={{padding: '5px 10px', backgroundColor: color(), color: 'white',  borderRadius: '100%'}}>{club.label}</div>
-													)
+													club.label.length > 1
+														? <img className="table-header__cell-label-img" src={ club.label } width="25px" height="25px" align="middle"/>
+														: <div className="table-header__cell-label-do-not-img"style={{ backgroundColor: color() }}>
+															{club.label}
+														  </div>
 												}
 											</div>
 											<div className="table-header__club">
 												{club.fcName}
 											</div>
-											{/*{club.fcName.length <= 10 ? club.fcName : `${club.fcName.slice(0, 10)}...`}*/}
 										</div>
 										<div className="table-header__cell">
 											{club.games ?? 0}

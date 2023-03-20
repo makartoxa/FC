@@ -7,7 +7,7 @@
   box-shadow: 0 0 10px rgba(35, 179, 250, 0.85);
   margin-top: 10px;
   border-radius: 10px;
-  padding: 0 20px;
+  padding: 0 15px;
 }
 .football-container-header-league {
   display: flex;
@@ -15,7 +15,8 @@
   align-items: center;
   height: 60px;
   width: 450px;
-  gap: 30px;
+  gap: 20px;
+  cursor: default;
   color: black;
   font-size: 16px;
   &__label {
@@ -30,7 +31,23 @@
   &__name {
 
   }
+  &__group-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+  &__buttons {
+    background-color: #23b3fa73;;
+    border-radius: 5px;
+  }
+  &__copy {
+    padding: 0 5px;
+    font-size: 20px;
+    color: black;
+  }
   &__delete {
+    padding: 0 0 0 5px ;
     font-size: 20px;
     color: #ff0000;
   }
@@ -56,9 +73,9 @@
     padding: 0 10px;
   }
   &__button:hover {
-    background-color: #050502;
+    background-color: #0261a4;
     text-decoration: none;
-    color: #23b3fa;
+    color: black;
   }
   &__button.active {
     text-decoration: none;
