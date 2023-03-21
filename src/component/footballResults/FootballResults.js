@@ -1,61 +1,63 @@
-// import epl from "../logo/epl.png"
-// import arsenal from "../logo/arsenal.png"
-// import astonVilla from "../logo/astonVilla.png"
-// import bouremounth from "../logo/bouremounth.png"
-// import brentford from "../logo/brentford.png"
-// import brighton from "../logo/brighton.png"
-// import chelsea from "../logo/chelsea.png"
-// import crystalPalace from "../logo/crystalPalace.png"
-// import everton from "../logo/everton.png"
-// import forest from "../logo/forest.png"
-// import fulham from "../logo/fulham.png"
-// import leeds from "../logo/leeds.png"
-// import leicester from "../logo/leicester.png"
-// import liverpool from "../logo/liverpool.png"
-// import m_u from "../logo/m_u.png"
-// import manchester_city from "../logo/manchester_city.png"
-// import newCastle from "../logo/newCastle.png"
-// import sauthampton from "../logo/sauthampton.png"
-// import tottenham from "../logo/tottenham.png"
-// import westham from "../logo/westham.png"
-// import wolverhampton from "../logo/wolverhampton.png"
+import epl from "../logo/epl.png"
+import arsenal from "../logo/arsenal.png"
+import astonVilla from "../logo/astonVilla.png"
+import bouremounth from "../logo/bouremounth.png"
+import brentford from "../logo/brentford.png"
+import brighton from "../logo/brighton.png"
+import chelsea from "../logo/chelsea.png"
+import crystalPalace from "../logo/crystalPalace.png"
+import everton from "../logo/everton.png"
+import forest from "../logo/forest.png"
+import fulham from "../logo/fulham.png"
+import leeds from "../logo/leeds.png"
+import leicester from "../logo/leicester.png"
+import liverpool from "../logo/liverpool.png"
+import m_u from "../logo/m_u.png"
+import manchester_city from "../logo/manchester_city.png"
+import newCastle from "../logo/newCastle.png"
+import sauthampton from "../logo/sauthampton.png"
+import tottenham from "../logo/tottenham.png"
+import westham from "../logo/westham.png"
+import wolverhampton from "../logo/wolverhampton.png"
 
-import {useEffect, useMemo, useState} from "react";
-import {Button, SelectPicker, InputNumber, Breadcrumb} from "rsuite";
+import { useEffect, useMemo, useState } from "react";
+import { Button, SelectPicker, InputNumber } from "rsuite";
 import PageNextIcon from '@rsuite/icons/PageNext';
 import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 
 import './FootballResults.scss'
-import {NavLink} from "react-router-dom";
-import TrashIcon from "@rsuite/icons/Trash";
-import {FootballHeader} from "../footballHeader/FootballHeader";
+import { FootballHeader } from "../footballHeader/FootballHeader";
 
-// export const DEMMY_LEAGUE = [{
-// 	league:
-// 		[{leagueName: 'England Premier League',
-// 		label: epl}],
-// 	teams:
-// 		[{id: '1', fcName: 'Arsenal', label: arsenal},
-// 		{id: '2', fcName: 'Aston Villa', label: astonVilla},
-// 		{id: '3', fcName: 'Brighton', label: brighton},
-// 		{id: '4', fcName: 'Brentford', label: brentford},
-// 		{id: '5', fcName: 'Bournemouth', label: bouremounth},
-// 		{id: '6', fcName: 'Crystal Palace', label: crystalPalace},
-// 		{id: '7', fcName: 'Chelsea', label: chelsea},
-// 		{id: '8', fcName: 'Fulham', label: fulham},
-// 		{id: '9', fcName: 'Everton', label: everton},
-// 		{id: '10', fcName: 'Forest', label: forest},
-// 		{id: '11', fcName: 'Manchester City', label: manchester_city},
-// 		{id: '12', fcName: 'Manchester United', label: m_u},
-// 		{id: '13', fcName: 'Newcastle United', label: newCastle},
-// 		{id: '14', fcName: 'Leeds', label: leeds},
-// 		{id: '15', fcName: 'Tottenham', label: tottenham},
-// 		{id: '16', fcName: 'Liverpool', label: liverpool},
-// 		{id: '17', fcName: 'Leicester City', label: leicester},
-// 		{id: '18', fcName: 'Southampton', label: sauthampton},
-// 		{id: '19', fcName: 'West Ham United', label: westham},
-// 		{id: '20', fcName: 'Wolverhampton', label: wolverhampton}]
-// }];
+export const DEMMY_LEAGUE = [{
+
+	leagueName: 'England Premier League',
+	label: epl,
+	seasons: [
+		{
+			seasonTime: '20-21',
+			teams:
+				[{id: '1', fcName: 'Arsenal', label: arsenal},
+					{id: '2', fcName: 'Aston Villa', label: astonVilla},
+					{id: '3', fcName: 'Brighton', label: brighton},
+					{id: '4', fcName: 'Brentford', label: brentford},
+					{id: '5', fcName: 'Bournemouth', label: bouremounth},
+					{id: '6', fcName: 'Crystal Palace', label: crystalPalace},
+					{id: '7', fcName: 'Chelsea', label: chelsea},
+					{id: '8', fcName: 'Fulham', label: fulham},
+					{id: '9', fcName: 'Everton', label: everton},
+					{id: '10', fcName: 'Forest', label: forest},
+					{id: '11', fcName: 'Manchester City', label: manchester_city},
+					{id: '12', fcName: 'Manchester United', label: m_u},
+					{id: '13', fcName: 'Newcastle United', label: newCastle},
+					{id: '14', fcName: 'Leeds', label: leeds},
+					{id: '15', fcName: 'Tottenham', label: tottenham},
+					{id: '16', fcName: 'Liverpool', label: liverpool},
+					{id: '17', fcName: 'Leicester City', label: leicester},
+					{id: '18', fcName: 'Southampton', label: sauthampton},
+					{id: '19', fcName: 'West Ham United', label: westham},
+					{id: '20', fcName: 'Wolverhampton', label: wolverhampton}]
+		}]
+}];
 
 export const FootballResults = ({ league, color }) => {
 

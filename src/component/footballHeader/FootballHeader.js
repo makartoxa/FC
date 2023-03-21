@@ -2,8 +2,11 @@ import './FootballHeader.scss'
 import TrashIcon from "@rsuite/icons/Trash";
 import CopyIcon from '@rsuite/icons/Copy';
 import { NavLink } from "react-router-dom";
+import {SelectPicker} from "rsuite";
+import {useState} from "react";
 
 export const FootballHeader = ({ league, color }) => {
+
 	return (
 		<>
 			<div className="football-container-header">
@@ -34,11 +37,15 @@ export const FootballHeader = ({ league, color }) => {
 					</div>
 				</div>
 			</div>
+			<div className="football-container-header-seasons">
+				Seasons
+				<SelectPicker
+					/>
+			</div>
 			<div className="football-container-header-nav">
 				<NavLink className="football-container-header-nav__button" to={`/${ encodeURI(league.leagueName) }/table`}>Table</NavLink>
 				<NavLink className="football-container-header-nav__button" to={`/${ encodeURI(league.leagueName) }/results`}>Results</NavLink>
 			</div>
-
 		</>
 	)
 }

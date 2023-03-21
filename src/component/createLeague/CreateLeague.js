@@ -1,5 +1,5 @@
-import {useEffect, useMemo, useState} from "react";
-import {Breadcrumb, Button, Input, Uploader} from 'rsuite';
+import { useEffect, useState } from "react";
+import { Message, Button, Input, Uploader } from 'rsuite';
 import { AiOutlineClose } from "react-icons/ai";
 import { DatePicker, Space } from 'antd';
 
@@ -10,8 +10,13 @@ export const CreateLeague = ({ update, setUpdate }) => {
 	const [leagueData, setLeagueData] = useState([])
 	const [teams, setTeams] = useState([])
 	const [fields, setNewField] = useState(2)
-	const [addedLeague, setAddedLeague] = useState(false)
 	const [date, setDate] = useState()
+	const [message, setMessage] = useState(false)
+	const [isSuccess, setIsSuccess] = useState(false)
+	const [isWarningSameName, setIsWarningSameName] = useState(false)
+	const [isWarning, setIsWarning] = useState(false)
+	const [isError, setIsError] = useState(false)
+
 	const { RangePicker } = DatePicker;
 	console.log('data', date);
 
@@ -24,7 +29,6 @@ export const CreateLeague = ({ update, setUpdate }) => {
 				{ id: `${fields - 1}`, fcName: '', label: ''},
 				{ id: `${fields}`, fcName: '', label: ''}])
 		}
-		setAddedLeague(false);
 	}, [fields])
 
 	const fillLeague = (value) => {
@@ -35,7 +39,6 @@ export const CreateLeague = ({ update, setUpdate }) => {
 		objLeague.leagueName = value;
 		objLeague.label = value.slice(0, 1);
 		setLeagueData(objLeague);
-		setAddedLeague(false)
 	}
 
 	const fillTeams = (value, i) => {
@@ -46,7 +49,6 @@ export const CreateLeague = ({ update, setUpdate }) => {
 		const updateTeams = teams.filter(team => team.id - 1 !== i)
 		const newTeams = [...updateTeams, team]
 		setTeams(newTeams);
-		setAddedLeague(false)
 	}
 
 	const addFields = () => {
@@ -75,10 +77,6 @@ export const CreateLeague = ({ update, setUpdate }) => {
 				       onChange={value => {
 					       fillTeams(value, i)
 				       }}/>
-				<input type="file"
-				       id="avatar"
-				       name="avatar"
-				       accept="image/png"/>
 				<Button
 					onClick={() => deleteTeamAndField(i)}
 					className="create-league__button-delete">
@@ -91,41 +89,60 @@ export const CreateLeague = ({ update, setUpdate }) => {
 
 	const createLeague = () => {
 
+		messages()
+
 		if (teams.length === 0) {
-			alert("There are two commands must minimum in league ")
+
+			setIsError(true)
+
 		} else if (teams.length % 2 === 0) {
+
 			const oldLeaguesLocal = localStorage.getItem('leagues')
 			const oldLeagues = oldLeaguesLocal ? JSON.parse(oldLeaguesLocal) : [];
 			let newTeams = '';
 			let newLeague = '';
-			if (leagueData.length === 0 || leagueData.leagueName === '') {
-				alert('You do not add league')
-				return
-			} else {
-				newLeague = leagueData
-			};
 
-			if (teams.find(team => team.fcName === '')) {
-				alert('You do not add all team name ')
-				return
-			} else {
-				newTeams = {teams: [...teams]}
-			}
+				if (leagueData.length === 0 || leagueData.leagueName === '') {
+					setIsWarning(true)
+					return
+				} else {
+					newLeague = leagueData
+				};
+
+					if (teams.find(team => team.fcName === '')) {
+						setIsWarning(true)
+						return
+					} else {
+						newTeams = {teams: [...teams]}
+					}
+
 			const sameNameLeague = oldLeaguesLocal
 				? oldLeagues.find(league => league.leagueName === leagueData.leagueName)
 				: false;
-			console.log('sameNameLeague', sameNameLeague);
+
 			if (sameNameLeague) {
-				alert("Same name of league exists")
+				setIsWarningSameName(true)
 			} else {
 				const newLeagues = [...oldLeagues, Object.assign(newLeague, newTeams)]
 				localStorage.setItem('leagues', JSON.stringify(newLeagues))
 				setUpdate(!update)
-				setAddedLeague(true);
+				setIsSuccess(true)
 			}
+
 		} else {
-			alert("The number of commands must be paired")
+			setIsError(true)
 		}
+	}
+
+	const messages = () => {
+		setMessage(true)
+		setTimeout(() => {
+			setMessage(false)
+			setIsSuccess(false)
+			setIsError(false)
+			setIsWarning(false)
+			setIsWarningSameName(false)
+		}, 6000);
 	}
 
 	return (
@@ -171,16 +188,39 @@ export const CreateLeague = ({ update, setUpdate }) => {
 					{
 						[...Array(fields)].map((value, i) => newTeamInput(i))
 					}
+					{ message && (
+						<div className="create-league__added">
+							{ isSuccess && (
+								<Message showIcon type="success" header="Success">
+									Your league added to list!
+								</Message>
+							)}
+							{ isWarning && (
+								<Message showIcon type="warning" header="Warning">
+									All fields must be filled
+								</Message>
+							)}
+							{ isWarningSameName && (
+								<Message showIcon type="warning" header="Warning">
+									Same name of league exists
+								</Message>
+							)}
+
+							{isError && (
+								<Message showIcon type="error" header="Error">
+									There are two commands must minimum in league and <br/>
+									number of commands must be paired
+								</Message>
+							)}
+						</div>
+					)
+					}
 					<div className="create-league__submit">
 						<button
 							className="create-league__button-create"
 							onClick={() => createLeague()}>
 							Create league
 						</button>
-					</div>
-					<div className={`create-league__added ${addedLeague ? 'show' : ''}`}
-					     id={'btn'}>
-						Your league added to list!
 					</div>
 				</div>
 			</div>

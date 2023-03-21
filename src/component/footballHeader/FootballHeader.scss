@@ -53,6 +53,20 @@
   }
 }
 
+.football-container-header-seasons {
+  height: 50px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  background-color: ghostwhite;
+  box-shadow: 0 0 10px rgba(35, 179, 250, 0.85);
+  border-radius: 10px;
+  margin-top: 10px;
+  padding: 0 20px;
+  gap: 20px;
+  color: black;
+}
+
 .football-container-header-nav {
   height: 50px;
   display: flex;
