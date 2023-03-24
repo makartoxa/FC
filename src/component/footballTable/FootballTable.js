@@ -8,14 +8,14 @@ import './FootballTable.scss'
 import {FootballHeader} from "../footballHeader/FootballHeader";
 
 
-export function FootballTable({ league, color }) {
+export function FootballTable({ activeLeague, seasonOfLeague, teamsOfSeason, color, update }) {
 
 	const DEFAULT_SORT_BY = {
 		column: 'points',
 		direction: 'default' // 'down', 'up', 'default'
 	}
 
-	const [tableData, setTableData] = useState(league.teams);
+	const [tableData, setTableData] = useState(teamsOfSeason);
 	const [sortBy, setSortBy] = useState(DEFAULT_SORT_BY)
 
 	const sortByDefault = (a, b) => {
@@ -43,12 +43,13 @@ export function FootballTable({ league, color }) {
 
 
 	const storageData = useMemo(() => {
-		const local = localStorage.getItem(`dataTable_${league.leagueName}`);
-		const localData = local ? JSON.parse(local) : league.teams
+		const local = localStorage.getItem(`dataTable_${activeLeague}_${seasonOfLeague}`);
+		const localData = local ? JSON.parse(local) : teamsOfSeason
 		setTableData(localData.sort(sortByDefault))
 
 		return localData;
-	}, [league])
+	}, [activeLeague, seasonOfLeague])
+
 
 	useEffect(() => {
 		const newData = [...storageData].sort((a, b) => {
@@ -126,12 +127,9 @@ export function FootballTable({ league, color }) {
 
 	return (
 		<div className="football-container">
-			{/*<Breadcrumb style={{backgroundColor: 'ghostwhite', margin: '0 auto', padding: '10px', borderBottom: '1px solid black'}}>*/}
-			{/*	<Breadcrumb.Item href="/" style={{color: 'black', textDecoration: 'none'}}>Home</Breadcrumb.Item>*/}
-			{/*	<Breadcrumb.Item href={`/${league.leagueName}/table`} style={{color: 'black', textDecoration: 'none'}}>{league.leagueName}</Breadcrumb.Item>*/}
-			{/*	<Breadcrumb.Item  style={{color: '#9F0013'}}>Table</Breadcrumb.Item>*/}
-			{/*</Breadcrumb>*/}
-			<FootballHeader league={league} color={color}/>
+
+			{/*<FootballHeader league={league} color={color}/>*/}
+
 			<div className="football-container-body-scroll">
 				<div className="football-container-body">
 					<div className="table-header">
@@ -160,7 +158,7 @@ export function FootballTable({ league, color }) {
 												{
 													club.label.length > 1
 														? <img className="table-header__cell-label-img" src={ club.label } width="25px" height="25px" align="middle"/>
-														: <div className="table-header__cell-label-do-not-img"style={{ backgroundColor: color() }}>
+														: <div className="table-header__cell-label-do-not-img"style={{ backgroundColor: color()}}>
 															{club.label}
 														  </div>
 												}

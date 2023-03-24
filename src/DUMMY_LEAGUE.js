@@ -23,26 +23,41 @@ import wolverhampton from "./component/logo/wolverhampton.png";
 export const DUMMY_LEAGUE = {
 	leagueName: 'England Premier League',
 	label: epl,
-	teams: [
-		{id: '1', fcName: 'Arsenal', label: arsenal},
-		{id: '2', fcName: 'Aston Villa', label: astonVilla},
-		{id: '3', fcName: 'Brighton', label: brighton},
-		{id: '4', fcName: 'Brentford', label: brentford},
-		{id: '5', fcName: 'Bournemouth', label: bouremounth},
-		{id: '6', fcName: 'Crystal Palace', label: crystalPalace},
-		{id: '7', fcName: 'Chelsea', label: chelsea},
-		{id: '8', fcName: 'Fulham', label: fulham},
-		{id: '9', fcName: 'Everton', label: everton},
-		{id: '10', fcName: 'Forest', label: forest},
-		{id: '11', fcName: 'Manchester City', label: manchester_city},
-		{id: '12', fcName: 'Manchester United', label: m_u},
-		{id: '13', fcName: 'Newcastle United', label: newCastle},
-		{id: '14', fcName: 'Leeds', label: leeds},
-		{id: '15', fcName: 'Tottenham', label: tottenham},
-		{id: '16', fcName: 'Liverpool', label: liverpool},
-		{id: '17', fcName: 'Leicester City', label: leicester},
-		{id: '18', fcName: 'Southampton', label: sauthampton},
-		{id: '19', fcName: 'West Ham United', label: westham},
-		{id: '20', fcName: 'Wolverhampton', label: wolverhampton}
+	seasons: [
+		{
+			seasonTime: 'Aug 2022 - May 2023',
+			teams: [
+				{id: '1', fcName: 'Arsenal', label: arsenal},
+				{id: '2', fcName: 'Aston Villa', label: astonVilla},
+				{id: '3', fcName: 'Brighton', label: brighton},
+				{id: '4', fcName: 'Brentford', label: brentford},
+				{id: '5', fcName: 'Bournemouth', label: bouremounth},
+				{id: '6', fcName: 'Crystal Palace', label: crystalPalace},
+				{id: '7', fcName: 'Chelsea', label: chelsea},
+				{id: '8', fcName: 'Fulham', label: fulham},
+				{id: '9', fcName: 'Everton', label: everton},
+				{id: '10', fcName: 'Forest', label: forest},
+				{id: '11', fcName: 'Manchester City', label: manchester_city},
+				{id: '12', fcName: 'Manchester United', label: m_u},
+				{id: '13', fcName: 'Newcastle United', label: newCastle},
+				{id: '14', fcName: 'Leeds', label: leeds},
+				{id: '15', fcName: 'Tottenham', label: tottenham},
+				{id: '16', fcName: 'Liverpool', label: liverpool},
+				{id: '17', fcName: 'Leicester City', label: leicester},
+				{id: '18', fcName: 'Southampton', label: sauthampton},
+				{id: '19', fcName: 'West Ham United', label: westham},
+				{id: '20', fcName: 'Wolverhampton', label: wolverhampton}
+			]
+		},
+		{
+			seasonTime: 'Aug 2021 - May 2022',
+			teams: [
+				{id: '1', fcName: 'Arsenal', label: arsenal},
+				{id: '2', fcName: 'Aston Villa', label: astonVilla},
+				{id: '3', fcName: 'Brighton', label: brighton},
+				{id: '4', fcName: 'Brentford', label: brentford},
+			]
+
+		}
 	]
 };

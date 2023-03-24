@@ -1,16 +1,16 @@
 @import '../../style/variables.scss';
 .matches-container {
-  display: block;
+  //display: block;
   align-items: center;
-  margin: 0 auto;
-  width: 50vw;
+  //margin: 0 auto;
+  width: 100%;
   opacity: 85%;
-  height: calc(100vh - 90px);
+  height: calc(100vh - 290px);
 }
 
 .football-container-results {
   margin-top: 10px;
-  max-height: calc(100vh - 240px);
+  max-height: calc(100vh - 300px);
   box-shadow: 0 0 10px rgba(35, 179, 250, 0.85);
   background-color: ghostwhite;
   border-radius: 10px;
@@ -50,7 +50,7 @@
 
 .matches-result {
   padding: 10px;
-  max-height: calc(100vh - 300px);
+  max-height: calc(100vh - 360px);
   overflow: scroll;
 
   &__match-day {
@@ -123,17 +123,17 @@
 
 //media width
 
-@media (max-width: 1280px) {
-  .matches-container {
-    width: 70vw;
-  }
-}
-
-@media (max-width: 840px) {
-  .matches-container {
-    width: 80vw;
-  }
-}
+//@media (max-width: 1280px) {
+//  .matches-container {
+//    width: 70vw;
+//  }
+//}
+//
+//@media (max-width: 840px) {
+//  .matches-container {
+//    width: 80vw;
+//  }
+//}
 
 @media (max-width: 750px) {
   .matches-result {
@@ -143,11 +143,11 @@
   }
 }
 
-@media (max-width: 414px) {
-  .matches-container {
-    width: 90vw;
-  }
-}
+//@media (max-width: 414px) {
+//  .matches-container {
+//    width: 90vw;
+//  }
+//}
 
 @media (max-width: 280px) {
 

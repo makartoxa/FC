@@ -3,40 +3,56 @@ import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 import ArrowUpIcon from '@rsuite/icons/ArrowUp';
 
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-import { useEffect, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 
 import './AppHeader.scss';
 
 export const AppHeader = ({ update, dummyLeague }) => {
+
 	const [active, setActive] = useState(false);
 	const [leagueNames, setleagueNames] = useState([]);
 	const [menuLeague, setMenuLeague] = useState(false);
 	const [menuDemo, setMenuDemo] = useState(false);
 
+	const SEASON = dummyLeague.seasons.find(el => el.seasonTime)
+
+	const refMenuLeague = useRef(null)
+	const refMenuDemo = useRef(null)
+
+	const handleClickOutsideMenuLeague =  (event) => {
+		if (refMenuLeague.current && !refMenuLeague.current.contains(event.target)) {
+			setMenuLeague(false);
+		}
+	}
+
+	const handleClickOutsideMenuDemo =  (event) => {
+		if (refMenuDemo.current && !refMenuDemo.current.contains(event.target)) {
+			setMenuDemo(false);
+		}
+	}
+
+
+	useEffect(() => {
+		document.addEventListener('mousedown', handleClickOutsideMenuDemo)
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutsideMenuDemo)
+		}
+	}, [refMenuDemo])
+
+	useEffect(() => {
+		document.addEventListener('mousedown', handleClickOutsideMenuLeague)
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutsideMenuLeague)
+		}
+	}, [refMenuLeague])
+
 	useEffect(() => {
 		const localLeagues = localStorage.getItem('leagues');
 		const dataLeagues = localLeagues ? JSON.parse(localLeagues) : '';
 		if (localLeagues) {
-			const league = dataLeagues.map(item => item.leagueName)
-			setleagueNames(league)
+			setleagueNames(dataLeagues)
 		}
 	}, [update])
-
-
-	window.onclick = function(event) {
-		if (!event.target.matches('.dropbtn')) {
-			let dropdowns = document.getElementsByClassName("dropdown-content show");
-			let i;
-			for (i = 0; i < dropdowns.length; i++) {
-				let openDropdown = dropdowns[i];
-				if (openDropdown.classList.contains('show')) {
-					openDropdown.classList.remove('show')
-					setMenuLeague(false);
-					setMenuDemo(false);
-				}
-			}
-		}
-	}
 
 
 	return (
@@ -64,7 +80,9 @@ export const AppHeader = ({ update, dummyLeague }) => {
 						Home
 					</NavLink>
 				</div>
-				<div className={`dropdown${menuLeague ? ' show-background' : ''}`}>
+				<div
+					ref={refMenuLeague}
+					className={`dropdown${menuLeague ? ' show-background' : ''}`}>
 					<button
 						className={`dropbtn${menuLeague ? ' show-color' : ''}`}
 				        onClick={ () => {
@@ -79,21 +97,29 @@ export const AppHeader = ({ update, dummyLeague }) => {
 					</button>
 					<div id="myDropdown"
 					     className={`dropdown-content${menuLeague ? ' show' : ''}`}
-					     onClick={ () => setActive(!active) }>
+					     onClick={ () => {
+						     setMenuLeague(false)
+							 setActive(!active)
+					     } }>
 						<NavLink to='/new_league'>
 							Create league
 						</NavLink>
 						{
 							leagueNames.map((league, i) => (
-								<NavLink key={ i }
-								         to={ `/${ encodeURI(league) }/table` }>
-									{ league }
-								</NavLink>
-							))
+										<NavLink
+											// onClick={() => setUpdate(!update)}
+											key={i}
+											to={ `/${ encodeURI(league.leagueName) }/${ encodeURI(league.seasons[0].seasonTime) }/table` }>
+												{ league.leagueName }
+										</NavLink>
+									)
+								)
 						}
 					</div>
 				</div>
-				<div className={`dropdown${menuDemo ? ' show-background' : ''}`}>
+				<div
+					ref={refMenuDemo}
+					className={`dropdown${menuDemo ? ' show-background' : ''}`}>
 					<button className={`dropbtn${menuDemo ? ' show-color' : ''}`}
 					        onClick={ () => {
 						        setMenuDemo(!menuDemo)
@@ -106,8 +132,11 @@ export const AppHeader = ({ update, dummyLeague }) => {
 					</button>
 					<div id="myDropdown2"
 					     className={`dropdown-content${menuDemo ? ' show' : ''}`}
-					     onClick={ () => setActive(!active) }>
-						<NavLink to={ `/${ encodeURI(dummyLeague.leagueName) }/table` }>
+					     onClick={ () => {
+						     setMenuDemo(false)
+							 setActive(!active) }}>
+						<NavLink
+						         to={ `/${ encodeURI(dummyLeague.leagueName) }/${ encodeURI(SEASON.seasonTime) }/table` }>
 							Premier league
 						</NavLink>
 					</div>

@@ -4,21 +4,26 @@ import { AiOutlineClose } from "react-icons/ai";
 import { DatePicker, Space } from 'antd';
 
 import './CreateLeague.scss'
+import moment from "moment";
 
 
 export const CreateLeague = ({ update, setUpdate }) => {
+
 	const [leagueData, setLeagueData] = useState([])
 	const [teams, setTeams] = useState([])
 	const [fields, setNewField] = useState(2)
 	const [date, setDate] = useState()
 	const [message, setMessage] = useState(false)
 	const [isSuccess, setIsSuccess] = useState(false)
-	const [isWarningSameName, setIsWarningSameName] = useState(false)
+	const [isWarningPeriod, setIsWarningPeriod] = useState(false)
+	const [isWarningSamePeriod, setIsWarningSamePeriod] = useState(false)
 	const [isWarning, setIsWarning] = useState(false)
 	const [isError, setIsError] = useState(false)
 
 	const { RangePicker } = DatePicker;
-	console.log('data', date);
+	const dateStart = date ? moment(date[0]['$d']).format('MMM YYYY') : false;
+	const dateEnd = date ? moment(date[1]['$d']).format('MMM YYYY') : false;
+	const seasonPeriod = dateStart && dateEnd ? { seasonTime: `${dateStart} - ${dateEnd}` } : false
 
 	useEffect(() => {
 		if (teams.length % 2 !== 0) {
@@ -102,6 +107,7 @@ export const CreateLeague = ({ update, setUpdate }) => {
 			let newTeams = '';
 			let newLeague = '';
 
+
 				if (leagueData.length === 0 || leagueData.leagueName === '') {
 					setIsWarning(true)
 					return
@@ -121,12 +127,40 @@ export const CreateLeague = ({ update, setUpdate }) => {
 				: false;
 
 			if (sameNameLeague) {
-				setIsWarningSameName(true)
+				if (seasonPeriod) {
+					const allSeasonPeriod = sameNameLeague.seasons.map(el => el.seasonTime);
+					const sameSeasonPeriod = allSeasonPeriod.map(el => el === seasonPeriod.seasonTime)
+					if (sameSeasonPeriod.find(el => el === true)) {
+						return setIsWarningSamePeriod(true)
+					} else {
+						const oldLeaguesFilter = oldLeagues.filter(el => el !== sameNameLeague)
+						const addSeasonsSameLeague = [...sameNameLeague.seasons, Object.assign(seasonPeriod, newTeams)]
+						const updateLeague = {
+							leagueName: sameNameLeague.leagueName,
+							label: sameNameLeague.label,
+							seasons: addSeasonsSameLeague
+						}
+						const newLeagues = [...oldLeaguesFilter, updateLeague]
+						localStorage.setItem('leagues', JSON.stringify(newLeagues))
+						setUpdate(!update)
+						setIsSuccess(true)
+						return
+					}
+				} else {
+					return setIsWarningPeriod(true)
+				}
+
 			} else {
-				const newLeagues = [...oldLeagues, Object.assign(newLeague, newTeams)]
-				localStorage.setItem('leagues', JSON.stringify(newLeagues))
-				setUpdate(!update)
-				setIsSuccess(true)
+				if (seasonPeriod) {
+					const period = {seasons: [Object.assign(seasonPeriod, newTeams)]};
+					const newLeagues = [...oldLeagues, Object.assign(newLeague, period)]
+					localStorage.setItem('leagues', JSON.stringify(newLeagues))
+					setUpdate(!update)
+					setIsSuccess(true)
+					return
+				} else {
+					return setIsWarningPeriod(true)
+				}
 			}
 
 		} else {
@@ -141,7 +175,8 @@ export const CreateLeague = ({ update, setUpdate }) => {
 			setIsSuccess(false)
 			setIsError(false)
 			setIsWarning(false)
-			setIsWarningSameName(false)
+			setIsWarningPeriod(false)
+			setIsWarningSamePeriod(false)
 		}, 6000);
 	}
 
@@ -168,6 +203,7 @@ export const CreateLeague = ({ update, setUpdate }) => {
 					Fill seasons period
 					<Space direction="vertical" size={12}>
 						<RangePicker picker="month"
+						             format={"MMM YYYY"}
 						             onChange={(value) => setDate(value)}
 						             bordered={false}/>
 					</Space>
@@ -193,25 +229,31 @@ export const CreateLeague = ({ update, setUpdate }) => {
 							{ isSuccess && (
 								<Message showIcon type="success" header="Success">
 									Your league added to list!
-								</Message>
-							)}
+								</Message>)
+							}
 							{ isWarning && (
 								<Message showIcon type="warning" header="Warning">
 									All fields must be filled
-								</Message>
-							)}
-							{ isWarningSameName && (
+								</Message>)
+							}
+							{ isWarningPeriod && (
 								<Message showIcon type="warning" header="Warning">
-									Same name of league exists
-								</Message>
-							)}
-
+									You do not fill period of season
+								</Message>)
+							}
+							{
+								isWarningSamePeriod && (
+									<Message showIcon type="warning" header="Warning">
+										Such a period of season exists
+									</Message>
+								)
+							}
 							{isError && (
 								<Message showIcon type="error" header="Error">
 									There are two commands must minimum in league and <br/>
 									number of commands must be paired
-								</Message>
-							)}
+								</Message>)
+							}
 						</div>
 					)
 					}

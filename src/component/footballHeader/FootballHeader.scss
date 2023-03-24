@@ -1,3 +1,9 @@
+.football-header {
+  width: 50vw;
+  display: block;
+  margin: 0 auto;
+}
+
 .football-container-header {
   display: flex;
   height: 70px;
@@ -63,6 +69,7 @@
   border-radius: 10px;
   margin-top: 10px;
   padding: 0 20px;
+  cursor: default;
   gap: 20px;
   color: black;
 }
@@ -95,5 +102,98 @@
     text-decoration: none;
     padding: 12px 10px 8px 10px;
     border-bottom: 4px solid #008cff;
+  }
+}
+
+.dropbtn-seasons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 78px;
+  padding: 0;
+  background-color: rgba(2, 2, 171, 0);
+  color: black;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown-seasons {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  position: relative;
+  display: inline-block;
+  z-index: 2;
+}
+
+.dropdown-content-seasons {
+  display: none;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 10px;
+  position: absolute;
+  left: 97px;
+  top: 6px;
+  background-color: #a6cdec;
+  padding: 10px 15px;
+  max-height: 200px;
+  z-index: 1;
+  overflow: scroll;
+}
+
+.dropdown-content-seasons a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  height: 25px;
+  min-height: 25px;
+  max-width: 120px;
+  width: 100%;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropbtn-seasons:hover {
+  color: #23b3fa;
+}
+
+.dropbtn-seasons:hover .dropbtn-seasons:active {
+  color: rgba(1, 148, 253, 0.85);
+}
+.dropdown-content-seasons a:hover {
+}
+.show-seasons {
+  display: flex;
+}
+.show-background-seasons {
+  color: #79020e;
+}
+.show-color-seasons {
+  color: #23b3fa;
+}
+
+@media (max-width: 1200px) {
+  .football-header {
+    width: 60vw;  }
+}
+@media (max-width: 1024px) {
+  .football-header {
+    width: 70vw;  }
+}
+@media (max-width: 866px) {
+  .football-header {
+    width: 80vw;  }
+}
+
+@media (max-width: 472px) {
+  .football-container-header-league {
+    gap: 10px;
+    &__name {
+      font-size: 14px;
+    }
   }
 }

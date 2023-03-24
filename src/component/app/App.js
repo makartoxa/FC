@@ -8,8 +8,10 @@ import { Routes, Route } from "react-router-dom";
 
 import './app.scss'
 import {useEffect, useState} from "react";
+import {FootballHeader} from "../footballHeader/FootballHeader";
 
 export const App = () => {
+
 	const [leagues, setLeagues] = useState([])
 	const [update, setUpdate] = useState(false)
 
@@ -20,13 +22,15 @@ export const App = () => {
 		}
 	}, [update])
 
-	function getRandomColor() {
+	const getRandomColor = () => {
 		let letters = '0123456789ABCDEF';
 		let color = '#';
 		for (let i = 0; i < 6; i++) {
 			color += letters[Math.floor(Math.random() * 16)];
 		}
 		return color;
+
+
 	}
 	return (
 		<div className="font-img">
@@ -35,16 +39,47 @@ export const App = () => {
 					<Route path='/' element={<Home dummyLeague={DUMMY_LEAGUE} />} />
 					<Route path="new_league" element={<CreateLeague update={update} setUpdate={setUpdate}/>} />
 					{
-						leagues.map((league, i) => (
-							<>
-								<Route path={`${ encodeURI(league.leagueName) }/table`} element={<FootballTable league={ league } color={ getRandomColor } />} />
-								<Route path={`${ encodeURI(league.leagueName) }/results`} element={<FootballResults league={ league } color={ getRandomColor } />} />
+						leagues.map(league => {
+							return league.seasons.map((season, i) => (
+								<>
+									<Route
+										key={i}
+										path={`${encodeURI(league.leagueName)}/${encodeURI(season.seasonTime)}/table`}
+										element={<FootballHeader league={ league } update={update} color={getRandomColor}/>}/>
+									<Route
+										key={i}
+										path={`${encodeURI(league.leagueName)}/${encodeURI(season.seasonTime)}/results`}
+										element={<FootballHeader league={ league } update={update} color={getRandomColor}/>}/>
 
+								</>
+							))
+							}
+						)
+					}
+					{
+						DUMMY_LEAGUE.seasons.map((season, i) => (
+							<>
+								<Route path={`${ encodeURI(DUMMY_LEAGUE.leagueName) }/${ encodeURI(season.seasonTime) }/table`}
+								       key={i}
+								       element={<FootballHeader
+									       update={update}
+									       league={DUMMY_LEAGUE}
+									       color={getRandomColor}/>} />
+								<Route path={`${ encodeURI(DUMMY_LEAGUE.leagueName) }/${ encodeURI(season.seasonTime) }/results`}
+								       key={i}
+								       element={<FootballHeader
+									       update={update}
+									       league={DUMMY_LEAGUE}
+									       color={getRandomColor}/>} />
 							</>
 						))
 					}
-					<Route path={`${ encodeURI(DUMMY_LEAGUE.leagueName) }/table`} element={<FootballTable league={ DUMMY_LEAGUE } color={ getRandomColor } />} />
-					<Route path={`${ encodeURI(DUMMY_LEAGUE.leagueName) }/results`} element={<FootballResults league={ DUMMY_LEAGUE } color={ getRandomColor } />} />
+					{/*<Route path={`${ encodeURI(DUMMY_LEAGUE.leagueName) }/${ encodeURI(seasons.seasonTime) }`}*/}
+					{/*       element={<FootballHeader*/}
+					{/*	       league={DUMMY_LEAGUE}*/}
+					{/*	       color={getRandomColor}/>} />*/}
+					{/*<Route path={`${ encodeURI(DUMMY_LEAGUE.leagueName) }/table`} element={<FootballTable league={ DUMMY_LEAGUE } color={ getRandomColor } />} />*/}
+					{/*<Route path={`${ encodeURI(DUMMY_LEAGUE.leagueName) }/results`} element={<FootballResults league={ DUMMY_LEAGUE } color={ getRandomColor } />} />*/}
 				</Routes>
 		</div>
 	)

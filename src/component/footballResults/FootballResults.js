@@ -28,38 +28,38 @@ import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 import './FootballResults.scss'
 import { FootballHeader } from "../footballHeader/FootballHeader";
 
-export const DEMMY_LEAGUE = [{
+// export const DEMMY_LEAGUE = {
+//
+// 	leagueName: 'England Premier League',
+// 	label: epl,
+// 	seasons: [
+// 		{
+// 			seasonTime: '20-21',
+// 			teams:
+// 				[{id: '1', fcName: 'Arsenal', label: arsenal},
+// 					{id: '2', fcName: 'Aston Villa', label: astonVilla},
+// 					{id: '3', fcName: 'Brighton', label: brighton},
+// 					{id: '4', fcName: 'Brentford', label: brentford},
+// 					{id: '5', fcName: 'Bournemouth', label: bouremounth},
+// 					{id: '6', fcName: 'Crystal Palace', label: crystalPalace},
+// 					{id: '7', fcName: 'Chelsea', label: chelsea},
+// 					{id: '8', fcName: 'Fulham', label: fulham},
+// 					{id: '9', fcName: 'Everton', label: everton},
+// 					{id: '10', fcName: 'Forest', label: forest},
+// 					{id: '11', fcName: 'Manchester City', label: manchester_city},
+// 					{id: '12', fcName: 'Manchester United', label: m_u},
+// 					{id: '13', fcName: 'Newcastle United', label: newCastle},
+// 					{id: '14', fcName: 'Leeds', label: leeds},
+// 					{id: '15', fcName: 'Tottenham', label: tottenham},
+// 					{id: '16', fcName: 'Liverpool', label: liverpool},
+// 					{id: '17', fcName: 'Leicester City', label: leicester},
+// 					{id: '18', fcName: 'Southampton', label: sauthampton},
+// 					{id: '19', fcName: 'West Ham United', label: westham},
+// 					{id: '20', fcName: 'Wolverhampton', label: wolverhampton}]
+// 		}]
+// };
 
-	leagueName: 'England Premier League',
-	label: epl,
-	seasons: [
-		{
-			seasonTime: '20-21',
-			teams:
-				[{id: '1', fcName: 'Arsenal', label: arsenal},
-					{id: '2', fcName: 'Aston Villa', label: astonVilla},
-					{id: '3', fcName: 'Brighton', label: brighton},
-					{id: '4', fcName: 'Brentford', label: brentford},
-					{id: '5', fcName: 'Bournemouth', label: bouremounth},
-					{id: '6', fcName: 'Crystal Palace', label: crystalPalace},
-					{id: '7', fcName: 'Chelsea', label: chelsea},
-					{id: '8', fcName: 'Fulham', label: fulham},
-					{id: '9', fcName: 'Everton', label: everton},
-					{id: '10', fcName: 'Forest', label: forest},
-					{id: '11', fcName: 'Manchester City', label: manchester_city},
-					{id: '12', fcName: 'Manchester United', label: m_u},
-					{id: '13', fcName: 'Newcastle United', label: newCastle},
-					{id: '14', fcName: 'Leeds', label: leeds},
-					{id: '15', fcName: 'Tottenham', label: tottenham},
-					{id: '16', fcName: 'Liverpool', label: liverpool},
-					{id: '17', fcName: 'Leicester City', label: leicester},
-					{id: '18', fcName: 'Southampton', label: sauthampton},
-					{id: '19', fcName: 'West Ham United', label: westham},
-					{id: '20', fcName: 'Wolverhampton', label: wolverhampton}]
-		}]
-}];
-
-export const FootballResults = ({ league, color }) => {
+export const FootballResults = ({ activeLeague, seasonOfLeague, teamsOfSeason, update }) => {
 
 	//------------> useState
 	const [matchDay, setMatchDay] = useState(1);
@@ -73,8 +73,7 @@ export const FootballResults = ({ league, color }) => {
 
 	const dataMatchDays = (() => {
 		const days = [];
-
-		for(let i = 0; i < (league.teams.length - 1) * 2; i++) {
+		for(let i = 0; i < (teamsOfSeason.length - 1) * 2; i++) {
 			days.push({
 				value: i + 1,
 				label: i + 1
@@ -84,14 +83,12 @@ export const FootballResults = ({ league, color }) => {
 	})();
 
 	const selectDaysData = dataMatchDays.map(day => ({label: day.label, value: day.value}));
-	const selectFootballClub = league.teams.map(team => ({value: team.id, label: team.fcName}));
+	const selectFootballClub = teamsOfSeason.map(team => ({value: team.id, label: team.fcName}));
 
-	const dayKey = useMemo(() => `dayKey_${league.leagueName}`, []);
-	const dataInput = useMemo(() => `dataInput_${league.leagueName}`, []);
-	const dataTable = useMemo(() => `dataTable_${league.leagueName}`, []);
-
+	const dayKey = useMemo(() => `dayKey_${activeLeague}_${seasonOfLeague}`, [seasonOfLeague]);
+	const dataInput = useMemo(() => `dataInput_${activeLeague}_${seasonOfLeague}`, [seasonOfLeague]);
+	const dataTable = useMemo(() => `dataTable_${activeLeague}_${seasonOfLeague}`, [seasonOfLeague]);
 	//------------> go to matchDay, when field do not have data
-
 
 
 	useEffect(() => {
@@ -105,7 +102,7 @@ export const FootballResults = ({ league, color }) => {
 		}
 
 		let days = [];
-		for(let i = inputData ? inputData.length + 1 : 1; i < ( (league.teams.length - 1) * 2); i++) {
+		for(let i = inputData ? inputData.length + 1 : 1; i < ( (teamsOfSeason.length - 1) * 2); i++) {
 			days.push(i + 1)
 		}
 		return setDisDays(days)
@@ -139,7 +136,7 @@ export const FootballResults = ({ league, color }) => {
 			} else {
 				const createDataResult = [];
 
-				for (let i = 0; i < league.teams.length / 2; i++) {
+				for (let i = 0; i < teamsOfSeason.length / 2; i++) {
 					createDataResult.push({home: '', homeScore: '', awayScore: '', away: '', matchId: ''})
 				}
 
@@ -149,7 +146,7 @@ export const FootballResults = ({ league, color }) => {
 			}
 		} else {
 			const createDataResult = [];
-			for (let i = 0; i < league.teams.length / 2; i++) {
+			for (let i = 0; i < teamsOfSeason.length / 2; i++) {
 				createDataResult.push({home: '', homeScore: '', awayScore: '', away: '', matchId: ''})
 			}
 
@@ -165,7 +162,7 @@ export const FootballResults = ({ league, color }) => {
 			setMatches(dayInLocal.matches)
 			setSelectedDropMenuTeams(dayInLocal.selectedDropMenuTeams)
 		}
-	}, [matchDay])
+	}, [matchDay, seasonOfLeague])
 
 
 	// ------------> save data, if you updated page, or you went to next day
@@ -286,13 +283,13 @@ export const FootballResults = ({ league, color }) => {
 				}
 			}
 
-			const gamesByTeam = league.teams.map(team => ({
+			const gamesByTeam = teamsOfSeason.map(team => ({
 				id: team.id,
 				gamesCount: teamIds.filter(id => id === team.id).length
 			}));
 
 			illegalTeams = gamesByTeam
-				.filter(team => team.gamesCount >= league.teams.length - 1)
+				.filter(team => team.gamesCount >= teamsOfSeason.length - 1)
 				.map(team => team.id)
 		}
 
@@ -333,7 +330,7 @@ export const FootballResults = ({ league, color }) => {
 				localStorage.setItem(dataInput, JSON.stringify(sumInputData))
 			}
 
-			let teams = [...league.teams]
+			let teams = [...teamsOfSeason]
 			sumInputData.forEach(matchDayData => {
 				matchDayData.matches.forEach(match => {
 
@@ -383,7 +380,7 @@ export const FootballResults = ({ league, color }) => {
 	const clearDataMatches = () => {
 		const createMatches = [];
 
-		for (let i = 0; i < league.teams.length / 2; i++) {
+		for (let i = 0; i < teamsOfSeason.length / 2; i++) {
 			createMatches.push({home: '', homeScore: '', awayScore: '', away: '', matchId: ''})
 		}
 		setMatches(createMatches);
@@ -406,14 +403,7 @@ export const FootballResults = ({ league, color }) => {
 	return (
 		<div className='matches-container'>
 
-			{/*<Breadcrumb style={{backgroundColor: 'ghostwhite', margin: '0 auto', padding: '10px', borderBottom: '1px solid black'}}>*/}
-			{/*	<Breadcrumb.Item href="/" style={{color: 'black', textDecoration: 'none'}}>Home</Breadcrumb.Item>*/}
-			{/*	<Breadcrumb.Item href={`/${league.leagueName}/table`} style={{color: 'black', textDecoration: 'none'}}>{league.leagueName}</Breadcrumb.Item>*/}
-			{/*	<Breadcrumb.Item href={`/${league.leagueName}/table`} style={{color: 'black', textDecoration: 'none'}}>Table</Breadcrumb.Item>*/}
-			{/*	<Breadcrumb.Item style={{color: '#9F0013'}}>Results</Breadcrumb.Item>*/}
-			{/*</Breadcrumb>*/}
-
-			<FootballHeader league={league} color={color}/>
+			{/*<FootballHeader league={league} color={color}/>*/}
 
 			<div className="football-container-results">
 				<div className="matches-day">
@@ -446,9 +436,8 @@ export const FootballResults = ({ league, color }) => {
 				<div className="matches-result">
 					{
 						matches.map((match, i) => (
-							<div className="matches-result__match-day">
-								<div className="matches-result__football-match"
-								     key={i}>
+							<div className="matches-result__match-day" key={i}>
+								<div className="matches-result__football-match">
 									<div>
 										<SelectPicker
 											className="matches-result__menu-clubs"
