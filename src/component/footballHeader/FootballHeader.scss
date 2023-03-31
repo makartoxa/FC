@@ -59,6 +59,34 @@
   }
 }
 
+//football-container-header-league__copy-league-button
+
+.football-container-header-league__buttons {
+  position: relative;
+  display: inline-block;
+}
+
+.football-container-header-league__buttons .tooltip-copy-league {
+  visibility: hidden;
+  width: 100px;
+  background-color: rgba(1, 148, 253, 0.64);
+  color: #fff;
+  text-align: center;
+  font-size: 12px;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: -35px;
+  right: 0;
+}
+
+.football-container-header-league__buttons:hover .tooltip-copy-league {
+  visibility: visible;
+}
+
 .football-container-header-seasons {
   height: 50px;
   display: flex;
@@ -72,7 +100,48 @@
   cursor: default;
   gap: 20px;
   color: black;
+  &__add-season {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+    background-color: rgba(30, 24, 24, 0.03);
+    border-radius: 5px;
+  }
+  &__add-season-button {
+    color: #0a8d0a;
+  }
 }
+
+.football-container-header-seasons__add-season-button:hover {
+  color: #08e808;
+}
+
+.football-container-header-seasons__add-season {
+  position: relative;
+  display: inline-block;
+}
+
+.football-container-header-seasons__add-season .tooltiptext {
+  visibility: hidden;
+  width: 100px;
+  background-color: rgba(1, 148, 253, 0.64);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: -15px;
+  left: 125%;
+}
+
+.football-container-header-seasons__add-season:hover .tooltiptext {
+  visibility: visible;
+}
+
 
 .football-container-header-nav {
   height: 50px;
@@ -96,7 +165,7 @@
   &__button:hover {
     background-color: #0261a4;
     text-decoration: none;
-    color: black;
+    color: whitesmoke;
   }
   &__button.active {
     text-decoration: none;
@@ -133,8 +202,8 @@
   align-items: center;
   border-radius: 10px;
   position: absolute;
-  left: 97px;
-  top: 6px;
+  left: 89px;
+  top: 2px;
   background-color: #a6cdec;
   padding: 10px 15px;
   max-height: 200px;
@@ -149,7 +218,7 @@
   font-size: 12px;
   height: 25px;
   min-height: 25px;
-  max-width: 120px;
+  max-width: 150px;
   width: 100%;
   text-decoration: none;
   white-space: nowrap;

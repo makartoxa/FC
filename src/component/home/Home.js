@@ -1,18 +1,26 @@
-import './Home.scss'
 import { NavLink } from "react-router-dom";
-import {DUMMY_LEAGUE} from "../../DUMMY_LEAGUE";
 
-export const Home = ({ dummyLeague }) => {
+import './Home.scss'
+import {TEXT_FOR_CREATE_PAGE} from "../../TEXT_FOR_CREATE_PAGE";
+
+export const Home = ({ dummyLeague, setDataCreate, setIdTeam, setCopyDataLeagueOrNewSeason, setCreateButtonForAddSeason, setCreateButtonForCopyLeague }) => {
 
 	const seasons = dummyLeague.seasons.find(el => el.seasonTime)
 
 	return (
 		<div className="home" >
 			<div className="home__menu">
-				<NavLink to='new_league'>
+				<NavLink to='new_league'
+				         onClick={ () => {
+					         setDataCreate(TEXT_FOR_CREATE_PAGE.league)
+					         setIdTeam(2)
+					         setCopyDataLeagueOrNewSeason() } } >
 					Start
 				</NavLink>
-				<NavLink to={ `/${ encodeURI(dummyLeague.leagueName) }/${encodeURI(seasons.seasonTime)}/table` }>
+				<NavLink to={ `/${ encodeURI(dummyLeague.leagueName) }/${encodeURI(seasons.seasonTime)}/table` }
+				         onClick={ () => {
+							 setCreateButtonForAddSeason(false)
+					         setCreateButtonForCopyLeague(true) }}>
 					Demo version
 				</NavLink>
 			</div>

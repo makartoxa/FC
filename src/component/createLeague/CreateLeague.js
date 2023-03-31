@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Message, Button, Input, Uploader } from 'rsuite';
+import { Message, Button, Input } from 'rsuite';
 import { AiOutlineClose } from "react-icons/ai";
 import { DatePicker, Space } from 'antd';
 
@@ -7,12 +7,19 @@ import './CreateLeague.scss'
 import moment from "moment";
 
 
-export const CreateLeague = ({ update, setUpdate }) => {
+export const CreateLeague = ({   update,
+	                             setUpdate,
+	                             idTeam,
+	                             setIdTeam,
+	                             dataCreate,
+	                             copyDataLeagueOrNewSeason }) => {
 
-	const [leagueData, setLeagueData] = useState([])
-	const [teams, setTeams] = useState([])
-	const [fields, setNewField] = useState(2)
-	const [date, setDate] = useState()
+	const [dataLeague, setDataLeague] = useState({})
+	const [dataTeams, setDataTeams] = useState([])
+	const [addId, setAddId] = useState(false)
+
+	const [dateTime, setDateTime] = useState()
+
 	const [message, setMessage] = useState(false)
 	const [isSuccess, setIsSuccess] = useState(false)
 	const [isWarningPeriod, setIsWarningPeriod] = useState(false)
@@ -21,86 +28,75 @@ export const CreateLeague = ({ update, setUpdate }) => {
 	const [isError, setIsError] = useState(false)
 
 	const { RangePicker } = DatePicker;
-	const dateStart = date ? moment(date[0]['$d']).format('MMM YYYY') : false;
-	const dateEnd = date ? moment(date[1]['$d']).format('MMM YYYY') : false;
+	const dateStart = dateTime ? moment(dateTime[0]['$d']).format('MMM YYYY') : false;
+	const dateEnd = dateTime ? moment(dateTime[1]['$d']).format('MMM YYYY') : false;
 	const seasonPeriod = dateStart && dateEnd ? { seasonTime: `${dateStart} - ${dateEnd}` } : false
 
+	// console.log('dataTeams', dataTeams);
+	// console.log('dataLeague', dataLeague);
+	// console.log('idTeam', idTeam);
+
 	useEffect(() => {
-		if (teams.length % 2 !== 0) {
-			setTeams([...teams,
-				{ id: `${fields}` , fcName: '', label: ''}])
-		} else if (teams.length % 2 === 0) {
-			setTeams([...teams,
-				{ id: `${fields - 1}`, fcName: '', label: ''},
-				{ id: `${fields}`, fcName: '', label: ''}])
-		}
-	}, [fields])
-
-	const fillLeague = (value) => {
-		let objLeague = {
-			leagueName: '',
-			label: ''
-		};
-		objLeague.leagueName = value;
-		objLeague.label = value.slice(0, 1);
-		setLeagueData(objLeague);
-	}
-
-	const fillTeams = (value, i) => {
-		const newArray = [...teams];
-		const team = newArray.find(team => team.id - 1 === i)
-		team.fcName = value;
-		team.label = value.slice(0, 1);
-		const updateTeams = teams.filter(team => team.id - 1 !== i)
-		const newTeams = [...updateTeams, team]
-		setTeams(newTeams);
-	}
-
-	const addFields = () => {
-		if (teams.length % 2 === 0) {
-			setNewField(fields + 2);
-			return
+		if (copyDataLeagueOrNewSeason) {
+			setDataLeague({
+				leagueName: copyDataLeagueOrNewSeason.leagueName,
+				label: copyDataLeagueOrNewSeason.label
+			})
 		} else {
-			setNewField(fields + 1);
+			setDataLeague({
+				leagueName: '',
+				label: ''
+			})
+		}
+	}, [copyDataLeagueOrNewSeason])
+
+	useEffect(() => {
+		if (copyDataLeagueOrNewSeason) {
+			setDataTeams(copyDataLeagueOrNewSeason.teams)
+			setIdTeam(copyDataLeagueOrNewSeason.teams.length);
+		} else if (!copyDataLeagueOrNewSeason) {
+			const nameTeams = [
+				{ id: `${idTeam - 1}`, fcName: '', label: ''},
+				{ id: `${idTeam}`, fcName: '', label: ''}
+			]
+			setDataTeams(nameTeams)
+		}
+	}, [copyDataLeagueOrNewSeason])
+
+	useEffect(() => {
+		if (addId) {
+			if (dataTeams.length % 2 === 0) {
+				setDataTeams([...dataTeams, { id: `${idTeam - 1}` , fcName: '', label: ''}, { id: `${idTeam}` , fcName: '', label: ''}]);
+				return
+			} else {
+				setDataTeams([...dataTeams, {id: `${idTeam}`, fcName: '', label: ''}])
+			}
+		}
+	}, [idTeam])
+
+
+	const addIdTeams = () => {
+		if (dataTeams.length % 2 === 0) {
+			setIdTeam(idTeam + 2)
+		} else if (dataTeams.length % 2 !== 0) {
+			setIdTeam(idTeam + 1)
 		}
 	}
 
 	const deleteTeamAndField = (i) => {
-		document.getElementById(i).remove()
-		const newTeams = teams.filter(team => team.id - 1 !== i)
-		setTeams(newTeams);
+		const newTeams = dataTeams.filter(team => team !== dataTeams[i])
+		setDataTeams(newTeams);
 	}
-
-	const newTeamInput = (i) => {
-		return (
-			<div id={i}
-			     className="create-league__add-team"
-			     key={i}>
-				<Input className="create-league__input"
-				       placeholder="Name of team"
-				       value={teams.fcName}
-				       onChange={value => {
-					       fillTeams(value, i)
-				       }}/>
-				<Button
-					onClick={() => deleteTeamAndField(i)}
-					className="create-league__button-delete">
-					<AiOutlineClose size="15px" color="#7F0013"/>
-				</Button>
-			</div>
-		)
-	}
-
 
 	const createLeague = () => {
 
 		messages()
 
-		if (teams.length === 0) {
+		if (dataTeams.length === 0) {
 
 			setIsError(true)
 
-		} else if (teams.length % 2 === 0) {
+		} else if (dataTeams.length % 2 === 0) {
 
 			const oldLeaguesLocal = localStorage.getItem('leagues')
 			const oldLeagues = oldLeaguesLocal ? JSON.parse(oldLeaguesLocal) : [];
@@ -108,22 +104,22 @@ export const CreateLeague = ({ update, setUpdate }) => {
 			let newLeague = '';
 
 
-				if (leagueData.length === 0 || leagueData.leagueName === '') {
+				if (dataLeague.length === 0 || dataLeague.leagueName === '') {
 					setIsWarning(true)
 					return
 				} else {
-					newLeague = leagueData
+					newLeague = dataLeague
 				};
 
-					if (teams.find(team => team.fcName === '')) {
+					if (dataTeams.find(team => team.fcName === '')) {
 						setIsWarning(true)
 						return
 					} else {
-						newTeams = {teams: [...teams]}
+						newTeams = {teams: [...dataTeams]}
 					}
 
 			const sameNameLeague = oldLeaguesLocal
-				? oldLeagues.find(league => league.leagueName === leagueData.leagueName)
+				? oldLeagues.find(league => league.leagueName === dataLeague.leagueName)
 				: false;
 
 			if (sameNameLeague) {
@@ -180,50 +176,81 @@ export const CreateLeague = ({ update, setUpdate }) => {
 		}, 6000);
 	}
 
+
+
 	return (
 		<div className="create-league">
 			<div className="create-league__header">
-				Create a football league
+				{
+					dataCreate.title
+				}
 			</div>
 			<div className="create-league__container">
 				<div className="create-league__name-league">
 					<div className="create-league__name-text">
-						Fill name of league
+						{
+							dataCreate.titleOfLeague
+						}
 					</div>
 					<div className="create-league__add-team">
 						<Input className="create-league__input league"
 						       placeholder="Name of league" type='text'
-						       value={leagueData.leagueName}
+						       disabled={dataCreate.disabledLeagueName}
+						       value={dataLeague.leagueName}
 						       onChange={value => {
-							       fillLeague(value)
+								   const newDataLeague = {};
+							       newDataLeague.leagueName = value;
+							       newDataLeague.label = value.slice(0, 1);
+							       setDataLeague(newDataLeague);
 						       }}/>
 					</div>
 				</div>
-				<div style={{display:'flex', alignItems:'center',gap: '10px', justifyContent: 'center', flexDirection: 'column', paddingBottom: '20px'}}>
-					Fill seasons period
+				<div className="create-league__data-text">
+					Fill the time of season
 					<Space direction="vertical" size={12}>
 						<RangePicker picker="month"
 						             format={"MMM YYYY"}
-						             onChange={(value) => setDate(value)}
+						             onChange={(value) => setDateTime(value)}
 						             bordered={false}/>
 					</Space>
 				</div>
 				<div className="create-league__body">
 					<div className="create-league__name-text">
-						Fill team name and add logo
+						Fill name of team and add logo
 					</div>
+					{
+						dataTeams.map((team, i) => (
+							<div className="create-league__add-team"
+							     key={i}>
+								<Input className="create-league__input"
+								       placeholder="Name of team"
+								       value={team.fcName}
+								       onChange={value => {
+									       const newArray = [...dataTeams];
+									       newArray[i].fcName = value
+									       newArray[i].label = value.slice(0, 1);
+									       setDataTeams(newArray);
+
+								       }}/>
+								<Button
+									onClick={() => deleteTeamAndField(i)}
+									className="create-league__button-delete">
+									<AiOutlineClose size="15px" color="#7F0013"/>
+								</Button>
+							</div>
+
+						))
+					}
 					<div className="create-league__new-field">
 						<button
 							className="create-league__button-add"
 							color={"blue"}
-							onClick={() => addFields()}>
+							onClick={() => {
+								setAddId(true)
+								addIdTeams()}}>
 							+ Add new field
 						</button>
 					</div>
-
-					{
-						[...Array(fields)].map((value, i) => newTeamInput(i))
-					}
 					{ message && (
 						<div className="create-league__added">
 							{ isSuccess && (
@@ -261,7 +288,9 @@ export const CreateLeague = ({ update, setUpdate }) => {
 						<button
 							className="create-league__button-create"
 							onClick={() => createLeague()}>
-							Create league
+							{
+								dataCreate.button
+							}
 						</button>
 					</div>
 				</div>

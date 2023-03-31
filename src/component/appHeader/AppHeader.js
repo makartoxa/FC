@@ -1,13 +1,21 @@
+import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
+
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 import ArrowUpIcon from '@rsuite/icons/ArrowUp';
-
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-import {useEffect, useRef, useState} from "react";
+import MenuIcon from '@rsuite/icons/Menu';
+import CloseIcon from '@rsuite/icons/Close';
 
 import './AppHeader.scss';
+import {TEXT_FOR_CREATE_PAGE} from "../../TEXT_FOR_CREATE_PAGE";
 
-export const AppHeader = ({ update, dummyLeague }) => {
+export const AppHeader = ({   update,
+	                          dummyLeague,
+	                          setDataCreate,
+	                          setIdTeam,
+	                          setCopyDataLeagueOrNewSeason,
+	                          setCreateButtonForAddSeason,
+	                          setCreateButtonForCopyLeague }) => {
 
 	const [active, setActive] = useState(false);
 	const [leagueNames, setleagueNames] = useState([]);
@@ -30,7 +38,6 @@ export const AppHeader = ({ update, dummyLeague }) => {
 			setMenuDemo(false);
 		}
 	}
-
 
 	useEffect(() => {
 		document.addEventListener('mousedown', handleClickOutsideMenuDemo)
@@ -61,8 +68,8 @@ export const AppHeader = ({ update, dummyLeague }) => {
 			     onClick={ () => setActive(!active) }>
 				{
 					active
-						? <AiOutlineClose size="25px" color="#0e8ac7" />
-						: <AiOutlineMenu size="25px" color="#0e8ac7" />
+						? <CloseIcon size="25px" color="#0e8ac7" />
+						: <MenuIcon size="25px" color="#0e8ac7" />
 				}
 			</div>
 			<div className="app-header-title">
@@ -75,8 +82,8 @@ export const AppHeader = ({ update, dummyLeague }) => {
 			</div>
 			<div className={`app-header-menu${active ? ' active' : ''}`}>
 				<div className="app-header-menu__home">
-					<NavLink onClick={ () => setActive(!active) }
-					         to='/'>
+					<NavLink to='/'
+					         onClick={ () => setActive(!active) }>
 						Home
 					</NavLink>
 				</div>
@@ -101,16 +108,19 @@ export const AppHeader = ({ update, dummyLeague }) => {
 						     setMenuLeague(false)
 							 setActive(!active)
 					     } }>
-						<NavLink to='/new_league'>
+						<NavLink to='/new_league'
+						         onClick={() => {
+							         setDataCreate(TEXT_FOR_CREATE_PAGE.league)
+							         setIdTeam(2)
+							         setCopyDataLeagueOrNewSeason()}}>
 							Create league
 						</NavLink>
 						{
 							leagueNames.map((league, i) => (
-										<NavLink
-											// onClick={() => setUpdate(!update)}
-											key={i}
-											to={ `/${ encodeURI(league.leagueName) }/${ encodeURI(league.seasons[0].seasonTime) }/table` }>
-												{ league.leagueName }
+										<NavLink key={i}
+										         onClick={ () => setCreateButtonForAddSeason(true)}
+										         to={ `/${ encodeURI(league.leagueName) }/${ encodeURI(league.seasons[0].seasonTime) }/table` }>
+											{ league.leagueName }
 										</NavLink>
 									)
 								)
@@ -135,8 +145,7 @@ export const AppHeader = ({ update, dummyLeague }) => {
 					     onClick={ () => {
 						     setMenuDemo(false)
 							 setActive(!active) }}>
-						<NavLink
-						         to={ `/${ encodeURI(dummyLeague.leagueName) }/${ encodeURI(SEASON.seasonTime) }/table` }>
+						<NavLink to={ `/${ encodeURI(dummyLeague.leagueName) }/${ encodeURI(SEASON.seasonTime) }/table` }>
 							Premier league
 						</NavLink>
 					</div>

@@ -27,6 +27,7 @@ import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 
 import './FootballResults.scss'
 import { FootballHeader } from "../footballHeader/FootballHeader";
+import {NavLink} from "react-router-dom";
 
 // export const DEMMY_LEAGUE = {
 //
@@ -511,7 +512,7 @@ export const FootballResults = ({ activeLeague, seasonOfLeague, teamsOfSeason, u
 								onClick={() => reset()}
 								appearance="ghost"
 								color="red">
-								Reset
+								<NavLink style={{textDecoration: 'none', color: 'red'}} to='/' >Reset</NavLink>
 							</Button>
 						</div>
 						<div className="matches-result__button">
