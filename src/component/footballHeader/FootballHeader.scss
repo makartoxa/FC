@@ -52,14 +52,26 @@
     font-size: 20px;
     color: black;
   }
+  &__copy-league-button {
+    color: #0f131a;
+  }
+  &__buttons:hover .football-container-header-league__copy-league-button {
+    color: whitesmoke;
+  }
   &__delete {
     padding: 0 0 0 5px ;
     font-size: 20px;
+  }
+  &__delete-league-button {
+    color: #b90101;
+  }
+  &__buttons:hover .football-container-header-league__delete-league-button {
     color: #ff0000;
   }
+
 }
 
-//football-container-header-league__copy-league-button
+///copy button tooltip
 
 .football-container-header-league__buttons {
   position: relative;
@@ -69,7 +81,7 @@
 .football-container-header-league__buttons .tooltip-copy-league {
   visibility: hidden;
   width: 100px;
-  background-color: rgba(1, 148, 253, 0.64);
+  background-color: rgba(1, 148, 253, 0.85);
   color: #fff;
   text-align: center;
   font-size: 12px;
@@ -84,6 +96,29 @@
 }
 
 .football-container-header-league__buttons:hover .tooltip-copy-league {
+  visibility: visible;
+}
+
+//delete button tooltip
+
+.football-container-header-league__buttons .tooltip-delete-league {
+  visibility: hidden;
+  width: 100px;
+  background-color: rgba(1, 148, 253, 0.85);
+  color: #fff;
+  text-align: center;
+  font-size: 12px;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: -35px;
+  right: 0;
+}
+
+.football-container-header-league__buttons:hover .tooltip-delete-league {
   visibility: visible;
 }
 
@@ -111,7 +146,20 @@
   &__add-season-button {
     color: #0a8d0a;
   }
+  &__delete-season {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+    background-color: rgba(30, 24, 24, 0.03);
+    border-radius: 5px;
+  }
+  &__delete-season-button {
+    color: #b01111;
+  }
+
 }
+///add season tooltip
 
 .football-container-header-seasons__add-season-button:hover {
   color: #08e808;
@@ -122,10 +170,10 @@
   display: inline-block;
 }
 
-.football-container-header-seasons__add-season .tooltiptext {
+.football-container-header-seasons__add-season .tooltip-text {
   visibility: hidden;
   width: 100px;
-  background-color: rgba(1, 148, 253, 0.64);
+  background-color: rgba(1, 148, 253, 0.85);
   color: #fff;
   text-align: center;
   border-radius: 6px;
@@ -134,13 +182,45 @@
   /* Position the tooltip */
   position: absolute;
   z-index: 1;
-  top: -15px;
-  left: 125%;
+  top: 35px;
+  left: 100%;
 }
 
-.football-container-header-seasons__add-season:hover .tooltiptext {
+.football-container-header-seasons__add-season:hover .tooltip-text {
   visibility: visible;
 }
+
+///delete season tooltip
+
+.football-container-header-seasons__delete-season-button:hover {
+  color: #ef0707;
+}
+
+.football-container-header-seasons__delete-season {
+  position: relative;
+  display: inline-block;
+}
+
+.football-container-header-seasons__delete-season .tooltip-text {
+  visibility: hidden;
+  width: 100px;
+  background-color: rgba(1, 148, 253, 0.85);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 35px;
+  left: 100%;
+}
+
+.football-container-header-seasons__delete-season:hover .tooltip-text {
+  visibility: visible;
+}
+
 
 
 .football-container-header-nav {

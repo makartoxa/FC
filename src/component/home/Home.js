@@ -1,9 +1,14 @@
 import { NavLink } from "react-router-dom";
+import { TEXT_FOR_CREATE_PAGE } from "../../TEXT_FOR_CREATE_PAGE";
 
 import './Home.scss'
-import {TEXT_FOR_CREATE_PAGE} from "../../TEXT_FOR_CREATE_PAGE";
 
-export const Home = ({ dummyLeague, setDataCreate, setIdTeam, setCopyDataLeagueOrNewSeason, setCreateButtonForAddSeason, setCreateButtonForCopyLeague }) => {
+export const Home = ({ dummyLeague,
+	                     setDataCreate,
+	                     setIdTeam,
+	                     setCopyDataLeagueOrNewSeason,
+	                     setCreateButtonForAddSeason,
+	                     setCreateButtonForCopyLeague }) => {
 
 	const seasons = dummyLeague.seasons.find(el => el.seasonTime)
 

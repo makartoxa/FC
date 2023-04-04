@@ -1,68 +1,21 @@
-import epl from "../logo/epl.png"
-import arsenal from "../logo/arsenal.png"
-import astonVilla from "../logo/astonVilla.png"
-import bouremounth from "../logo/bouremounth.png"
-import brentford from "../logo/brentford.png"
-import brighton from "../logo/brighton.png"
-import chelsea from "../logo/chelsea.png"
-import crystalPalace from "../logo/crystalPalace.png"
-import everton from "../logo/everton.png"
-import forest from "../logo/forest.png"
-import fulham from "../logo/fulham.png"
-import leeds from "../logo/leeds.png"
-import leicester from "../logo/leicester.png"
-import liverpool from "../logo/liverpool.png"
-import m_u from "../logo/m_u.png"
-import manchester_city from "../logo/manchester_city.png"
-import newCastle from "../logo/newCastle.png"
-import sauthampton from "../logo/sauthampton.png"
-import tottenham from "../logo/tottenham.png"
-import westham from "../logo/westham.png"
-import wolverhampton from "../logo/wolverhampton.png"
-
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, SelectPicker, InputNumber } from "rsuite";
+import { NavLink } from "react-router-dom";
+
 import PageNextIcon from '@rsuite/icons/PageNext';
 import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 
 import './FootballResults.scss'
-import { FootballHeader } from "../footballHeader/FootballHeader";
-import {NavLink} from "react-router-dom";
 
-// export const DEMMY_LEAGUE = {
-//
-// 	leagueName: 'England Premier League',
-// 	label: epl,
-// 	seasons: [
-// 		{
-// 			seasonTime: '20-21',
-// 			teams:
-// 				[{id: '1', fcName: 'Arsenal', label: arsenal},
-// 					{id: '2', fcName: 'Aston Villa', label: astonVilla},
-// 					{id: '3', fcName: 'Brighton', label: brighton},
-// 					{id: '4', fcName: 'Brentford', label: brentford},
-// 					{id: '5', fcName: 'Bournemouth', label: bouremounth},
-// 					{id: '6', fcName: 'Crystal Palace', label: crystalPalace},
-// 					{id: '7', fcName: 'Chelsea', label: chelsea},
-// 					{id: '8', fcName: 'Fulham', label: fulham},
-// 					{id: '9', fcName: 'Everton', label: everton},
-// 					{id: '10', fcName: 'Forest', label: forest},
-// 					{id: '11', fcName: 'Manchester City', label: manchester_city},
-// 					{id: '12', fcName: 'Manchester United', label: m_u},
-// 					{id: '13', fcName: 'Newcastle United', label: newCastle},
-// 					{id: '14', fcName: 'Leeds', label: leeds},
-// 					{id: '15', fcName: 'Tottenham', label: tottenham},
-// 					{id: '16', fcName: 'Liverpool', label: liverpool},
-// 					{id: '17', fcName: 'Leicester City', label: leicester},
-// 					{id: '18', fcName: 'Southampton', label: sauthampton},
-// 					{id: '19', fcName: 'West Ham United', label: westham},
-// 					{id: '20', fcName: 'Wolverhampton', label: wolverhampton}]
-// 		}]
-// };
-
-export const FootballResults = ({ activeLeague, seasonOfLeague, teamsOfSeason, update }) => {
+export const FootballResults = ({ activeLeague,
+	                                seasonOfLeague,
+	                                teamsOfSeason,
+	                                dayKey,
+	                                dataInput,
+	                                dataTable }) => {
 
 	//------------> useState
+
 	const [matchDay, setMatchDay] = useState(1);
 	const [matches, setMatches] = useState([]);
 	const [disDays, setDisDays] = useState([])
@@ -86,11 +39,7 @@ export const FootballResults = ({ activeLeague, seasonOfLeague, teamsOfSeason, u
 	const selectDaysData = dataMatchDays.map(day => ({label: day.label, value: day.value}));
 	const selectFootballClub = teamsOfSeason.map(team => ({value: team.id, label: team.fcName}));
 
-	const dayKey = useMemo(() => `dayKey_${activeLeague}_${seasonOfLeague}`, [seasonOfLeague]);
-	const dataInput = useMemo(() => `dataInput_${activeLeague}_${seasonOfLeague}`, [seasonOfLeague]);
-	const dataTable = useMemo(() => `dataTable_${activeLeague}_${seasonOfLeague}`, [seasonOfLeague]);
 	//------------> go to matchDay, when field do not have data
-
 
 	useEffect(() => {
 		const inputData = JSON.parse(localStorage.getItem(dataInput))
@@ -164,7 +113,6 @@ export const FootballResults = ({ activeLeague, seasonOfLeague, teamsOfSeason, u
 			setSelectedDropMenuTeams(dayInLocal.selectedDropMenuTeams)
 		}
 	}, [matchDay, seasonOfLeague])
-
 
 	// ------------> save data, if you updated page, or you went to next day
 
@@ -297,7 +245,6 @@ export const FootballResults = ({ activeLeague, seasonOfLeague, teamsOfSeason, u
 		return [...selectedDropMenuTeams.map(el => el.team), ...illegalTeams].filter(id => id);
 	}
 
-
 	//------------> reset, clear, save
 
 	const saveResult = (match) => {
@@ -305,20 +252,6 @@ export const FootballResults = ({ activeLeague, seasonOfLeague, teamsOfSeason, u
 		if (filterField[0] || filterField[1]) {
 			return alert('Error, not all fields are filled, please fill in all fields')
 		} else {
-			///
-			// const inputData = localStorage.getItem(dataInput);
-			// const matchDays = inputData ? JSON.parse(inputData) : [];
-			//
-			// let allMatches = [];
-			// matchDays.forEach(matchDay => {
-			// 	allMatches = [...allMatches, ...matchDay.matches.map(match => match.matchId)]
-			// });
-			//
-			// const somethingWrong = allMatches.some(matchId => matches.some(match => match.matchId === matchId))
-			// if (somethingWrong) {
-			// 	return alert('Something wrong!')
-			// }
-			///
 			const inputDataLocal = JSON.parse(localStorage.getItem(dataInput));
 			const matchDayData = {matchDay, matches: matches};
 			let sumInputData = [];
@@ -400,12 +333,8 @@ export const FootballResults = ({ activeLeague, seasonOfLeague, teamsOfSeason, u
 		}
 	}
 
-
 	return (
 		<div className='matches-container'>
-
-			{/*<FootballHeader league={league} color={color}/>*/}
-
 			<div className="football-container-results">
 				<div className="matches-day">
 					<div className="matches-day__text-menu">

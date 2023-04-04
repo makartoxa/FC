@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import { Message, Button, Input } from 'rsuite';
 import { AiOutlineClose } from "react-icons/ai";
 import { DatePicker, Space } from 'antd';
-
-import './CreateLeague.scss'
 import moment from "moment";
 
+import './CreateLeague.scss'
 
 export const CreateLeague = ({   update,
 	                             setUpdate,
+	                             color,
 	                             idTeam,
 	                             setIdTeam,
 	                             dataCreate,
+	                             seasonsActiveLeague,
 	                             copyDataLeagueOrNewSeason }) => {
 
 	const [dataLeague, setDataLeague] = useState({})
@@ -32,20 +33,18 @@ export const CreateLeague = ({   update,
 	const dateEnd = dateTime ? moment(dateTime[1]['$d']).format('MMM YYYY') : false;
 	const seasonPeriod = dateStart && dateEnd ? { seasonTime: `${dateStart} - ${dateEnd}` } : false
 
-	// console.log('dataTeams', dataTeams);
-	// console.log('dataLeague', dataLeague);
-	// console.log('idTeam', idTeam);
-
 	useEffect(() => {
 		if (copyDataLeagueOrNewSeason) {
 			setDataLeague({
 				leagueName: copyDataLeagueOrNewSeason.leagueName,
-				label: copyDataLeagueOrNewSeason.label
+				label: copyDataLeagueOrNewSeason.label,
+				colorLeague: color()
 			})
 		} else {
 			setDataLeague({
 				leagueName: '',
-				label: ''
+				label: '',
+				colorLeague: color()
 			})
 		}
 	}, [copyDataLeagueOrNewSeason])
@@ -56,8 +55,8 @@ export const CreateLeague = ({   update,
 			setIdTeam(copyDataLeagueOrNewSeason.teams.length);
 		} else if (!copyDataLeagueOrNewSeason) {
 			const nameTeams = [
-				{ id: `${idTeam - 1}`, fcName: '', label: ''},
-				{ id: `${idTeam}`, fcName: '', label: ''}
+				{ id: `${idTeam - 1}`, fcName: '', label: '', color: color()},
+				{ id: `${idTeam}`, fcName: '', label: '', color: color()}
 			]
 			setDataTeams(nameTeams)
 		}
@@ -66,14 +65,16 @@ export const CreateLeague = ({   update,
 	useEffect(() => {
 		if (addId) {
 			if (dataTeams.length % 2 === 0) {
-				setDataTeams([...dataTeams, { id: `${idTeam - 1}` , fcName: '', label: ''}, { id: `${idTeam}` , fcName: '', label: ''}]);
+				setDataTeams([...dataTeams,
+					{ id: `${idTeam - 1}` , fcName: '', label: '', color: color()},
+					{ id: `${idTeam}` , fcName: '', label: '', color: color()}
+				]);
 				return
 			} else {
-				setDataTeams([...dataTeams, {id: `${idTeam}`, fcName: '', label: ''}])
+				setDataTeams([...dataTeams, {id: `${idTeam}`, fcName: '', label: '', color: color()}])
 			}
 		}
 	}, [idTeam])
-
 
 	const addIdTeams = () => {
 		if (dataTeams.length % 2 === 0) {
@@ -87,6 +88,7 @@ export const CreateLeague = ({   update,
 		const newTeams = dataTeams.filter(team => team !== dataTeams[i])
 		setDataTeams(newTeams);
 	}
+
 
 	const createLeague = () => {
 
@@ -102,7 +104,6 @@ export const CreateLeague = ({   update,
 			const oldLeagues = oldLeaguesLocal ? JSON.parse(oldLeaguesLocal) : [];
 			let newTeams = '';
 			let newLeague = '';
-
 
 				if (dataLeague.length === 0 || dataLeague.leagueName === '') {
 					setIsWarning(true)
@@ -123,17 +124,25 @@ export const CreateLeague = ({   update,
 				: false;
 
 			if (sameNameLeague) {
-				if (seasonPeriod) {
-					const allSeasonPeriod = sameNameLeague.seasons.map(el => el.seasonTime);
-					const sameSeasonPeriod = allSeasonPeriod.map(el => el === seasonPeriod.seasonTime)
-					if (sameSeasonPeriod.find(el => el === true)) {
+				if ( seasonPeriod ) {
+					const allSeasonPeriodSameLeague = sameNameLeague.seasons.map(el => el.seasonTime);
+					const dateNewPeriod = allSeasonPeriodSameLeague.map(el => ( new Date(el.slice(11, 19)) > new Date(dateStart)) )
+					const dateNewPeriodOldest = allSeasonPeriodSameLeague.map(el => ( new Date(el.slice(0, 8)) < new Date(dateEnd)))
+					const samePeriodOfLeague = dateNewPeriod.find(el => el === true)
+					const samePeriodOfLeagueOldest = dateNewPeriodOldest.find(el => el === true)
+
+
+					if ((samePeriodOfLeagueOldest && samePeriodOfLeague) || (!samePeriodOfLeagueOldest && !samePeriodOfLeague)) {
 						return setIsWarningSamePeriod(true)
-					} else {
+
+					} else if ((!samePeriodOfLeague && samePeriodOfLeagueOldest) || (samePeriodOfLeague && !samePeriodOfLeagueOldest)) {
+
 						const oldLeaguesFilter = oldLeagues.filter(el => el !== sameNameLeague)
 						const addSeasonsSameLeague = [...sameNameLeague.seasons, Object.assign(seasonPeriod, newTeams)]
 						const updateLeague = {
 							leagueName: sameNameLeague.leagueName,
 							label: sameNameLeague.label,
+							colorLeague: color(),
 							seasons: addSeasonsSameLeague
 						}
 						const newLeagues = [...oldLeaguesFilter, updateLeague]
@@ -173,10 +182,8 @@ export const CreateLeague = ({   update,
 			setIsWarning(false)
 			setIsWarningPeriod(false)
 			setIsWarningSamePeriod(false)
-		}, 6000);
+		}, 4000);
 	}
-
-
 
 	return (
 		<div className="create-league">
@@ -201,6 +208,7 @@ export const CreateLeague = ({   update,
 								   const newDataLeague = {};
 							       newDataLeague.leagueName = value;
 							       newDataLeague.label = value.slice(0, 1);
+								   newDataLeague.colorLeague = color();
 							       setDataLeague(newDataLeague);
 						       }}/>
 					</div>

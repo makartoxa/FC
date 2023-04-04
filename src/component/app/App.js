@@ -9,7 +9,6 @@ import { TEXT_FOR_CREATE_PAGE } from "../../TEXT_FOR_CREATE_PAGE"
 import { Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-
 import './app.scss'
 
 export const App = () => {
@@ -18,6 +17,7 @@ export const App = () => {
 	const [leagues, setLeagues] = useState([])
 	const [update, setUpdate] = useState(false)
 	const [dataCreate, setDataCreate] = useState(TEXT_FOR_CREATE_PAGE.league)
+	const [seasonsActiveLeague, setSeasonsActiveLeague] = useState([])
 	const [copyDataLeagueOrNewSeason, setCopyDataLeagueOrNewSeason] = useState()
 	const [createButtonForAddSeason, setCreateButtonForAddSeason] = useState(true)
 	const [createButtonForCopyLeague, setCreateButtonForCopyLeague] = useState(true)
@@ -37,7 +37,6 @@ export const App = () => {
 		}
 		return color;
 	}
-	console.log('copyDataLeagueOrNewSeason', copyDataLeagueOrNewSeason);
 
 	return (
 		<div className="font-img">
@@ -59,8 +58,10 @@ export const App = () => {
 					<Route path="new_league"
 					       element={<CreateLeague update={update}
 					                              setUpdate={setUpdate}
+					                              color={getRandomColor}
 					                              idTeam={idTeam}
 					                              setIdTeam={setIdTeam}
+					                              seasonsActiveLeague={seasonsActiveLeague}
 					                              copyDataLeagueOrNewSeason={copyDataLeagueOrNewSeason}
 					                              dataCreate={dataCreate}/>} />
 					{
@@ -72,8 +73,10 @@ export const App = () => {
 										path={`${encodeURI(league.leagueName)}/${encodeURI(season.seasonTime)}/table`}
 										element={<FootballHeader league={ league }
 										                         update={update}
+										                         setUpdate={setUpdate}
 										                         setDataCreate={setDataCreate}
 										                         setIdTeam={setIdTeam}
+										                         setSeasonsActiveLeague={setSeasonsActiveLeague}
 										                         createButtonForAddSeason={createButtonForAddSeason}
 										                         setCopyDataLeagueOrNewSeason={setCopyDataLeagueOrNewSeason}
 										                         color={getRandomColor} />} />
@@ -82,8 +85,10 @@ export const App = () => {
 										path={`${encodeURI(league.leagueName)}/${encodeURI(season.seasonTime)}/results`}
 										element={<FootballHeader league={ league }
 										                         update={update}
+										                         setUpdate={setUpdate}
 										                         setDataCreate={setDataCreate}
 										                         setIdTeam={setIdTeam}
+										                         setSeasonsActiveLeague={setSeasonsActiveLeague}
 										                         createButtonForAddSeason={createButtonForAddSeason}
 										                         setCopyDataLeagueOrNewSeason={setCopyDataLeagueOrNewSeason}
 										                         color={getRandomColor} />} />

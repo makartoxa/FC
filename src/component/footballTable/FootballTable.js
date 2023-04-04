@@ -1,14 +1,15 @@
 import { COLUMNS } from "../../Columns";
-
 import { useEffect, useMemo, useState } from "react";
+
 import SortDownIcon from '@rsuite/icons/SortDown';
 import SortUpIcon from '@rsuite/icons/SortUp';
+
 import './FootballTable.scss'
 
-import {FootballHeader} from "../footballHeader/FootballHeader";
-
-
-export function FootballTable({ activeLeague, seasonOfLeague, teamsOfSeason, color, update }) {
+export function FootballTable({ activeLeague,
+	                              seasonOfLeague,
+	                              teamsOfSeason,
+	                              dataTable }) {
 
 	const DEFAULT_SORT_BY = {
 		column: 'points',
@@ -43,7 +44,7 @@ export function FootballTable({ activeLeague, seasonOfLeague, teamsOfSeason, col
 
 
 	const storageData = useMemo(() => {
-		const local = localStorage.getItem(`dataTable_${activeLeague}_${seasonOfLeague}`);
+		const local = localStorage.getItem(dataTable);
 		const localData = local ? JSON.parse(local) : teamsOfSeason
 		setTableData(localData.sort(sortByDefault))
 
@@ -124,12 +125,8 @@ export function FootballTable({ activeLeague, seasonOfLeague, teamsOfSeason, col
 		}
 	}
 
-
 	return (
 		<div className="football-container">
-
-			{/*<FootballHeader league={league} color={color}/>*/}
-
 			<div className="football-container-body-scroll">
 				<div className="football-container-body">
 					<div className="table-header">
@@ -158,7 +155,7 @@ export function FootballTable({ activeLeague, seasonOfLeague, teamsOfSeason, col
 												{
 													club.label.length > 1
 														? <img className="table-header__cell-label-img" src={ club.label } width="25px" height="25px" align="middle"/>
-														: <div className="table-header__cell-label-do-not-img"style={{ backgroundColor: color()}}>
+														: <div className="table-header__cell-label-do-not-img"style={{ backgroundColor: club.color}}>
 															{club.label}
 														  </div>
 												}

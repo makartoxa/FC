@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { TEXT_FOR_CREATE_PAGE } from "../../TEXT_FOR_CREATE_PAGE";
 
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 import ArrowUpIcon from '@rsuite/icons/ArrowUp';
@@ -7,15 +8,13 @@ import MenuIcon from '@rsuite/icons/Menu';
 import CloseIcon from '@rsuite/icons/Close';
 
 import './AppHeader.scss';
-import {TEXT_FOR_CREATE_PAGE} from "../../TEXT_FOR_CREATE_PAGE";
 
 export const AppHeader = ({   update,
 	                          dummyLeague,
 	                          setDataCreate,
 	                          setIdTeam,
 	                          setCopyDataLeagueOrNewSeason,
-	                          setCreateButtonForAddSeason,
-	                          setCreateButtonForCopyLeague }) => {
+	                          setCreateButtonForAddSeason }) => {
 
 	const [active, setActive] = useState(false);
 	const [leagueNames, setleagueNames] = useState([]);
@@ -127,9 +126,8 @@ export const AppHeader = ({   update,
 						}
 					</div>
 				</div>
-				<div
-					ref={refMenuDemo}
-					className={`dropdown${menuDemo ? ' show-background' : ''}`}>
+				<div className={`dropdown${menuDemo ? ' show-background' : ''}`}
+				     ref={refMenuDemo}>
 					<button className={`dropbtn${menuDemo ? ' show-color' : ''}`}
 					        onClick={ () => {
 						        setMenuDemo(!menuDemo)

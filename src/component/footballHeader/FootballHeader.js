@@ -1,23 +1,35 @@
-import './FootballHeader.scss'
-import TrashIcon from "@rsuite/icons/Trash";
-import CopyIcon from '@rsuite/icons/Copy';
+import { FootballTable } from "../footballTable/FootballTable";
+import { FootballResults } from "../footballResults/FootballResults";
+import { TEXT_FOR_CREATE_PAGE } from "../../TEXT_FOR_CREATE_PAGE";
+
+import { useEffect, useMemo, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
-import {useEffect, useRef, useState} from "react";
-import {FootballTable} from "../footballTable/FootballTable";
-import {FootballResults} from "../footballResults/FootballResults";
+
 import ArrowRightLineIcon from '@rsuite/icons/ArrowRightLine';
 import ArrowLeftLineIcon from '@rsuite/icons/ArrowLeftLine';
+import TrashIcon from "@rsuite/icons/Trash";
+import CopyIcon from '@rsuite/icons/Copy';
 import MinusIcon from '@rsuite/icons/Minus';
 import PlusIcon from '@rsuite/icons/Plus';
-import {TEXT_FOR_CREATE_PAGE} from "../../TEXT_FOR_CREATE_PAGE";
 
+import './FootballHeader.scss'
 
-export const FootballHeader = ({ league, color, update, setDataCreate, setIdTeam, createButtonForAddSeason, createButtonForCopyLeague, setCopyDataLeagueOrNewSeason }) => {
+export const FootballHeader = ({ league,
+	                               color,
+	                               update,
+	                               setUpdate,
+	                               setDataCreate,
+	                               setIdTeam,
+	                               setSeasonsActiveLeague,
+	                               createButtonForAddSeason,
+	                               createButtonForCopyLeague,
+	                               setCopyDataLeagueOrNewSeason }) => {
 
 	const LEAGUE = league.seasons.map(el => el.seasonTime)
 
 	const [chooseSeason, setChooseSeason] = useState(LEAGUE.find(el => el))
 	const [menuSeasons, setMenuSeasons] = useState(false)
+
 	const refMenuSeasons = useRef(null)
 
 	const activeLeague = league.leagueName
@@ -32,6 +44,35 @@ export const FootballHeader = ({ league, color, update, setDataCreate, setIdTeam
 		label: league.label,
 		teams: teamsOfSeason
 	}
+
+	const dayKey = useMemo(() => `dayKey_${activeLeague}_${seasonOfLeague}`, [seasonOfLeague]);
+	const dataInput = useMemo(() => `dataInput_${activeLeague}_${seasonOfLeague}`, [seasonOfLeague]);
+	const dataTable = useMemo(() => `dataTable_${activeLeague}_${seasonOfLeague}`, [seasonOfLeague]);
+
+	const leaguesInLocal = localStorage.getItem('leagues');
+	const jsonLeagues = leaguesInLocal ? JSON.parse(leaguesInLocal) : [];
+	const filterLeagues = jsonLeagues ? jsonLeagues.filter(league => league.leagueName !== activeLeague) : [];
+	const dataActiveLeague = jsonLeagues ? jsonLeagues.find(league => league.leagueName === activeLeague) : [];
+	// const seasonTimeActiveLeague = dataActiveLeague ? dataActiveLeague.seasons.map(season => season.seasonTime) : [];
+
+	const deleteLeague = () => {
+		const response = window.confirm("Are you sure you want to delete league? It will be impossible to restore them!");
+
+		if (response) {
+			if (filterLeagues) {
+				localStorage.setItem('leagues', JSON.stringify(filterLeagues))
+				dataActiveLeague.seasons.map(season => {
+					localStorage.removeItem(`dataInput_${activeLeague}_${season.seasonTime}`);
+					localStorage.removeItem(`dataTable_${activeLeague}_${season.seasonTime}`);
+					localStorage.removeItem(`dayKey_${activeLeague}_${season.seasonTime}`)
+				})
+			}
+			setUpdate(!update)
+		} else {
+			alert("Сancel");
+		}
+	}
+
 	const createDataLeagueOrNewSeason = () => {
 		setCopyDataLeagueOrNewSeason(copyData)
 		setIdTeam(2)
@@ -53,15 +94,24 @@ export const FootballHeader = ({ league, color, update, setDataCreate, setIdTeam
 	const navigator = () => {
 		if (decodeURI(window.location.href.slice((window.location.href.length) - 7)) === 'results') {
 			return (
-					<FootballResults activeLeague={activeLeague} seasonOfLeague={seasonOfLeague} teamsOfSeason={teamsOfSeason} update={update} color={color} />
+					<FootballResults activeLeague={activeLeague}
+					                 seasonOfLeague={seasonOfLeague}
+					                 teamsOfSeason={teamsOfSeason}
+					                 dayKey={dayKey}
+					                 dataInput={dataInput}
+					                 dataTable={dataTable}
+					                 update={update} />
 				)
 		} else if (decodeURI(window.location.href.slice((window.location.href.length) - 5)) === 'table') {
 			return (
-					<FootballTable activeLeague={activeLeague} seasonOfLeague={seasonOfLeague} teamsOfSeason={teamsOfSeason} update={update} color={color}  />
+					<FootballTable activeLeague={activeLeague}
+					               seasonOfLeague={seasonOfLeague}
+					               teamsOfSeason={teamsOfSeason}
+					               dataTable={dataTable}
+					               update={update} />
 				)
 		}
 	}
-
 
 	return (
 		<div className="football-header">
@@ -74,7 +124,7 @@ export const FootballHeader = ({ league, color, update, setDataCreate, setIdTeam
 						</>
 					) : (
 						<>
-							<div className="football-container-header-league__label" style={{backgroundColor: color()}}>{ league.label }</div>
+							<div className="football-container-header-league__label" style={{backgroundColor: league.colorLeague}}>{ league.label }</div>
 							<div className="football-container-header-league__name">{ league.leagueName }</div>
 						</>
 					)
@@ -97,8 +147,13 @@ export const FootballHeader = ({ league, color, update, setDataCreate, setIdTeam
 					) }
 					{ createButtonForAddSeason && (
 						<div className="football-container-header-league__delete">
-							<button className="football-container-header-league__buttons">
-								<TrashIcon />
+							<button className="football-container-header-league__buttons"
+							        onClick={() => deleteLeague()}>
+								<NavLink className="football-container-header-league__delete-league-button"
+								         to='/'>
+									<TrashIcon />
+								</NavLink>
+								<span className="tooltip-delete-league">Delete league</span>
 							</button>
 						</div>
 					) }
@@ -145,12 +200,16 @@ export const FootballHeader = ({ league, color, update, setDataCreate, setIdTeam
 						         to='/new_league'>
 							<PlusIcon/>
 						</NavLink>
-						<span className="tooltiptext">Add season</span>
+						<span className="tooltip-text">Add season</span>
 					</button>
 				) }
 				{ createButtonForAddSeason && (
-					<button className="football-container-header-seasons__add-season" style={{color: 'red'}}>
-						<MinusIcon />
+					<button className="football-container-header-seasons__delete-season" style={{color: 'red'}}>
+						<NavLink className="football-container-header-seasons__delete-season-button"
+						         to='/new_league'>
+							<MinusIcon />
+						</NavLink>
+						<span className="tooltip-text">Delete season</span>
 					</button>
 				)}
 			</div>
