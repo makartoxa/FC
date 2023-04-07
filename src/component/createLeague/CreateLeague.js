@@ -38,12 +38,14 @@ export const CreateLeague = ({   update,
 			setDataLeague({
 				leagueName: copyDataLeagueOrNewSeason.leagueName,
 				label: copyDataLeagueOrNewSeason.label,
+				pathPage: 'league',
 				colorLeague: color()
 			})
 		} else {
 			setDataLeague({
 				leagueName: '',
 				label: '',
+				pathPage: 'league',
 				colorLeague: color()
 			})
 		}
@@ -127,21 +129,19 @@ export const CreateLeague = ({   update,
 				if ( seasonPeriod ) {
 					const allSeasonPeriodSameLeague = sameNameLeague.seasons.map(el => el.seasonTime);
 					const dateNewPeriod = allSeasonPeriodSameLeague.map(el => ( new Date(el.slice(11, 19)) > new Date(dateStart)) )
-					const dateNewPeriodOldest = allSeasonPeriodSameLeague.map(el => ( new Date(el.slice(0, 8)) < new Date(dateEnd)))
 					const samePeriodOfLeague = dateNewPeriod.find(el => el === true)
-					const samePeriodOfLeagueOldest = dateNewPeriodOldest.find(el => el === true)
 
-
-					if ((samePeriodOfLeagueOldest && samePeriodOfLeague) || (!samePeriodOfLeagueOldest && !samePeriodOfLeague)) {
+					if ( samePeriodOfLeague) {
 						return setIsWarningSamePeriod(true)
 
-					} else if ((!samePeriodOfLeague && samePeriodOfLeagueOldest) || (samePeriodOfLeague && !samePeriodOfLeagueOldest)) {
+					} else if (!samePeriodOfLeague) {
 
 						const oldLeaguesFilter = oldLeagues.filter(el => el !== sameNameLeague)
 						const addSeasonsSameLeague = [...sameNameLeague.seasons, Object.assign(seasonPeriod, newTeams)]
 						const updateLeague = {
 							leagueName: sameNameLeague.leagueName,
 							label: sameNameLeague.label,
+							pathPage: 'league',
 							colorLeague: color(),
 							seasons: addSeasonsSameLeague
 						}

@@ -1,6 +1,6 @@
 
 .home {
-  height: calc(100vh - 80px);
+  height: calc(100vh - 101px);
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -30,7 +30,6 @@
   &__menu a:hover {
     text-decoration: none;
     color: #23b3fa;;
-    background-color: rgba(20, 20, 82, 0.65);
     border-radius: 10px;
   }
   &__menu a:active {

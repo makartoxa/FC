@@ -1,6 +1,6 @@
 .create-league {
   width: 50vw;
-  height: calc(100vh - 90px);
+  height: calc(100vh - 111px);
   opacity: 90%;
   margin: 0 auto;
   font-size: 18px;
@@ -21,16 +21,18 @@
     justify-content: center;
     align-items: center;
     height: 70px;
-    background-color: #23b3fad9;;
+    background-color: #74b1e7;
     border-radius: 10px;
     margin: 10px 0;
-    color: black;
+    color: #0f2c52;
+    font-size: 20px;
+    font-weight: bold;
     padding: 10px;
   }
   &__container {
     background-color: ghostwhite;
     overflow: scroll;
-    height: calc(100vh - 180px);
+    max-height: calc(100vh - 201px);
     padding: 20px;
     border-top: 1px solid black;
     border-radius: 10px;

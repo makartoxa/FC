@@ -23,7 +23,26 @@ import wolverhampton from "./component/logo/wolverhampton.png";
 export const DUMMY_LEAGUE = {
 	leagueName: 'England Premier League',
 	label: epl,
+	pathPage: 'demo',
 	seasons: [
+		{
+			seasonTime: 'Aug 2021 - May 2022',
+			teams: [
+				{id: '1', fcName: 'Arsenal', label: arsenal},
+				{id: '2', fcName: 'Aston Villa', label: astonVilla},
+				{id: '3', fcName: 'Brighton', label: brighton},
+				{id: '4', fcName: 'Brentford', label: brentford},
+				{id: '12', fcName: 'Manchester United', label: m_u},
+				{id: '13', fcName: 'Newcastle United', label: newCastle},
+				{id: '14', fcName: 'Leeds', label: leeds},
+				{id: '15', fcName: 'Tottenham', label: tottenham},
+				{id: '16', fcName: 'Liverpool', label: liverpool},
+				{id: '17', fcName: 'Leicester City', label: leicester},
+				{id: '18', fcName: 'Southampton', label: sauthampton},
+				{id: '19', fcName: 'West Ham United', label: westham},
+				{id: '20', fcName: 'Wolverhampton', label: wolverhampton}
+			]
+		},
 		{
 			seasonTime: 'Aug 2022 - May 2023',
 			teams: [
@@ -48,16 +67,6 @@ export const DUMMY_LEAGUE = {
 				{id: '19', fcName: 'West Ham United', label: westham},
 				{id: '20', fcName: 'Wolverhampton', label: wolverhampton}
 			]
-		},
-		{
-			seasonTime: 'Aug 2021 - May 2022',
-			teams: [
-				{id: '1', fcName: 'Arsenal', label: arsenal},
-				{id: '2', fcName: 'Aston Villa', label: astonVilla},
-				{id: '3', fcName: 'Brighton', label: brighton},
-				{id: '4', fcName: 'Brentford', label: brentford},
-			]
-
 		}
 	]
 };

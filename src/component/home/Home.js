@@ -15,14 +15,14 @@ export const Home = ({ dummyLeague,
 	return (
 		<div className="home" >
 			<div className="home__menu">
-				<NavLink to='new_league'
+				<NavLink to='/new_league'
 				         onClick={ () => {
 					         setDataCreate(TEXT_FOR_CREATE_PAGE.league)
 					         setIdTeam(2)
 					         setCopyDataLeagueOrNewSeason() } } >
 					Start
 				</NavLink>
-				<NavLink to={ `/${ encodeURI(dummyLeague.leagueName) }/${encodeURI(seasons.seasonTime)}/table` }
+				<NavLink to={`/${encodeURI(dummyLeague.pathPage)}/${encodeURI(dummyLeague.leagueName)}/${encodeURI(seasons.seasonTime)}/table`}
 				         onClick={ () => {
 							 setCreateButtonForAddSeason(false)
 					         setCreateButtonForCopyLeague(true) }}>

@@ -358,9 +358,9 @@ export const FootballResults = ({ activeLeague,
 						        disabled={dayButtonPlus}>
 							<PageNextIcon />
 						</Button>
-						<span style={{paddingLeft: '10px'}}>
-					from {dataMatchDays.length}
-				</span>
+					</div>
+					<div style={{paddingLeft: '10px'}}>
+						from {dataMatchDays.length}
 					</div>
 				</div>
 				<div className="matches-result">

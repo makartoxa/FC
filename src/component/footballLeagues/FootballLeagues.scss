@@ -1,0 +1,123 @@
+.football-league-container {
+  width: 50vw;
+  display: block;
+  margin: 0 auto;
+  height: calc(100vh - 111px);
+  opacity: 85%;
+}
+
+.football-league-header {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  height: 70px;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #74b1e7;
+  border-radius: 10px;
+  margin: 10px 0;
+  //color: whitesmoke;
+  color: #0f2c52;
+}
+
+.football-league-body {
+  background-color: ghostwhite;
+  max-height: calc(100vh - 201px);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.football-league {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: black;
+  padding: 5px 0;
+  border-bottom: 1px solid #c5c6c7;
+  &__label {
+    margin: 0 15px;
+    width: 40px;
+    color: white;
+    border-radius: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.football-league-list-name {
+  display: inline-block;
+  position: relative;
+}
+
+.football-league-list-name a {
+  padding: 0 10px;
+  text-decoration: none;
+  color: #a2b5ce;
+  height: 100%;
+  font-size: 18px;
+}
+
+.football-league-list-name a:hover {
+  color: #3484c6;
+}
+
+.football-league-list-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #a6cdec;
+  min-width: 180px;
+  padding: 5px 0;
+  top: -6px;
+  border-radius: 5px;
+  z-index: 10;
+}
+
+.football-league-list-dropdown-content a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 4px;
+  height: 30px;
+  text-decoration: none;
+  color: #409ae0;
+  font-size: 14px;
+}
+
+.football-league-list-dropdown-content a:hover {
+  color: #138aec;;
+}
+
+.football-league-list-name:hover .football-league-list-dropdown-content {
+  display: inline-block;
+}
+
+
+.football-league-no-exist {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 20px;
+  color: black;
+  font-weight: initial;
+}
+
+@media (max-width: 1200px) {
+  .football-league-container {
+    width: 60vw;  }
+}
+@media (max-width: 1024px) {
+  .football-league-container {
+    width: 70vw;  }
+}
+@media (max-width: 866px) {
+  .football-league-container {
+    width: 80vw;  }
+}

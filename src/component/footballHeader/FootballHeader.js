@@ -25,9 +25,8 @@ export const FootballHeader = ({ league,
 	                               createButtonForCopyLeague,
 	                               setCopyDataLeagueOrNewSeason }) => {
 
-	const LEAGUE = league.seasons.map(el => el.seasonTime)
 
-	const [chooseSeason, setChooseSeason] = useState(LEAGUE.find(el => el))
+	const [chooseSeason, setChooseSeason] = useState()
 	const [menuSeasons, setMenuSeasons] = useState(false)
 
 	const refMenuSeasons = useRef(null)
@@ -53,11 +52,20 @@ export const FootballHeader = ({ league,
 	const jsonLeagues = leaguesInLocal ? JSON.parse(leaguesInLocal) : [];
 	const filterLeagues = jsonLeagues ? jsonLeagues.filter(league => league.leagueName !== activeLeague) : [];
 	const dataActiveLeague = jsonLeagues ? jsonLeagues.find(league => league.leagueName === activeLeague) : [];
-	// const seasonTimeActiveLeague = dataActiveLeague ? dataActiveLeague.seasons.map(season => season.seasonTime) : [];
+
+	useEffect(() => {
+
+		if (decodeURI(window.location.href.slice((window.location.href.length) - 7)) === 'results') {
+			const datePeriod = decodeURI(window.location.href.slice((window.location.href.length) - 35, (window.location.href.length) - 8));
+			setChooseSeason(datePeriod)
+		} else if (decodeURI(window.location.href.slice((window.location.href.length) - 5)) === 'table') {
+			const datePeriod = decodeURI(window.location.href.slice((window.location.href.length) - 33, (window.location.href.length) - 6));
+			setChooseSeason(datePeriod)
+		}
+	}, [league])
 
 	const deleteLeague = () => {
 		const response = window.confirm("Are you sure you want to delete league? It will be impossible to restore them!");
-
 		if (response) {
 			if (filterLeagues) {
 				localStorage.setItem('leagues', JSON.stringify(filterLeagues))
@@ -176,7 +184,7 @@ export const FootballHeader = ({ league,
 					     className={`dropdown-content-seasons${menuSeasons ? ' show-seasons' : ''}`}>
 						{
 							league.seasons.map((season, i) => (
-								<NavLink to={ `/${ encodeURI(activeLeague) }/${ encodeURI(season.seasonTime) }/table` }
+								<NavLink to={ `/${encodeURI(league.pathPage)}/${ encodeURI(activeLeague) }/${ encodeURI(season.seasonTime) }/table` }
 								         key={i}
 								         onClick={ () => {
 									         setChooseSeason(season.seasonTime)
@@ -189,7 +197,7 @@ export const FootballHeader = ({ league,
 					</div>
 				</div>
 
-				{activeSeason.seasonTime}
+				{chooseSeason}
 
 				{ createButtonForAddSeason && (
 					<button className="football-container-header-seasons__add-season"
@@ -216,12 +224,12 @@ export const FootballHeader = ({ league,
 			<div className="football-container-header-nav">
 				<NavLink
 					className="football-container-header-nav__button"
-					to={ `/${ encodeURI(activeLeague) }/${ encodeURI(activeSeason.seasonTime) }/table` }>
+					to={ `/${encodeURI(league.pathPage)}/${ encodeURI(activeLeague) }/${ encodeURI(activeSeason.seasonTime) }/table` }>
 						Table
 				</NavLink>
 				<NavLink
 					className="football-container-header-nav__button"
-					to={ `/${ encodeURI(activeLeague) }/${ encodeURI(activeSeason.seasonTime) }/results` }>
+					to={ `/${encodeURI(league.pathPage)}/${ encodeURI(activeLeague) }/${ encodeURI(activeSeason.seasonTime) }/results` }>
 						Results
 				</NavLink>
 			</div>

@@ -9,8 +9,8 @@
   height: 70px;
   justify-content: space-between;
   align-items: center;
-  background-color: #23b3fad9;
-  box-shadow: 0 0 10px rgba(35, 179, 250, 0.85);
+  background-color: #74b1e7;
+  //box-shadow: 0 0 10px rgba(35, 179, 250, 0.85);
   margin-top: 10px;
   border-radius: 10px;
   padding: 0 15px;
@@ -35,6 +35,9 @@
     align-items: center;
   }
   &__name {
+    color: #0f2c52;
+    font-size: 20px;
+    font-weight: bold;
 
   }
   &__group-button {
@@ -44,7 +47,7 @@
     gap: 5px;
   }
   &__buttons {
-    background-color: #23b3fa73;;
+    background-color: #4575ab40;
     border-radius: 5px;
   }
   &__copy {
@@ -220,8 +223,6 @@
 .football-container-header-seasons__delete-season:hover .tooltip-text {
   visibility: visible;
 }
-
-
 
 .football-container-header-nav {
   height: 50px;
