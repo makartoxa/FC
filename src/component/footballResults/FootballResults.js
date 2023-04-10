@@ -359,7 +359,7 @@ export const FootballResults = ({ activeLeague,
 							<PageNextIcon />
 						</Button>
 					</div>
-					<div style={{paddingLeft: '10px'}}>
+					<div>
 						from {dataMatchDays.length}
 					</div>
 				</div>

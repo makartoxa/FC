@@ -18,9 +18,12 @@ export const CreateLeague = ({   update,
 	const [dataLeague, setDataLeague] = useState({})
 	const [dataTeams, setDataTeams] = useState([])
 	const [addId, setAddId] = useState(false)
+	// const [leaguePage, setLeaguePage] = useState({})
 
+	console.log('dataLeague', dataLeague);
+	console.log('dataTeams', dataTeams);
 	const [dateTime, setDateTime] = useState()
-
+	console.log('dateTime', dateTime);
 	const [message, setMessage] = useState(false)
 	const [isSuccess, setIsSuccess] = useState(false)
 	const [isWarningPeriod, setIsWarningPeriod] = useState(false)
@@ -91,6 +94,21 @@ export const CreateLeague = ({   update,
 		setDataTeams(newTeams);
 	}
 
+	const clearFields = (league) => {
+		setDataLeague({
+			leagueName: league ? league : '',
+			label: '',
+			pathPage: 'league',
+			colorLeague: color()
+		})
+		setDataTeams([
+			{ id: `${idTeam - 1}` , fcName: '', label: '', color: color()},
+			{ id: `${idTeam}` , fcName: '', label: '', color: color()}
+		]);
+		setDateTime(null);
+
+	}
+
 
 	const createLeague = () => {
 
@@ -148,6 +166,7 @@ export const CreateLeague = ({   update,
 						const newLeagues = [...oldLeaguesFilter, updateLeague]
 						localStorage.setItem('leagues', JSON.stringify(newLeagues))
 						setUpdate(!update)
+						clearFields(sameNameLeague.leagueName)
 						setIsSuccess(true)
 						return
 					}
@@ -157,10 +176,12 @@ export const CreateLeague = ({   update,
 
 			} else {
 				if (seasonPeriod) {
-					const period = {seasons: [Object.assign(seasonPeriod, newTeams)]};
-					const newLeagues = [...oldLeagues, Object.assign(newLeague, period)]
+					const period = { seasons: [Object.assign(seasonPeriod, newTeams)] };
+					const pathPage = { pathPage: 'leagues' }
+					const newLeagues = [...oldLeagues, Object.assign(newLeague, pathPage, period)]
 					localStorage.setItem('leagues', JSON.stringify(newLeagues))
 					setUpdate(!update)
+					clearFields()
 					setIsSuccess(true)
 					return
 				} else {
@@ -218,6 +239,7 @@ export const CreateLeague = ({   update,
 					<Space direction="vertical" size={12}>
 						<RangePicker picker="month"
 						             format={"MMM YYYY"}
+						             value={dateTime}
 						             onChange={(value) => setDateTime(value)}
 						             bordered={false}/>
 					</Space>
@@ -295,7 +317,8 @@ export const CreateLeague = ({   update,
 					<div className="create-league__submit">
 						<button
 							className="create-league__button-create"
-							onClick={() => createLeague()}>
+							onClick={() => createLeague()}
+						>
 							{
 								dataCreate.button
 							}

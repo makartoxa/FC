@@ -70,7 +70,9 @@ export const AppHeader = ({
 	return (
 		<div className="app-header">
 			<div className="app-header-menu-mobile-btn"
-			     onClick={ () => setActive(!active) }
+			     onClick={ () => {
+					 setActive(!active)
+				 }}
 			>
 				{
 					active
@@ -91,7 +93,10 @@ export const AppHeader = ({
 				<div className={`app-header-menu${active ? ' active' : ''}`}>
 
 					<div className="app-header-menu-home"
-					     onClick={ () => setActive(!active) }>
+					     onClick={ () => {
+							 setActive(!active)
+					     }}
+					>
 						<NavLink to='/'>
 							<HomeOutlined /> Home
 						</NavLink>
@@ -109,9 +114,13 @@ export const AppHeader = ({
 							to='leagues'
 						>
 							Leagues
-							{
-								!menuLeague ? <ArrowDownIcon /> : <ArrowUpIcon/>
-							}
+							<span
+								className="app-header-menu-icon"
+							>
+								{
+									!menuLeague ? <ArrowDownIcon /> : <ArrowUpIcon/>
+								}
+							</span>
 						</NavLink>
 						<div className={`app-header-menu-league-dropdown-content ${menuLeague ? 'show' : ''}`}>
 							<NavLink
@@ -149,9 +158,13 @@ export const AppHeader = ({
 							to={ `/${encodeURI(dummyLeague.pathPage)}/${encodeURI(dummyLeague.leagueName)}/${encodeURI(dummyLeague.seasons[dummyLeague.seasons.length - 1].seasonTime)}/table` }
 						>
 							Demo version
-							{
-								!menuDemo ?  <ArrowDownIcon/> : <ArrowUpIcon/>
-							}
+							<span
+								className="app-header-menu-icon"
+							>
+								{
+									!menuDemo ?  <ArrowDownIcon/> : <ArrowUpIcon/>
+								}
+							</span>
 						</NavLink>
 						<div className={`app-header-menu-demo-dropdown-content ${menuDemo ? 'show' : ''}`}>
 							<NavLink

@@ -134,17 +134,21 @@
     display: block;
     position: absolute;
     padding: 5px;
-    left: 33px;
+    left: 20px;
     top: 24px;
     cursor: pointer;
     z-index: 11;
+  }
+
+  .app-header-menu-icon {
+    display: none;
   }
 
   .app-header-title {
     font-size: 22px;
     height: 80px;
     border: none;
-    padding: 0 5px;
+    padding: 0 20px 0 30px ;
     justify-content: center;
   }
 
@@ -155,7 +159,7 @@
   .app-header-menu {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     gap: 10px;
     position: fixed;
@@ -163,9 +167,11 @@
     right: 0;
     top: 0;
     bottom: 0;
-    width: 90%;
+    padding-top: 80px;
+    width: 100%;
     height: calc(100vh - 22px);
     background-color: #1a2b43;
+    filter: opacity(0.99);
     z-index: 10;
     transition: left 500ms;
   }
@@ -179,7 +185,7 @@
   }
 
   .active {
-    left: 0%;
+    left: 0;
   }
 
   .app-header-menu-home:hover,
@@ -189,6 +195,7 @@
   }
 
 }
+
 
 @media (max-width: 300px) {
   .app-header {

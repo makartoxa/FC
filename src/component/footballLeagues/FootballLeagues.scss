@@ -53,12 +53,16 @@
 .football-league-list-name {
   display: inline-block;
   position: relative;
+  //white-space: nowrap;
+  //overflow: hidden;
+  //text-overflow: ellipsis;
+  //
 }
 
 .football-league-list-name a {
   padding: 0 10px;
   text-decoration: none;
-  color: #a2b5ce;
+  color: #3e444c;
   height: 100%;
   font-size: 18px;
 }
@@ -117,7 +121,26 @@
   .football-league-container {
     width: 70vw;  }
 }
-@media (max-width: 866px) {
+@media (max-width: 800px) {
   .football-league-container {
-    width: 80vw;  }
+    width: 80vw;
+  }
+  .football-league-list-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .football-league-list-icon {
+    display: none;
+  }
 }
+@media (max-width: 800px) {
+  .football-league-header {
+    font-size: 16px;
+  }
+  .football-league-list-name a {
+    font-size: 16px;
+  }
+}
+
+

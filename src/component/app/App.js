@@ -3,6 +3,7 @@ import { Home } from "../home/Home"
 import { CreateLeague } from "../createLeague/CreateLeague";
 import { FootballHeader } from "../footballHeader/FootballHeader";
 import { FootballLeagues } from "../footballLeagues/FootballLeagues";
+import { Page404 } from "../page404/Page404";
 
 import { DUMMY_LEAGUE } from "../../DUMMY_LEAGUE";
 import { TEXT_FOR_CREATE_PAGE } from "../../TEXT_FOR_CREATE_PAGE"
@@ -170,6 +171,10 @@ export const App = () => {
 						</>
 					))
 				}
+				<Route
+					path="*"
+					element={<Page404 />}
+				/>
 			</Routes>
 		</div>
 	)

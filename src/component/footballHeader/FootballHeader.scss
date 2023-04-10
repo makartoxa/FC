@@ -79,6 +79,7 @@
 .football-container-header-league__buttons {
   position: relative;
   display: inline-block;
+  padding: 5px;
 }
 
 .football-container-header-league__buttons .tooltip-copy-league {
@@ -345,5 +346,9 @@
     &__name {
       font-size: 14px;
     }
+  }
+  .football-container-header-seasons {
+    gap: 9px;
+    font-size: 13px;
   }
 }

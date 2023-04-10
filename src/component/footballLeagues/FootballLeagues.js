@@ -45,7 +45,7 @@ export const FootballLeagues = ({ leagues }) => {
 									{
 										league.label.length > 1  ? (
 											<img
-												style={{ objectFit: 'contain' }}
+												style={{ objectFit: 'contain', minWidth: '70px'}}
 												src={ league.label }
 												width="70px"
 												height="40px"
@@ -63,7 +63,10 @@ export const FootballLeagues = ({ leagues }) => {
 										<NavLink
 											to={`/${encodeURI(league.pathPage)}/${encodeURI(league.leagueName)}/${encodeURI(league.seasons[league.seasons.length - 1].seasonTime)}/table`}
 										>
-											{ league.leagueName } <ArrowRightIcon />
+											{ league.leagueName }
+											<span className="football-league-list-icon">
+												<ArrowRightIcon />
+											</span>
 										</NavLink>
 										<div className="football-league-list-dropdown-content">
 											{

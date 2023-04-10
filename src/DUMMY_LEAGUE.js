@@ -40,7 +40,6 @@ export const DUMMY_LEAGUE = {
 				{id: '17', fcName: 'Leicester City', label: leicester},
 				{id: '18', fcName: 'Southampton', label: sauthampton},
 				{id: '19', fcName: 'West Ham United', label: westham},
-				{id: '20', fcName: 'Wolverhampton', label: wolverhampton}
 			]
 		},
 		{

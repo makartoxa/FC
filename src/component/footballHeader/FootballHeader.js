@@ -158,7 +158,7 @@ export const FootballHeader = ({ league,
 							<button className="football-container-header-league__buttons"
 							        onClick={() => deleteLeague()}>
 								<NavLink className="football-container-header-league__delete-league-button"
-								         to='/'>
+								         to='/leagues'>
 									<TrashIcon />
 								</NavLink>
 								<span className="tooltip-delete-league">Delete league</span>
@@ -197,7 +197,7 @@ export const FootballHeader = ({ league,
 					</div>
 				</div>
 
-				{chooseSeason}
+					{chooseSeason}
 
 				{ createButtonForAddSeason && (
 					<button className="football-container-header-seasons__add-season"
