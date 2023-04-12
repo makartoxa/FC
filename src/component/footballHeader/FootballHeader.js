@@ -15,12 +15,14 @@ import PlusIcon from '@rsuite/icons/Plus';
 import './FootballHeader.scss'
 
 export const FootballHeader = ({ league,
-	                               color,
 	                               update,
 	                               setUpdate,
+	                               setStatusDelete,
+	                               updateHistory,
+	                               setUpdateHistory,
+	                               localPageHistory,
 	                               setDataCreate,
 	                               setIdTeam,
-	                               setSeasonsActiveLeague,
 	                               createButtonForAddSeason,
 	                               createButtonForCopyLeague,
 	                               setCopyDataLeagueOrNewSeason }) => {
@@ -49,9 +51,9 @@ export const FootballHeader = ({ league,
 	const dataTable = useMemo(() => `dataTable_${activeLeague}_${seasonOfLeague}`, [seasonOfLeague]);
 
 	const leaguesInLocal = localStorage.getItem('leagues');
-	const jsonLeagues = leaguesInLocal ? JSON.parse(leaguesInLocal) : [];
-	const filterLeagues = jsonLeagues ? jsonLeagues.filter(league => league.leagueName !== activeLeague) : [];
-	const dataActiveLeague = jsonLeagues ? jsonLeagues.find(league => league.leagueName === activeLeague) : [];
+	const jsonLeagues = leaguesInLocal ? JSON.parse(leaguesInLocal) : null;
+	const filterLeagues = jsonLeagues ? jsonLeagues.filter(league => league.leagueName !== activeLeague) : null;
+	// const dataActiveLeague = jsonLeagues ? jsonLeagues.find(league => league.leagueName === activeLeague) : null;
 
 	useEffect(() => {
 
@@ -64,18 +66,38 @@ export const FootballHeader = ({ league,
 		}
 	}, [league])
 
+	console.log('league', league);
+
 	const deleteLeague = () => {
+		if (filterLeagues) {
+			localStorage.setItem('leagues', JSON.stringify(filterLeagues))
+			league.seasons.map(season => {
+				localStorage.removeItem(`dataInput_${activeLeague}_${season.seasonTime}`);
+				localStorage.removeItem(`dataTable_${activeLeague}_${season.seasonTime}`);
+				localStorage.removeItem(`dayKey_${activeLeague}_${season.seasonTime}`)
+			})
+		}
+
+		const oldLocalPageHistory = localStorage.getItem('pageHistory');
+		const jsonOldHistory = oldLocalPageHistory ? JSON.parse(oldLocalPageHistory) : null;
+		if (jsonOldHistory) {
+			const searchDeletePageInHistory = jsonOldHistory.filter(page => page.leagueName !==activeLeague )
+			if (searchDeletePageInHistory.length === 0) {
+				localStorage.removeItem('pageHistory')
+			} else {
+				localStorage.setItem('pageHistory', JSON.stringify(searchDeletePageInHistory))
+			}
+		}
+
+		setUpdateHistory(!updateHistory)
+		setUpdate(!update)
+	}
+
+	const redirectAfterDeleteLeague = () => {
 		const response = window.confirm("Are you sure you want to delete league? It will be impossible to restore them!");
 		if (response) {
-			if (filterLeagues) {
-				localStorage.setItem('leagues', JSON.stringify(filterLeagues))
-				dataActiveLeague.seasons.map(season => {
-					localStorage.removeItem(`dataInput_${activeLeague}_${season.seasonTime}`);
-					localStorage.removeItem(`dataTable_${activeLeague}_${season.seasonTime}`);
-					localStorage.removeItem(`dayKey_${activeLeague}_${season.seasonTime}`)
-				})
-			}
-			setUpdate(!update)
+			deleteLeague();
+			setStatusDelete(true)
 		} else {
 			alert("Сancel");
 		}
@@ -156,11 +178,11 @@ export const FootballHeader = ({ league,
 					{ createButtonForAddSeason && (
 						<div className="football-container-header-league__delete">
 							<button className="football-container-header-league__buttons"
-							        onClick={() => deleteLeague()}>
-								<NavLink className="football-container-header-league__delete-league-button"
+							        onClick={() =>redirectAfterDeleteLeague()}>
+								<div className="football-container-header-league__delete-league-button"
 								         to='/leagues'>
 									<TrashIcon />
-								</NavLink>
+								</div>
 								<span className="tooltip-delete-league">Delete league</span>
 							</button>
 						</div>
@@ -183,16 +205,26 @@ export const FootballHeader = ({ league,
 					<div id="myDropdown3"
 					     className={`dropdown-content-seasons${menuSeasons ? ' show-seasons' : ''}`}>
 						{
-							league.seasons.map((season, i) => (
-								<NavLink to={ `/${encodeURI(league.pathPage)}/${ encodeURI(activeLeague) }/${ encodeURI(season.seasonTime) }/table` }
-								         key={i}
-								         onClick={ () => {
-									         setChooseSeason(season.seasonTime)
-									         setMenuSeasons(false)
-								         }}>
+							league.seasons.map((season, i) => {
+								const dataForHistory = {
+									leagueName: activeLeague,
+									pathPage: league.pathPage,
+									seasons: [{seasonTime: season.seasonTime}]
+								};
+								return (
+								<NavLink
+									to={ `/${encodeURI(league.pathPage)}/${ encodeURI(activeLeague) }/${ encodeURI(season.seasonTime) }/table` }
+									key={i}
+									onClick={ () => {
+										setUpdateHistory(!updateHistory)
+										localPageHistory(dataForHistory)
+										setChooseSeason(season.seasonTime)
+										setMenuSeasons(false)
+									}}>
 									{season.seasonTime}
 								</NavLink>
-							))
+								)
+							})
 						}
 					</div>
 				</div>

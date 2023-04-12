@@ -8,7 +8,7 @@ import { Page404 } from "../page404/Page404";
 import { DUMMY_LEAGUE } from "../../DUMMY_LEAGUE";
 import { TEXT_FOR_CREATE_PAGE } from "../../TEXT_FOR_CREATE_PAGE"
 
-import { Routes, Route } from "react-router-dom";
+import {Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import './app.scss'
@@ -18,11 +18,20 @@ export const App = () => {
 	const [idTeam, setIdTeam] = useState(2)
 	const [leagues, setLeagues] = useState([])
 	const [update, setUpdate] = useState(false)
+	const [updateHistory, setUpdateHistory] = useState(false)
 	const [dataCreate, setDataCreate] = useState(TEXT_FOR_CREATE_PAGE.league)
 	const [seasonsActiveLeague, setSeasonsActiveLeague] = useState([])
 	const [copyDataLeagueOrNewSeason, setCopyDataLeagueOrNewSeason] = useState()
 	const [createButtonForAddSeason, setCreateButtonForAddSeason] = useState(true)
 	const [createButtonForCopyLeague, setCreateButtonForCopyLeague] = useState(true)
+	const [listLeagueHistory, setListLeagueHistory] = useState()
+	const [statusDelete, setStatusDelete] = useState(false)
+
+	useEffect(() => {
+		const historyInLocal = localStorage.getItem('pageHistory')
+		const jsonHistory = historyInLocal ? JSON.parse(historyInLocal) : null
+		setListLeagueHistory(jsonHistory)
+	}, [updateHistory])
 
 	useEffect(() => {
 		const localLeague = localStorage.getItem('leagues')
@@ -40,11 +49,44 @@ export const App = () => {
 		return color;
 	}
 
+	const localPageHistory = (league) => {
+		const leaguePage = {
+			leagueName: league.leagueName,
+			path: league.pathPage,
+			season: league.seasons[league.seasons.length - 1].seasonTime
+		};
+
+		const createHistory = ( props ) => {
+			if (props.length >= 10) {
+				const updateOldHistory = props.slice(0, 9);
+				const newHistory = [leaguePage, ...updateOldHistory];
+				localStorage.setItem('pageHistory', JSON.stringify(newHistory))
+
+			} else {
+				const newHistory = [leaguePage, ...props];
+				localStorage.setItem('pageHistory', JSON.stringify(newHistory))
+			}
+		}
+
+		const oldLocalPageHistory = localStorage.getItem('pageHistory');
+		const jsonOldHistory = oldLocalPageHistory ? JSON.parse(oldLocalPageHistory) : [];
+		if (jsonOldHistory.length > 0) {
+			const searchSamePageInHistory = jsonOldHistory.filter(page => JSON.stringify(page) !== JSON.stringify(leaguePage))
+			createHistory(searchSamePageInHistory);
+		} else {
+			createHistory(jsonOldHistory);
+		}
+	}
+
+
 	return (
 		<div className="font-img">
 
 			<AppHeader
 				update={update}
+				updateHistory={updateHistory}
+				setUpdateHistory={setUpdateHistory}
+				localPageHistory={localPageHistory}
 				dummyLeague={DUMMY_LEAGUE}
 				setDataCreate={setDataCreate}
 				setIdTeam={setIdTeam}
@@ -60,6 +102,10 @@ export const App = () => {
 						<Home
 							dummyLeague={DUMMY_LEAGUE}
 							setDataCreate={setDataCreate}
+							listLeagueHistory={listLeagueHistory}
+							updateHistory={updateHistory}
+							setUpdateHistory={setUpdateHistory}
+							localPageHistory={localPageHistory}
 							setIdTeam={setIdTeam}
 							setCreateButtonForAddSeason={setCreateButtonForAddSeason}
 							setCreateButtonForCopyLeague={setCreateButtonForCopyLeague}
@@ -73,12 +119,17 @@ export const App = () => {
 					element={
 						<FootballLeagues
 							leagues={leagues}
+							setStatusDelete={setStatusDelete}
+							updateHistory={updateHistory}
+							setUpdateHistory={setUpdateHistory}
+							localPageHistory={localPageHistory}
+
 						/>
 					}
 				/>
 
 				<Route
-					path="new_league"
+					path="/new_league"
 					element={
 						<CreateLeague
 							update={update}
@@ -100,11 +151,15 @@ export const App = () => {
 								<Route
 									key={i}
 									path={`${encodeURI(league.pathPage)}/${encodeURI(league.leagueName)}/${encodeURI(season.seasonTime)}/table`}
-									element={
+									element={ statusDelete ? <Navigate to="/leagues" /> :
 										<FootballHeader
+											setStatusDelete={setStatusDelete}
 											league={ league }
 											update={update}
 											setUpdate={setUpdate}
+											updateHistory={updateHistory}
+											setUpdateHistory={setUpdateHistory}
+											localPageHistory={localPageHistory}
 											setDataCreate={setDataCreate}
 											setIdTeam={setIdTeam}
 											setSeasonsActiveLeague={setSeasonsActiveLeague}
@@ -118,7 +173,10 @@ export const App = () => {
 									key={i}
 									path={`${encodeURI(league.pathPage)}/${encodeURI(league.leagueName)}/${encodeURI(season.seasonTime)}/results`}
 									element={
+										statusDelete ?
+										<Navigate to="/leagues" /> :
 										<FootballHeader
+											setStatusDelete={setStatusDelete}
 											league={ league }
 											update={update}
 											setUpdate={setUpdate}
@@ -144,6 +202,9 @@ export const App = () => {
 								element={
 									<FootballHeader
 										update={update}
+										updateHistory={updateHistory}
+										setUpdateHistory={setUpdateHistory}
+										localPageHistory={localPageHistory}
 										league={DUMMY_LEAGUE}
 										setIdTeam={setIdTeam}
 										setDataCreate={setDataCreate}

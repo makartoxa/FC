@@ -14,6 +14,9 @@ import './AppHeader.scss';
 
 export const AppHeader = ({
 	                          update,
+	                          updateHistory,
+	                          setUpdateHistory,
+	                          localPageHistory,
 	                          dummyLeague,
 	                          setDataCreate,
 	                          setIdTeam,
@@ -137,7 +140,11 @@ export const AppHeader = ({
 								leagueNames.map((league, i) => (
 									<NavLink
 										key={i}
-										onClick={ () => setCreateButtonForAddSeason(true)}
+										onClick={ () => {
+											localPageHistory(league)
+											setUpdateHistory(!updateHistory)
+											setCreateButtonForAddSeason(true)
+										}}
 										to={ `/${encodeURI(league.pathPage)}/${encodeURI(league.leagueName)}/${encodeURI(league.seasons[league.seasons.length - 1].seasonTime)}/table` }
 									>
 										{ league.leagueName }
@@ -150,6 +157,8 @@ export const AppHeader = ({
 						className="app-header-menu-demo"
 						ref={refMenuDemo}
 						onClick={ () => {
+							localPageHistory(dummyLeague)
+							setUpdateHistory(!updateHistory)
 							setMenuDemo(false)
 							setActive(!active)
 						}}
@@ -180,73 +189,3 @@ export const AppHeader = ({
 		</div>
 	)
 }
-
-
-				{/*<div className="dropdown"*/}
-				{/*	ref={refMenuLeague}*/}
-				{/*	>*/}
-				{/*	<button*/}
-				{/*		className="dropbtn"*/}
-				{/*        onClick={ () => {*/}
-				{/*	        setMenuLeague(!menuLeague)*/}
-				{/*			setMenuDemo(false)*/}
-				{/*        }}*/}
-				{/*	>*/}
-				{/*		<NavLink to='/leagues'>*/}
-				{/*			Leagues*/}
-				{/*		</NavLink>*/}
-				{/*		{*/}
-				{/*			!menuLeague ? <ArrowDownIcon /> : <ArrowUpIcon/>*/}
-				{/*		}*/}
-				{/*	</button>*/}
-				{/*	<div id="myDropdown"*/}
-				{/*	     className="dropdown-content"*/}
-				{/*	     onClick={ () => {*/}
-				{/*		     setMenuLeague(false)*/}
-				{/*			 setActive(!active)*/}
-				{/*	     } }>*/}
-				{/*		<NavLink to='/new_league'*/}
-				{/*		         onClick={() => {*/}
-				{/*			         setDataCreate(TEXT_FOR_CREATE_PAGE.league)*/}
-				{/*			         setIdTeam(2)*/}
-				{/*			         setCopyDataLeagueOrNewSeason()}}>*/}
-				{/*			Create league*/}
-				{/*		</NavLink>*/}
-				{/*		{*/}
-				{/*			leagueNames.map((league, i) => (*/}
-				{/*						<NavLink key={i}*/}
-				{/*						         onClick={ () => setCreateButtonForAddSeason(true)}*/}
-				{/*						         to={ `/${ encodeURI(league.leagueName) }/${ encodeURI(league.seasons[0].seasonTime) }/table` }>*/}
-				{/*							{ league.leagueName }*/}
-				{/*						</NavLink>*/}
-				{/*					)*/}
-				{/*				)*/}
-				{/*		}*/}
-				{/*	</div>*/}
-				{/*</div>*/}
-
-
-				// {/*<div className="dropdown"*/}
-				// {/*     ref={refMenuDemo}>*/}
-				// {/*	<button className="dropbtn"*/}
-				// {/*	        onClick={ () => {*/}
-				// {/*		        setMenuDemo(!menuDemo)*/}
-				// {/*				setMenuLeague(false)*/}
-				// {/*	        }}>*/}
-				// {/*		<NavLink to={ `/${ encodeURI(dummyLeague.leagueName) }/${ encodeURI(SEASON.seasonTime) }/table` }>*/}
-				// {/*			Demo version*/}
-				// {/*		</NavLink>*/}
-				// {/*		{*/}
-				// {/*			!menuDemo ?  <ArrowDownIcon/> : <ArrowUpIcon/>*/}
-				// {/*		}*/}
-				// {/*	</button>*/}
-				// {/*	<div id="myDropdown2"*/}
-				// {/*	     className="dropdown-content"*/}
-				// {/*	     onClick={ () => {*/}
-				// {/*		     setMenuDemo(false)*/}
-				// {/*			 setActive(!active) }}>*/}
-				// {/*		<NavLink to={ `/${ encodeURI(dummyLeague.leagueName) }/${ encodeURI(SEASON.seasonTime) }/table` }>*/}
-				// {/*			Premier league*/}
-				// {/*		</NavLink>*/}
-				// {/*	</div>*/}
-				// {/*</div>*/}

@@ -3,9 +3,19 @@ import ArrowRightIcon from '@rsuite/icons/ArrowRight';
 import soccerBall from "../logo/soccerBall.png"
 
 import './FootballLeagues.scss'
+import {useEffect} from "react";
 
-export const FootballLeagues = ({ leagues }) => {
-	console.log('league', leagues);
+export const FootballLeagues = ({
+	                                leagues,
+	                                setStatusDelete,
+	                                localPageHistory,
+	                                updateHistory,
+	                                setUpdateHistory }) => {
+
+	useEffect(() => {
+		setStatusDelete(false)
+	}, [])
+
 	return (
 		<div className="football-league-container">
 			<div className="football-league-header">
@@ -61,6 +71,10 @@ export const FootballLeagues = ({ leagues }) => {
 									}
 									<div className="football-league-list-name">
 										<NavLink
+											onClick={() => {
+												localPageHistory(league)
+												setUpdateHistory(!updateHistory)
+											}}
 											to={`/${encodeURI(league.pathPage)}/${encodeURI(league.leagueName)}/${encodeURI(league.seasons[league.seasons.length - 1].seasonTime)}/table`}
 										>
 											{ league.leagueName }
@@ -70,13 +84,24 @@ export const FootballLeagues = ({ leagues }) => {
 										</NavLink>
 										<div className="football-league-list-dropdown-content">
 											{
-												league.seasons.map( seasonTime => (
+												league.seasons.map( seasonTime => {
+													const dataForHistory = {
+														leagueName: league.leagueName,
+														pathPage: league.pathPage,
+														seasons: [{seasonTime: seasonTime.seasonTime}]
+													};
+
+													return (
 													<NavLink
+														onClick={() => {
+															localPageHistory(dataForHistory)
+															setUpdateHistory(!updateHistory)
+														}}
 														to={`/${encodeURI(league.pathPage)}/${encodeURI(league.leagueName)}/${encodeURI(seasonTime.seasonTime)}/table`}
 													>
 														{seasonTime.seasonTime}
 													</NavLink>
-												))
+												)})
 											}
 										</div>
 									</div>

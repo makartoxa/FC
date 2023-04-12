@@ -12,18 +12,12 @@ export const CreateLeague = ({   update,
 	                             idTeam,
 	                             setIdTeam,
 	                             dataCreate,
-	                             seasonsActiveLeague,
 	                             copyDataLeagueOrNewSeason }) => {
 
 	const [dataLeague, setDataLeague] = useState({})
 	const [dataTeams, setDataTeams] = useState([])
 	const [addId, setAddId] = useState(false)
-	// const [leaguePage, setLeaguePage] = useState({})
-
-	console.log('dataLeague', dataLeague);
-	console.log('dataTeams', dataTeams);
 	const [dateTime, setDateTime] = useState()
-	console.log('dateTime', dateTime);
 	const [message, setMessage] = useState(false)
 	const [isSuccess, setIsSuccess] = useState(false)
 	const [isWarningPeriod, setIsWarningPeriod] = useState(false)
@@ -177,7 +171,7 @@ export const CreateLeague = ({   update,
 			} else {
 				if (seasonPeriod) {
 					const period = { seasons: [Object.assign(seasonPeriod, newTeams)] };
-					const pathPage = { pathPage: 'leagues' }
+					const pathPage = { pathPage: 'league' }
 					const newLeagues = [...oldLeagues, Object.assign(newLeague, pathPage, period)]
 					localStorage.setItem('leagues', JSON.stringify(newLeagues))
 					setUpdate(!update)
