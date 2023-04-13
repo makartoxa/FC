@@ -1,47 +1,44 @@
 import { NavLink } from "react-router-dom";
-import { TEXT_FOR_CREATE_PAGE } from "../../TEXT_FOR_CREATE_PAGE";
 
 import './Home.scss'
 
-export const Home = ({ dummyLeague,
-	                     setDataCreate,
-	                     setIdTeam,
+export const Home = ({
+	                     dummyLeague,
 	                     listLeagueHistory,
-	                     setCopyDataLeagueOrNewSeason,
-	                     setCreateButtonForAddSeason,
-	                     setCreateButtonForCopyLeague }) => {
+	                     setCopyDataForNewLeagueOrNewSeason}) => {
 
 
 	return (
 		<div className="home" >
 			{
-				!listLeagueHistory  && (
+				listLeagueHistory.length === 0  && (
 					<div className="home__menu">
 						<NavLink to='/new_league'
 						         onClick={ () => {
-							         setDataCreate(TEXT_FOR_CREATE_PAGE.league)
-							         setIdTeam(2)
-							         setCopyDataLeagueOrNewSeason() } } >
+							         setCopyDataForNewLeagueOrNewSeason()
+								 }}
+						>
 							Start
 						</NavLink>
 						<NavLink to={`/${encodeURI(dummyLeague.pathPage)}/${encodeURI(dummyLeague.leagueName)}/${encodeURI(dummyLeague.seasons[dummyLeague.seasons.length - 1].seasonTime)}/table`}
-						         onClick={ () => {
-							         setCreateButtonForAddSeason(false)
-							         setCreateButtonForCopyLeague(true) }}>
+						>
 							Demo version
 						</NavLink>
 					</div>
 				)
 			}
 			{
-				listLeagueHistory && (
+				listLeagueHistory.length > 0 && (
 					<div className="home-history">
 						<div className="home-history-text">
 							Last action...
 						</div>
 						{
 							listLeagueHistory.map((page, i) => (
-								<div className="home-history-league">
+								<div
+									className="home-history-league"
+									key={i}
+								>
 									<NavLink
 										to={ `/${encodeURI(page.path)}/${encodeURI(page.leagueName)}/${encodeURI(page.season)}/table` }
 									>
@@ -61,7 +58,6 @@ export const Home = ({ dummyLeague,
 							))
 						}
 					</div>
-
 				)
 			}
 		</div>

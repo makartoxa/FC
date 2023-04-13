@@ -3,21 +3,21 @@ import { Message, Button, Input } from 'rsuite';
 import { AiOutlineClose } from "react-icons/ai";
 import { DatePicker, Space } from 'antd';
 import moment from "moment";
+import { TEXT_FOR_CREATE_PAGE } from "../../TEXT_FOR_CREATE_PAGE"
 
 import './CreateLeague.scss'
 
-export const CreateLeague = ({   update,
+export const CreateLeague = ({
+	                             update,
 	                             setUpdate,
-	                             color,
-	                             idTeam,
-	                             setIdTeam,
-	                             dataCreate,
-	                             copyDataLeagueOrNewSeason }) => {
+	                             copyDataForNewLeagueOrNewSeason }) => {
 
+	const [idTeam, setIdTeam] = useState(2)
 	const [dataLeague, setDataLeague] = useState({})
 	const [dataTeams, setDataTeams] = useState([])
 	const [addId, setAddId] = useState(false)
 	const [dateTime, setDateTime] = useState()
+
 	const [message, setMessage] = useState(false)
 	const [isSuccess, setIsSuccess] = useState(false)
 	const [isWarningPeriod, setIsWarningPeriod] = useState(false)
@@ -31,49 +31,57 @@ export const CreateLeague = ({   update,
 	const seasonPeriod = dateStart && dateEnd ? { seasonTime: `${dateStart} - ${dateEnd}` } : false
 
 	useEffect(() => {
-		if (copyDataLeagueOrNewSeason) {
+		if (copyDataForNewLeagueOrNewSeason) {
 			setDataLeague({
-				leagueName: copyDataLeagueOrNewSeason.leagueName,
-				label: copyDataLeagueOrNewSeason.label,
+				leagueName: copyDataForNewLeagueOrNewSeason.leagueName,
+				label: copyDataForNewLeagueOrNewSeason.label,
 				pathPage: 'league',
-				colorLeague: color()
+				colorLeague: getRandomColor()
 			})
 		} else {
 			setDataLeague({
 				leagueName: '',
 				label: '',
 				pathPage: 'league',
-				colorLeague: color()
+				colorLeague: getRandomColor()
 			})
 		}
-	}, [copyDataLeagueOrNewSeason])
+	}, [copyDataForNewLeagueOrNewSeason])
 
 	useEffect(() => {
-		if (copyDataLeagueOrNewSeason) {
-			setDataTeams(copyDataLeagueOrNewSeason.teams)
-			setIdTeam(copyDataLeagueOrNewSeason.teams.length);
-		} else if (!copyDataLeagueOrNewSeason) {
+		if (copyDataForNewLeagueOrNewSeason) {
+			setDataTeams(copyDataForNewLeagueOrNewSeason.teams)
+			setIdTeam(copyDataForNewLeagueOrNewSeason.teams.length);
+		} else if (!copyDataForNewLeagueOrNewSeason) {
 			const nameTeams = [
-				{ id: `${idTeam - 1}`, fcName: '', label: '', color: color()},
-				{ id: `${idTeam}`, fcName: '', label: '', color: color()}
+				{ id: `${idTeam - 1}`, fcName: '', label: '', color: getRandomColor()},
+				{ id: `${idTeam}`, fcName: '', label: '', color: getRandomColor()}
 			]
 			setDataTeams(nameTeams)
 		}
-	}, [copyDataLeagueOrNewSeason])
+	}, [copyDataForNewLeagueOrNewSeason])
 
 	useEffect(() => {
 		if (addId) {
 			if (dataTeams.length % 2 === 0) {
-				setDataTeams([...dataTeams,
-					{ id: `${idTeam - 1}` , fcName: '', label: '', color: color()},
-					{ id: `${idTeam}` , fcName: '', label: '', color: color()}
+				return setDataTeams([...dataTeams,
+					{ id: `${idTeam - 1}` , fcName: '', label: '', color: getRandomColor()},
+					{ id: `${idTeam}` , fcName: '', label: '', color: getRandomColor()}
 				]);
-				return
 			} else {
-				setDataTeams([...dataTeams, {id: `${idTeam}`, fcName: '', label: '', color: color()}])
+				setDataTeams([...dataTeams, {id: `${idTeam}`, fcName: '', label: '', color: getRandomColor()}])
 			}
 		}
 	}, [idTeam])
+
+	const getRandomColor = () => {
+		let letters = '0123456789ABCDEF';
+		let color = '#';
+		for (let i = 0; i < 6; i++) {
+			color += letters[Math.floor(Math.random() * 16)];
+		}
+		return color;
+	}
 
 	const addIdTeams = () => {
 		if (dataTeams.length % 2 === 0) {
@@ -93,11 +101,11 @@ export const CreateLeague = ({   update,
 			leagueName: league ? league : '',
 			label: '',
 			pathPage: 'league',
-			colorLeague: color()
+			colorLeague: getRandomColor()
 		})
 		setDataTeams([
-			{ id: `${idTeam - 1}` , fcName: '', label: '', color: color()},
-			{ id: `${idTeam}` , fcName: '', label: '', color: color()}
+			{ id: `${idTeam - 1}` , fcName: '', label: '', color: getRandomColor()},
+			{ id: `${idTeam}` , fcName: '', label: '', color: getRandomColor()}
 		]);
 		setDateTime(null);
 
@@ -120,15 +128,15 @@ export const CreateLeague = ({   update,
 			let newLeague = '';
 
 				if (dataLeague.length === 0 || dataLeague.leagueName === '') {
-					setIsWarning(true)
-					return
+					return setIsWarning(true)
+
 				} else {
 					newLeague = dataLeague
-				};
+				}
 
 					if (dataTeams.find(team => team.fcName === '')) {
-						setIsWarning(true)
-						return
+						return setIsWarning(true)
+
 					} else {
 						newTeams = {teams: [...dataTeams]}
 					}
@@ -154,15 +162,15 @@ export const CreateLeague = ({   update,
 							leagueName: sameNameLeague.leagueName,
 							label: sameNameLeague.label,
 							pathPage: 'league',
-							colorLeague: color(),
+							colorLeague: getRandomColor(),
 							seasons: addSeasonsSameLeague
 						}
 						const newLeagues = [...oldLeaguesFilter, updateLeague]
 						localStorage.setItem('leagues', JSON.stringify(newLeagues))
 						setUpdate(!update)
 						clearFields(sameNameLeague.leagueName)
+						setIdTeam(2)
 						setIsSuccess(true)
-						return
 					}
 				} else {
 					return setIsWarningPeriod(true)
@@ -176,8 +184,8 @@ export const CreateLeague = ({   update,
 					localStorage.setItem('leagues', JSON.stringify(newLeagues))
 					setUpdate(!update)
 					clearFields()
+					setIdTeam(2)
 					setIsSuccess(true)
-					return
 				} else {
 					return setIsWarningPeriod(true)
 				}
@@ -204,26 +212,25 @@ export const CreateLeague = ({   update,
 		<div className="create-league">
 			<div className="create-league__header">
 				{
-					dataCreate.title
+					copyDataForNewLeagueOrNewSeason ? TEXT_FOR_CREATE_PAGE.season.title : TEXT_FOR_CREATE_PAGE.league.title
 				}
 			</div>
 			<div className="create-league__container">
 				<div className="create-league__name-league">
 					<div className="create-league__name-text">
 						{
-							dataCreate.titleOfLeague
+							copyDataForNewLeagueOrNewSeason ? TEXT_FOR_CREATE_PAGE.season.titleOfLeague : TEXT_FOR_CREATE_PAGE.league.titleOfLeague
 						}
 					</div>
 					<div className="create-league__add-team">
 						<Input className="create-league__input league"
 						       placeholder="Name of league" type='text'
-						       disabled={dataCreate.disabledLeagueName}
-						       value={dataLeague.leagueName}
+						       disabled={!!copyDataForNewLeagueOrNewSeason}
 						       onChange={value => {
 								   const newDataLeague = {};
 							       newDataLeague.leagueName = value;
 							       newDataLeague.label = value.slice(0, 1);
-								   newDataLeague.colorLeague = color();
+								   newDataLeague.colorLeague = getRandomColor();
 							       setDataLeague(newDataLeague);
 						       }}/>
 					</div>
@@ -257,9 +264,13 @@ export const CreateLeague = ({   update,
 
 								       }}/>
 								<Button
+									className="create-league__button-delete"
 									onClick={() => deleteTeamAndField(i)}
-									className="create-league__button-delete">
-									<AiOutlineClose size="15px" color="#7F0013"/>
+								>
+									<AiOutlineClose
+										size="15px"
+										color="#7F0013"
+									/>
 								</Button>
 							</div>
 
@@ -271,7 +282,9 @@ export const CreateLeague = ({   update,
 							color={"blue"}
 							onClick={() => {
 								setAddId(true)
-								addIdTeams()}}>
+								addIdTeams()
+							}}
+						>
 							+ Add new field
 						</button>
 					</div>
@@ -279,7 +292,9 @@ export const CreateLeague = ({   update,
 						<div className="create-league__added">
 							{ isSuccess && (
 								<Message showIcon type="success" header="Success">
-									Your league added to list!
+									{
+										copyDataForNewLeagueOrNewSeason ? TEXT_FOR_CREATE_PAGE.season.result : TEXT_FOR_CREATE_PAGE.league.result
+									}
 								</Message>)
 							}
 							{ isWarning && (
@@ -314,7 +329,7 @@ export const CreateLeague = ({   update,
 							onClick={() => createLeague()}
 						>
 							{
-								dataCreate.button
+								copyDataForNewLeagueOrNewSeason ? TEXT_FOR_CREATE_PAGE.season.button : TEXT_FOR_CREATE_PAGE.league.button
 							}
 						</button>
 					</div>

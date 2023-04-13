@@ -6,7 +6,8 @@ import SortUpIcon from '@rsuite/icons/SortUp';
 
 import './FootballTable.scss'
 
-export function FootballTable({ activeLeague,
+export function FootballTable({
+	                              activeLeague,
 	                              seasonOfLeague,
 	                              teamsOfSeason,
 	                              dataTable }) {
@@ -154,8 +155,8 @@ export function FootballTable({ activeLeague,
 											<div className="table-header__cell-label">
 												{
 													club.label.length > 1
-														? <img className="table-header__cell-label-img" src={ club.label } width="25px" height="25px" align="middle"/>
-														: <div className="table-header__cell-label-do-not-img"style={{ backgroundColor: club.color}}>
+														? <img className="table-header__cell-label-img" src={ club.label } alt="club label" width="25px" height="25px" align="middle"/>
+														: <div className="table-header__cell-label-do-not-img" style={{ backgroundColor: club.color}}>
 															{club.label}
 														  </div>
 												}

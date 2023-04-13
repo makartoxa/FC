@@ -6,48 +6,34 @@ import { FootballLeagues } from "../footballLeagues/FootballLeagues";
 import { Page404 } from "../page404/Page404";
 
 import { DUMMY_LEAGUE } from "../../DUMMY_LEAGUE";
-import { TEXT_FOR_CREATE_PAGE } from "../../TEXT_FOR_CREATE_PAGE"
 
-import {Routes, Route, Navigate } from "react-router-dom";
+import {Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import './app.scss'
 
 export const App = () => {
 
-	const [idTeam, setIdTeam] = useState(2)
 	const [leagues, setLeagues] = useState([])
+	const [listLeagueHistory, setListLeagueHistory] = useState([])
+	const [copyDataForNewLeagueOrNewSeason, setCopyDataForNewLeagueOrNewSeason] = useState()
+
 	const [update, setUpdate] = useState(false)
 	const [updateHistory, setUpdateHistory] = useState(false)
-	const [dataCreate, setDataCreate] = useState(TEXT_FOR_CREATE_PAGE.league)
-	const [seasonsActiveLeague, setSeasonsActiveLeague] = useState([])
-	const [copyDataLeagueOrNewSeason, setCopyDataLeagueOrNewSeason] = useState()
-	const [createButtonForAddSeason, setCreateButtonForAddSeason] = useState(true)
-	const [createButtonForCopyLeague, setCreateButtonForCopyLeague] = useState(true)
-	const [listLeagueHistory, setListLeagueHistory] = useState()
-	const [statusDelete, setStatusDelete] = useState(false)
+
 
 	useEffect(() => {
 		const historyInLocal = localStorage.getItem('pageHistory')
-		const jsonHistory = historyInLocal ? JSON.parse(historyInLocal) : null
+		const jsonHistory = historyInLocal ? JSON.parse(historyInLocal) : []
 		setListLeagueHistory(jsonHistory)
 	}, [updateHistory])
 
 	useEffect(() => {
 		const localLeague = localStorage.getItem('leagues')
-		if(localLeague) {
-			setLeagues(JSON.parse(localLeague))
-		}
+		const jsonLeague = localLeague ? JSON.parse(localLeague) : []
+		setLeagues(jsonLeague)
 	}, [update])
 
-	const getRandomColor = () => {
-		let letters = '0123456789ABCDEF';
-		let color = '#';
-		for (let i = 0; i < 6; i++) {
-			color += letters[Math.floor(Math.random() * 16)];
-		}
-		return color;
-	}
 
 	const localPageHistory = (league) => {
 		const leaguePage = {
@@ -83,16 +69,12 @@ export const App = () => {
 		<div className="font-img">
 
 			<AppHeader
-				update={update}
+				leagues={leagues}
 				updateHistory={updateHistory}
 				setUpdateHistory={setUpdateHistory}
 				localPageHistory={localPageHistory}
 				dummyLeague={DUMMY_LEAGUE}
-				setDataCreate={setDataCreate}
-				setIdTeam={setIdTeam}
-				setCreateButtonForAddSeason={setCreateButtonForAddSeason}
-				setCreateButtonForCopyLeague={setCreateButtonForCopyLeague}
-				setCopyDataLeagueOrNewSeason={setCopyDataLeagueOrNewSeason}
+				setCopyDataForNewLeagueOrNewSeason={setCopyDataForNewLeagueOrNewSeason}
 			/>
 
 			<Routes>
@@ -101,15 +83,11 @@ export const App = () => {
 					element={
 						<Home
 							dummyLeague={DUMMY_LEAGUE}
-							setDataCreate={setDataCreate}
 							listLeagueHistory={listLeagueHistory}
 							updateHistory={updateHistory}
 							setUpdateHistory={setUpdateHistory}
 							localPageHistory={localPageHistory}
-							setIdTeam={setIdTeam}
-							setCreateButtonForAddSeason={setCreateButtonForAddSeason}
-							setCreateButtonForCopyLeague={setCreateButtonForCopyLeague}
-							setCopyDataLeagueOrNewSeason={setCopyDataLeagueOrNewSeason}
+							setCopyDataForNewLeagueOrNewSeason={setCopyDataForNewLeagueOrNewSeason}
 						/>
 					}
 				/>
@@ -119,7 +97,6 @@ export const App = () => {
 					element={
 						<FootballLeagues
 							leagues={leagues}
-							setStatusDelete={setStatusDelete}
 							updateHistory={updateHistory}
 							setUpdateHistory={setUpdateHistory}
 							localPageHistory={localPageHistory}
@@ -134,38 +111,27 @@ export const App = () => {
 						<CreateLeague
 							update={update}
 							setUpdate={setUpdate}
-							color={getRandomColor}
-							idTeam={idTeam}
-							setIdTeam={setIdTeam}
-							seasonsActiveLeague={seasonsActiveLeague}
-							copyDataLeagueOrNewSeason={copyDataLeagueOrNewSeason}
-							dataCreate={dataCreate}
+							copyDataForNewLeagueOrNewSeason={copyDataForNewLeagueOrNewSeason}
 						/>
 					}
 				/>
 
 				{
-					leagues.map((league, key) => {
+					leagues.map((league) => {
 						return league.seasons.map((season, i) => (
 							<>
 								<Route
 									key={i}
 									path={`${encodeURI(league.pathPage)}/${encodeURI(league.leagueName)}/${encodeURI(season.seasonTime)}/table`}
-									element={ statusDelete ? <Navigate to="/leagues" /> :
+									element={
 										<FootballHeader
-											setStatusDelete={setStatusDelete}
 											league={ league }
 											update={update}
 											setUpdate={setUpdate}
 											updateHistory={updateHistory}
 											setUpdateHistory={setUpdateHistory}
 											localPageHistory={localPageHistory}
-											setDataCreate={setDataCreate}
-											setIdTeam={setIdTeam}
-											setSeasonsActiveLeague={setSeasonsActiveLeague}
-											createButtonForAddSeason={createButtonForAddSeason}
-											setCopyDataLeagueOrNewSeason={setCopyDataLeagueOrNewSeason}
-											color={getRandomColor}
+											setCopyDataForNewLeagueOrNewSeason={setCopyDataForNewLeagueOrNewSeason}
 										/>
 									}
 								/>
@@ -173,19 +139,11 @@ export const App = () => {
 									key={i}
 									path={`${encodeURI(league.pathPage)}/${encodeURI(league.leagueName)}/${encodeURI(season.seasonTime)}/results`}
 									element={
-										statusDelete ?
-										<Navigate to="/leagues" /> :
 										<FootballHeader
-											setStatusDelete={setStatusDelete}
 											league={ league }
 											update={update}
 											setUpdate={setUpdate}
-											setDataCreate={setDataCreate}
-											setIdTeam={setIdTeam}
-											setSeasonsActiveLeague={setSeasonsActiveLeague}
-											createButtonForAddSeason={createButtonForAddSeason}
-											setCopyDataLeagueOrNewSeason={setCopyDataLeagueOrNewSeason}
-											color={getRandomColor}
+											setCopyDataForNewLeagueOrNewSeason={setCopyDataForNewLeagueOrNewSeason}
 										/>
 									}
 								/>
@@ -206,11 +164,7 @@ export const App = () => {
 										setUpdateHistory={setUpdateHistory}
 										localPageHistory={localPageHistory}
 										league={DUMMY_LEAGUE}
-										setIdTeam={setIdTeam}
-										setDataCreate={setDataCreate}
-										createButtonForCopyLeague={createButtonForCopyLeague}
-										setCopyDataLeagueOrNewSeason={setCopyDataLeagueOrNewSeason}
-										color={getRandomColor}
+										setCopyDataForNewLeagueOrNewSeason={setCopyDataForNewLeagueOrNewSeason}
 									/>
 								}
 							/>
@@ -221,11 +175,7 @@ export const App = () => {
 									<FootballHeader
 										update={update}
 										league={DUMMY_LEAGUE}
-										setIdTeam={setIdTeam}
-										setDataCreate={setDataCreate}
-										createButtonForCopyLeague={createButtonForCopyLeague}
-										setCopyDataLeagueOrNewSeason={setCopyDataLeagueOrNewSeason}
-										color={getRandomColor}
+										setCopyDataForNewLeagueOrNewSeason={setCopyDataForNewLeagueOrNewSeason}
 									/>
 								}
 							/>

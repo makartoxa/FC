@@ -7,7 +7,7 @@ import PagePreviousIcon from '@rsuite/icons/PagePrevious';
 
 import './FootballResults.scss'
 
-export const FootballResults = ({ activeLeague,
+export const FootballResults = ({
 	                                seasonOfLeague,
 	                                teamsOfSeason,
 	                                dayKey,
@@ -160,11 +160,11 @@ export const FootballResults = ({ activeLeague,
 	}
 
 	const handleMinus = () => {
-		setMatchDay(parseInt(matchDay) - 1);
+		setMatchDay(matchDay - 1);
 	};
 
 	const handlePlus = () => {
-		setMatchDay(parseInt(matchDay) + 1);
+		setMatchDay(matchDay + 1);
 	};
 
 	const chooseClub = (match, i, value, name) => {
@@ -254,7 +254,7 @@ export const FootballResults = ({ activeLeague,
 		} else {
 			const inputDataLocal = JSON.parse(localStorage.getItem(dataInput));
 			const matchDayData = {matchDay, matches: matches};
-			let sumInputData = [];
+			let sumInputData;
 
 			if (inputDataLocal) {
 				sumInputData = [...inputDataLocal, matchDayData]
@@ -329,7 +329,7 @@ export const FootballResults = ({ activeLeague,
 			localStorage.clear();
 			window.location.reload();
 		} else {
-			alert("Сancel");
+			alert("Cancel");
 		}
 	}
 
@@ -391,7 +391,7 @@ export const FootballResults = ({ activeLeague,
 												placeholder={'Score'}
 												value={match.homeScore}
 												disabled={saveButtonDisabled}
-												onChange={(value, event) => {
+												onChange={(value) => {
 													const newArray = [...matches];
 													newArray[i].homeScore = value;
 													setMatches(newArray);
@@ -406,7 +406,7 @@ export const FootballResults = ({ activeLeague,
 												placeholder={'Score'}
 												value={match.awayScore}
 												disabled={saveButtonDisabled}
-												onChange={(value,e) => {
+												onChange={(value) => {
 													const newArray = [...matches];
 													newArray[i].awayScore = value;
 													setMatches(newArray);

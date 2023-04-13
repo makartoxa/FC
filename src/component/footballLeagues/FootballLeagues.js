@@ -3,23 +3,17 @@ import ArrowRightIcon from '@rsuite/icons/ArrowRight';
 import soccerBall from "../logo/soccerBall.png"
 
 import './FootballLeagues.scss'
-import {useEffect} from "react";
 
 export const FootballLeagues = ({
 	                                leagues,
-	                                setStatusDelete,
 	                                localPageHistory,
 	                                updateHistory,
 	                                setUpdateHistory }) => {
 
-	useEffect(() => {
-		setStatusDelete(false)
-	}, [])
-
 	return (
 		<div className="football-league-container">
 			<div className="football-league-header">
-				<img src={soccerBall} width='45px' color={'red'}/>
+				<img src={soccerBall} alt="logo ball" width='45px' color={'red'}/>
 				{
 					leagues.length === 1 && (
 						<div>
@@ -57,6 +51,7 @@ export const FootballLeagues = ({
 											<img
 												style={{ objectFit: 'contain', minWidth: '70px'}}
 												src={ league.label }
+												alt="league label"
 												width="70px"
 												height="40px"
 											/>
@@ -84,7 +79,7 @@ export const FootballLeagues = ({
 										</NavLink>
 										<div className="football-league-list-dropdown-content">
 											{
-												league.seasons.map( seasonTime => {
+												league.seasons.map( (seasonTime, i) => {
 													const dataForHistory = {
 														leagueName: league.leagueName,
 														pathPage: league.pathPage,
@@ -93,6 +88,7 @@ export const FootballLeagues = ({
 
 													return (
 													<NavLink
+														key={i}
 														onClick={() => {
 															localPageHistory(dataForHistory)
 															setUpdateHistory(!updateHistory)

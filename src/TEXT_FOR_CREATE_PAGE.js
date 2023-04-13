@@ -2,13 +2,13 @@ export const TEXT_FOR_CREATE_PAGE = {
 	season: {
 		title: 'Add a new football season',
 		titleOfLeague: 'Name of league',
-		disabledLeagueName: true,
-		button: 'Create season'
+		button: 'Create season',
+		result: 'Successful season creation'
 	},
 	league: {
 		title: 'Create a new football league',
 		titleOfLeague: 'Fill name of league',
-		disabledLeagueName: false,
-		button: 'Create league'
+		button: 'Create league',
+		result: 'Successful league creation'
 	}
 }

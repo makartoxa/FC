@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { TEXT_FOR_CREATE_PAGE } from "../../TEXT_FOR_CREATE_PAGE";
 import player from "../logo/player.png"
 
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
@@ -13,18 +12,14 @@ import './AppHeader.scss';
 
 
 export const AppHeader = ({
-	                          update,
+	                          leagues,
 	                          updateHistory,
 	                          setUpdateHistory,
 	                          localPageHistory,
 	                          dummyLeague,
-	                          setDataCreate,
-	                          setIdTeam,
-	                          setCopyDataLeagueOrNewSeason,
-	                          setCreateButtonForAddSeason }) => {
+	                          setCopyDataForNewLeagueOrNewSeason}) => {
 
 	const [active, setActive] = useState(false);
-	const [leagueNames, setleagueNames] = useState([]);
 	const [menuLeague, setMenuLeague] = useState(false);
 	const [menuDemo, setMenuDemo] = useState(false);
 
@@ -61,15 +56,6 @@ export const AppHeader = ({
 		}
 	}, [refMenuLeague])
 
-	useEffect(() => {
-		const localLeagues = localStorage.getItem('leagues');
-		const dataLeagues = localLeagues ? JSON.parse(localLeagues) : '';
-		if (localLeagues) {
-			setleagueNames(dataLeagues)
-		}
-	}, [update])
-
-
 	return (
 		<div className="app-header">
 			<div className="app-header-menu-mobile-btn"
@@ -84,7 +70,7 @@ export const AppHeader = ({
 				}
 			</div>
 			<div className="app-header-title">
-				<img src={player} width="50px"/>
+				<img alt='player' src={player} width="50px"/>
 				<div className="app-header-title__name">
 					Football
 				</div>
@@ -129,21 +115,18 @@ export const AppHeader = ({
 							<NavLink
 								to='/new_league'
 								onClick={() => {
-									setDataCreate(TEXT_FOR_CREATE_PAGE.league)
-									setIdTeam(2)
-									setCopyDataLeagueOrNewSeason()
+									setCopyDataForNewLeagueOrNewSeason()
 								}}
 							>
 								Create league
 							</NavLink>
 							{
-								leagueNames.map((league, i) => (
+								leagues.map((league, i) => (
 									<NavLink
 										key={i}
 										onClick={ () => {
 											localPageHistory(league)
 											setUpdateHistory(!updateHistory)
-											setCreateButtonForAddSeason(true)
 										}}
 										to={ `/${encodeURI(league.pathPage)}/${encodeURI(league.leagueName)}/${encodeURI(league.seasons[league.seasons.length - 1].seasonTime)}/table` }
 									>
