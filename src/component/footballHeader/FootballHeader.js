@@ -24,7 +24,7 @@ export const FootballHeader = ({
 
 
 	const [chooseSeason, setChooseSeason] = useState()
-	const [menuSeasons, setMenuSeasons] = useState(false)
+	const [activeMenuSeasons, setActiveMenuSeasons] = useState(false)
 
 	const refMenuSeasons = useRef(null)
 	const navigate = useNavigate();
@@ -66,12 +66,14 @@ export const FootballHeader = ({
 	const deleteLeague = () => {
 		if (filterLeagues) {
 			localStorage.setItem('leagues', JSON.stringify(filterLeagues))
-			league.seasons.map(season => {
-				localStorage.removeItem(`dataInput_${activeLeague}_${season.seasonTime}`);
-				localStorage.removeItem(`dataTable_${activeLeague}_${season.seasonTime}`);
-				localStorage.removeItem(`dayKey_${activeLeague}_${season.seasonTime}`)
-			})
 		}
+
+		league.seasons.map(season => {
+			localStorage.removeItem(`dataInput_${activeLeague}_${season.seasonTime}`);
+			localStorage.removeItem(`dataTable_${activeLeague}_${season.seasonTime}`);
+			localStorage.removeItem(`dayKey_${activeLeague}_${season.seasonTime}`)
+		})
+
 
 		const oldLocalPageHistory = localStorage.getItem('pageHistory');
 		const jsonOldHistory = oldLocalPageHistory ? JSON.parse(oldLocalPageHistory) : null;
@@ -83,9 +85,8 @@ export const FootballHeader = ({
 				localStorage.setItem('pageHistory', JSON.stringify(searchDeletePageInHistory))
 			}
 		}
-
-		setUpdateHistory(!updateHistory)
 		setUpdate(!update)
+		setUpdateHistory(!updateHistory)
 	}
 
 	const handleButtonClick = (props) => {
@@ -109,7 +110,7 @@ export const FootballHeader = ({
 
 	const handleClickOutsideMenuSeasons =  (event) => {
 		if (refMenuSeasons.current && !refMenuSeasons.current.contains(event.target)) {
-			setMenuSeasons(false);
+			setActiveMenuSeasons(false);
 		}
 	}
 
@@ -129,6 +130,7 @@ export const FootballHeader = ({
 					                 dayKey={dayKey}
 					                 dataInput={dataInput}
 					                 dataTable={dataTable}
+					                 handleButtonClick={handleButtonClick}
 					/>
 				)
 		} else if (decodeURI(window.location.href.slice((window.location.href.length) - 5)) === 'table') {
@@ -148,13 +150,29 @@ export const FootballHeader = ({
 				<div className="football-container-header-league">
 					{ league.label.length > 1  ? (
 						<>
-							<img className="football-container-header-league__label" style={{ objectFit: 'contain' }} alt={"league"} src={ league.label } width="75px" height="50px"/>
-							<div className="football-container-header-league__name">{ league.leagueName }</div>
+							<img
+								className="football-container-header-league__label"
+								style={{ objectFit: 'contain' }}
+								alt={"league"}
+								src={ league.label }
+								width="75px"
+								height="50px"
+							/>
+							<div className="football-container-header-league__name">
+								{ league.leagueName }
+							</div>
 						</>
 					) : (
 						<>
-							<div className="football-container-header-league__label" style={{backgroundColor: league.colorLeague}}>{ league.label }</div>
-							<div className="football-container-header-league__name">{ league.leagueName }</div>
+							<div
+								className="football-container-header-league__label"
+								style={{backgroundColor: league.colorLeague}}
+							>
+								{ league.label }
+							</div>
+							<div className="football-container-header-league__name">
+								{ league.leagueName }
+							</div>
 						</>
 					)
 					}
@@ -191,19 +209,19 @@ export const FootballHeader = ({
 			</div>
 			<div className="football-container-header-seasons">
 				<div ref={refMenuSeasons}
-				     className={`dropdown-seasons${menuSeasons ? ' show-background-seasons' : ''}`}>
+				     className={`dropdown-seasons${activeMenuSeasons ? ' show-background-seasons' : ''}`}>
 					<button
-						className={`dropbtn-seasons${menuSeasons ? ' show-color-seasons' : ''}`}
+						className={`dropbtn-seasons${activeMenuSeasons ? ' show-color-seasons' : ''}`}
 					        onClick={ () => {
-						        setMenuSeasons(!menuSeasons)
+						        setActiveMenuSeasons(!activeMenuSeasons)
 					        }}>
 						Seasons
 						{
-							menuSeasons ?  <ArrowLeftLineIcon /> : <ArrowRightLineIcon />
+							activeMenuSeasons ?  <ArrowLeftLineIcon /> : <ArrowRightLineIcon />
 						}
 					</button>
 					<div id="myDropdown3"
-					     className={`dropdown-content-seasons${menuSeasons ? ' show-seasons' : ''}`}>
+					     className={`dropdown-content-seasons${activeMenuSeasons ? ' show-seasons' : ''}`}>
 						{
 							league.seasons.map((season, i) => {
 								const dataForHistory = {
@@ -219,7 +237,7 @@ export const FootballHeader = ({
 										setUpdateHistory(!updateHistory)
 										localPageHistory(dataForHistory)
 										setChooseSeason(season.seasonTime)
-										setMenuSeasons(false)
+										setActiveMenuSeasons(false)
 									}}>
 									{season.seasonTime}
 								</NavLink>

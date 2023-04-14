@@ -8,7 +8,7 @@ import { Page404 } from "../page404/Page404";
 import { DUMMY_LEAGUE } from "../../DUMMY_LEAGUE";
 
 import {Routes, Route } from "react-router-dom";
-import { useEffect, useState } from "react";
+import {Fragment, useEffect, useState} from "react";
 
 import './app.scss'
 
@@ -32,6 +32,9 @@ export const App = () => {
 		const localLeague = localStorage.getItem('leagues')
 		const jsonLeague = localLeague ? JSON.parse(localLeague) : []
 		setLeagues(jsonLeague)
+		if (jsonLeague.length === 0) {
+			localStorage.removeItem('leagues')
+		}
 	}, [update])
 
 
@@ -100,7 +103,6 @@ export const App = () => {
 							updateHistory={updateHistory}
 							setUpdateHistory={setUpdateHistory}
 							localPageHistory={localPageHistory}
-
 						/>
 					}
 				/>
@@ -119,7 +121,7 @@ export const App = () => {
 				{
 					leagues.map((league) => {
 						return league.seasons.map((season, i) => (
-							<>
+							<Fragment key={i}>
 								<Route
 									key={i}
 									path={`${encodeURI(league.pathPage)}/${encodeURI(league.leagueName)}/${encodeURI(season.seasonTime)}/table`}
@@ -143,17 +145,19 @@ export const App = () => {
 											league={ league }
 											update={update}
 											setUpdate={setUpdate}
+											updateHistory={updateHistory}
+											setUpdateHistory={setUpdateHistory}
 											setCopyDataForNewLeagueOrNewSeason={setCopyDataForNewLeagueOrNewSeason}
 										/>
 									}
 								/>
-							</>
+							</Fragment>
 						))
 					})
 				}
 				{
 					DUMMY_LEAGUE.seasons.map((season, i) => (
-						<>
+						<Fragment key={i}>
 							<Route
 								key={i}
 								path={`${encodeURI(DUMMY_LEAGUE.pathPage)}/${encodeURI(DUMMY_LEAGUE.leagueName)}/${encodeURI(season.seasonTime)}/table`}
@@ -174,12 +178,14 @@ export const App = () => {
 								element={
 									<FootballHeader
 										update={update}
+										updateHistory={updateHistory}
+										setUpdateHistory={setUpdateHistory}
 										league={DUMMY_LEAGUE}
 										setCopyDataForNewLeagueOrNewSeason={setCopyDataForNewLeagueOrNewSeason}
 									/>
 								}
 							/>
-						</>
+						</Fragment>
 					))
 				}
 				<Route

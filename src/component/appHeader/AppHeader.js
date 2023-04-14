@@ -19,18 +19,18 @@ export const AppHeader = ({
 	                          dummyLeague,
 	                          setCopyDataForNewLeagueOrNewSeason}) => {
 
-	const [active, setActive] = useState(false);
-	const [menuLeague, setMenuLeague] = useState(false);
-	const [menuDemo, setMenuDemo] = useState(false);
+	const [activeMobileMenu, setActiveMobileMenu] = useState(false);
+	const [activeMenuLeague, setActiveMenuLeague] = useState(false);
+	const [activeMenuDemo, setActiveMenuDemo] = useState(false);
 
 	const refMenuLeague = useRef(null)
 	const refMenuDemo = useRef(null)
 
 	const handleClickOutsideMenuDemo =  (event) => {
 		if (refMenuDemo.current && refMenuDemo.current.contains(event.target)) {
-			setMenuDemo(true);
+			setActiveMenuDemo(true);
 		} else if (refMenuDemo.current && !refMenuDemo.current.contains(event.target)) {
-			setMenuDemo(false);
+			setActiveMenuDemo(false);
 		}
 	}
 
@@ -43,9 +43,9 @@ export const AppHeader = ({
 
 	const handleClickOutsideMenuLeague =  (event) => {
 		if (refMenuLeague.current && refMenuLeague.current.contains(event.target)) {
-			setMenuLeague(true);
+			setActiveMenuLeague(true);
 		} else if (refMenuLeague.current && !refMenuLeague.current.contains(event.target)) {
-			setMenuLeague(false);
+			setActiveMenuLeague(false);
 		}
 	}
 
@@ -60,11 +60,11 @@ export const AppHeader = ({
 		<div className="app-header">
 			<div className="app-header-menu-mobile-btn"
 			     onClick={ () => {
-					 setActive(!active)
+					 setActiveMobileMenu(!activeMobileMenu)
 				 }}
 			>
 				{
-					active
+					activeMobileMenu
 						? <CloseIcon color="#0e8ac7" />
 						: <MenuIcon color="#0e8ac7" />
 				}
@@ -79,11 +79,11 @@ export const AppHeader = ({
 				</NavLink>
 			</div>
 			<div className="app-header-navigation">
-				<div className={`app-header-menu${active ? ' active' : ''}`}>
+				<div className={`app-header-menu${activeMobileMenu ? ' active' : ''}`}>
 
 					<div className="app-header-menu-home"
 					     onClick={ () => {
-							 setActive(!active)
+							 setActiveMobileMenu(!activeMobileMenu)
 					     }}
 					>
 						<NavLink to='/'>
@@ -95,8 +95,8 @@ export const AppHeader = ({
 						className="app-header-menu-league"
 						ref={refMenuLeague}
 						onClick={ () => {
-							setMenuLeague(false)
-							setActive(!active)
+							setActiveMenuLeague(false)
+							setActiveMobileMenu(!activeMobileMenu)
 						}}
 					>
 						<NavLink
@@ -107,11 +107,11 @@ export const AppHeader = ({
 								className="app-header-menu-icon"
 							>
 								{
-									!menuLeague ? <ArrowDownIcon /> : <ArrowUpIcon/>
+									!activeMenuLeague ? <ArrowDownIcon /> : <ArrowUpIcon/>
 								}
 							</span>
 						</NavLink>
-						<div className={`app-header-menu-league-dropdown-content ${menuLeague ? 'show' : ''}`}>
+						<div className={`app-header-menu-league-dropdown-content ${activeMenuLeague ? 'show' : ''}`}>
 							<NavLink
 								to='/new_league'
 								onClick={() => {
@@ -142,8 +142,8 @@ export const AppHeader = ({
 						onClick={ () => {
 							localPageHistory(dummyLeague)
 							setUpdateHistory(!updateHistory)
-							setMenuDemo(false)
-							setActive(!active)
+							setActiveMenuDemo(false)
+							setActiveMobileMenu(!activeMobileMenu)
 						}}
 					>
 						<NavLink
@@ -154,11 +154,11 @@ export const AppHeader = ({
 								className="app-header-menu-icon"
 							>
 								{
-									!menuDemo ?  <ArrowDownIcon/> : <ArrowUpIcon/>
+									!activeMenuDemo ?  <ArrowDownIcon/> : <ArrowUpIcon/>
 								}
 							</span>
 						</NavLink>
-						<div className={`app-header-menu-demo-dropdown-content ${menuDemo ? 'show' : ''}`}>
+						<div className={`app-header-menu-demo-dropdown-content ${activeMenuDemo ? 'show' : ''}`}>
 							<NavLink
 								to={`/${encodeURI(dummyLeague.pathPage)}/${encodeURI(dummyLeague.leagueName)}/${encodeURI(dummyLeague.seasons[dummyLeague.seasons.length - 1].seasonTime)}/table` }
 							>

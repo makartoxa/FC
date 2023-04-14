@@ -96,21 +96,17 @@ export const CreateLeague = ({
 		setDataTeams(newTeams);
 	}
 
-	const clearFields = (league) => {
+	const clearFields = (props) => {
 		setDataLeague({
-			leagueName: league ? league : '',
+			leagueName: props ? props : '',
 			label: '',
 			pathPage: 'league',
 			colorLeague: getRandomColor()
 		})
-		setDataTeams([
-			{ id: `${idTeam - 1}` , fcName: '', label: '', color: getRandomColor()},
-			{ id: `${idTeam}` , fcName: '', label: '', color: getRandomColor()}
-		]);
+		setDataTeams([]);
 		setDateTime(null);
-
+		addIdTeams()
 	}
-
 
 	const createLeague = () => {
 
@@ -155,7 +151,6 @@ export const CreateLeague = ({
 						return setIsWarningSamePeriod(true)
 
 					} else if (!samePeriodOfLeague) {
-
 						const oldLeaguesFilter = oldLeagues.filter(el => el !== sameNameLeague)
 						const addSeasonsSameLeague = [...sameNameLeague.seasons, Object.assign(seasonPeriod, newTeams)]
 						const updateLeague = {
@@ -170,7 +165,7 @@ export const CreateLeague = ({
 						setUpdate(!update)
 						clearFields(sameNameLeague.leagueName)
 						setIdTeam(2)
-						setIsSuccess(true)
+						return setIsSuccess(true)
 					}
 				} else {
 					return setIsWarningPeriod(true)
@@ -185,12 +180,11 @@ export const CreateLeague = ({
 					setUpdate(!update)
 					clearFields()
 					setIdTeam(2)
-					setIsSuccess(true)
+					return setIsSuccess(true)
 				} else {
 					return setIsWarningPeriod(true)
 				}
 			}
-
 		} else {
 			setIsError(true)
 		}
@@ -226,6 +220,7 @@ export const CreateLeague = ({
 						<Input className="create-league__input league"
 						       placeholder="Name of league" type='text'
 						       disabled={!!copyDataForNewLeagueOrNewSeason}
+						       value={dataLeague.leagueName}
 						       onChange={value => {
 								   const newDataLeague = {};
 							       newDataLeague.leagueName = value;

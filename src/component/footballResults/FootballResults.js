@@ -12,6 +12,7 @@ export const FootballResults = ({
 	                                teamsOfSeason,
 	                                dayKey,
 	                                dataInput,
+	                                handleButtonClick,
 	                                dataTable }) => {
 
 	//------------> useState
@@ -327,7 +328,9 @@ export const FootballResults = ({
 		if (response) {
 			alert("Data completely deleted");
 			localStorage.clear();
+			handleButtonClick('/')
 			window.location.reload();
+
 		} else {
 			alert("Cancel");
 		}
@@ -441,7 +444,7 @@ export const FootballResults = ({
 								onClick={() => reset()}
 								appearance="ghost"
 								color="red">
-								<NavLink style={{textDecoration: 'none', color: 'red'}} to='/' >Reset</NavLink>
+									Reset
 							</Button>
 						</div>
 						<div className="matches-result__button">
@@ -451,7 +454,7 @@ export const FootballResults = ({
 								disabled={saveButtonDisabled}
 								appearance="ghost"
 								color="yellow">
-								Clear
+									Clear
 							</Button>
 						</div>
 						<div className="matches-result__button">
@@ -461,7 +464,7 @@ export const FootballResults = ({
 								disabled={saveButtonDisabled}
 								appearance="ghost"
 								color="green">
-								Submit
+									Submit
 							</Button>
 						</div>
 					</div>
