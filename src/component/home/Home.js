@@ -5,6 +5,7 @@ import './Home.scss'
 export const Home = ({
 	                     dummyLeague,
 	                     listLeagueHistory,
+	                     newLeague,
 	                     setCopyDataForNewLeagueOrNewSeason}) => {
 
 
@@ -15,7 +16,7 @@ export const Home = ({
 					<div className="home__menu">
 						<NavLink to='/new_league'
 						         onClick={ () => {
-							         setCopyDataForNewLeagueOrNewSeason()
+							         setCopyDataForNewLeagueOrNewSeason(newLeague)
 								 }}
 						>
 							Start

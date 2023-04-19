@@ -17,6 +17,7 @@ export const AppHeader = ({
 	                          setUpdateHistory,
 	                          localPageHistory,
 	                          dummyLeague,
+	                          newLeague,
 	                          setCopyDataForNewLeagueOrNewSeason}) => {
 
 	const [activeMobileMenu, setActiveMobileMenu] = useState(false);
@@ -115,7 +116,7 @@ export const AppHeader = ({
 							<NavLink
 								to='/new_league'
 								onClick={() => {
-									setCopyDataForNewLeagueOrNewSeason()
+									setCopyDataForNewLeagueOrNewSeason(newLeague)
 								}}
 							>
 								Create league

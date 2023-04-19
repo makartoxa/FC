@@ -12,11 +12,30 @@ import {Fragment, useEffect, useState} from "react";
 
 import './app.scss'
 
+const getRandomColor = () => {
+	let letters = '0123456789ABCDEF';
+	let color = '#';
+	for (let i = 0; i < 6; i++) {
+		color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
+}
+
+const NEW_LEAGUE = {
+	leagueName: '',
+	label: '',
+	position: 'league',
+	teams: [
+		{ id: `1`, fcName: '', label: '', color: getRandomColor()},
+		{ id: `2`, fcName: '', label: '', color: getRandomColor()}
+	]
+}
+
 export const App = () => {
 
 	const [leagues, setLeagues] = useState([])
 	const [listLeagueHistory, setListLeagueHistory] = useState([])
-	const [copyDataForNewLeagueOrNewSeason, setCopyDataForNewLeagueOrNewSeason] = useState()
+	const [copyDataForNewLeagueOrNewSeason, setCopyDataForNewLeagueOrNewSeason] = useState(NEW_LEAGUE)
 
 	const [update, setUpdate] = useState(false)
 	const [updateHistory, setUpdateHistory] = useState(false)
@@ -77,6 +96,7 @@ export const App = () => {
 				setUpdateHistory={setUpdateHistory}
 				localPageHistory={localPageHistory}
 				dummyLeague={DUMMY_LEAGUE}
+				newLeague={NEW_LEAGUE}
 				setCopyDataForNewLeagueOrNewSeason={setCopyDataForNewLeagueOrNewSeason}
 			/>
 
@@ -86,6 +106,7 @@ export const App = () => {
 					element={
 						<Home
 							dummyLeague={DUMMY_LEAGUE}
+							newLeague={NEW_LEAGUE}
 							listLeagueHistory={listLeagueHistory}
 							updateHistory={updateHistory}
 							setUpdateHistory={setUpdateHistory}
@@ -113,6 +134,7 @@ export const App = () => {
 						<CreateLeague
 							update={update}
 							setUpdate={setUpdate}
+							getRandomColor={getRandomColor}
 							copyDataForNewLeagueOrNewSeason={copyDataForNewLeagueOrNewSeason}
 						/>
 					}

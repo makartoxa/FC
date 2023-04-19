@@ -29,7 +29,6 @@ export const FootballHeader = ({
 	const refMenuSeasons = useRef(null)
 	const navigate = useNavigate();
 
-
 	const activeLeague = league.leagueName
 	const activeSeason = league.seasons.find(el => el.seasonTime === chooseSeason)
 		? league.seasons.find(el => el.seasonTime === chooseSeason)
@@ -37,11 +36,6 @@ export const FootballHeader = ({
 
 	const teamsOfSeason = activeSeason.teams
 	const seasonOfLeague = activeSeason.seasonTime
-	const copyData = {
-		leagueName: league.leagueName,
-		label: league.label,
-		teams: teamsOfSeason
-	}
 
 	const dayKey = useMemo(() => `dayKey_${activeLeague}_${seasonOfLeague}`, [seasonOfLeague]);
 	const dataInput = useMemo(() => `dataInput_${activeLeague}_${seasonOfLeague}`, [seasonOfLeague]);
@@ -103,8 +97,13 @@ export const FootballHeader = ({
 		}
 	}
 
-	const createDataLeagueOrNewSeason = () => {
-		setCopyDataForNewLeagueOrNewSeason(copyData)
+	const createDataLeagueOrNewSeason = (props) => {
+		setCopyDataForNewLeagueOrNewSeason({
+			leagueName: league.leagueName,
+			label: league.label,
+			position: props,
+			teams: teamsOfSeason
+		})
 		handleButtonClick('/new_league')
 	}
 
@@ -182,7 +181,7 @@ export const FootballHeader = ({
 						<div className="football-container-header-league__copy">
 							<button className="football-container-header-league__buttons"
 							        onClick={() => {
-								        createDataLeagueOrNewSeason()
+								        createDataLeagueOrNewSeason('league')
 									}}>
 								<div className="football-container-header-league__copy-league-button">
 									<CopyIcon />
@@ -252,7 +251,7 @@ export const FootballHeader = ({
 				{ league.pathPage === 'league' && (
 					<button className="football-container-header-seasons__add-season"
 					        onClick={() => {
-						        createDataLeagueOrNewSeason()
+						        createDataLeagueOrNewSeason('season')
 							}}
 					>
 						<div className="football-container-header-seasons__add-season-button">
