@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Message, Button, Input } from 'rsuite';
+import { Message, Button, Input, Uploader } from 'rsuite';
 import { AiOutlineClose } from "react-icons/ai";
 import { DatePicker, Space } from 'antd';
 import moment from "moment";
@@ -30,6 +30,7 @@ export const CreateLeague = ({
 	const dateStart = dateTime ? moment(dateTime[0]['$d']).format('MMM YYYY') : false;
 	const dateEnd = dateTime ? moment(dateTime[1]['$d']).format('MMM YYYY') : false;
 	const seasonPeriod = dateStart && dateEnd ? { seasonTime: `${dateStart} - ${dateEnd}` } : false
+
 
 	useEffect(() => {
 		setDataLeague({
@@ -139,8 +140,8 @@ export const CreateLeague = ({
 						const newLeagues = [...oldLeaguesFilter, updateLeague]
 						localStorage.setItem('leagues', JSON.stringify(newLeagues))
 						setUpdate(!update)
-						clearFields(sameNameLeague.leagueName)
 						setIdTeam(2)
+						clearFields(sameNameLeague.leagueName)
 						return setIsSuccess(true)
 					}
 				} else {
@@ -154,8 +155,8 @@ export const CreateLeague = ({
 					const newLeagues = [...oldLeagues, Object.assign(newLeague, pathPage, period)]
 					localStorage.setItem('leagues', JSON.stringify(newLeagues))
 					setUpdate(!update)
-					clearFields()
 					setIdTeam(2)
+					clearFields()
 					return setIsSuccess(true)
 				} else {
 					return setIsWarningPeriod(true)
@@ -177,6 +178,20 @@ export const CreateLeague = ({
 			setIsWarningSamePeriod(false)
 		}, 4000);
 	}
+
+	// const fileList = [
+	// 	{
+	// 		name: 'a.png',
+	// 		fileKey: 1,
+	// 		url: 'https://user-images.githubusercontent.com/1203827/47638792-92414e00-db9a-11e8-89c2-f8f430a23cd3.png'
+	// 	},
+	// 	{
+	// 		name: 'b.png',
+	// 		fileKey: 2,
+	// 		url: 'https://user-images.githubusercontent.com/1203827/47638807-9d947980-db9a-11e8-9ee5-e0cc9cd7e8ad.png'
+	// 	}
+	// ];
+
 	return (
 		<div className="create-league">
 			<div className="create-league__header">
@@ -234,6 +249,11 @@ export const CreateLeague = ({
 									       setDataTeams(newArray);
 
 								       }}/>
+								{/*<Uploader*/}
+								{/*	listType="picture-text"*/}
+								{/*	defaultFileList={fileList}*/}
+								{/*	action="//jsonplaceholder.typicode.com/posts/"*/}
+								{/*/>*/}
 								<Button
 									className="create-league__button-delete"
 									onClick={() => deleteTeamAndField(i)}
@@ -264,7 +284,7 @@ export const CreateLeague = ({
 							{ isSuccess && (
 								<Message showIcon type="success" header="Success">
 									{
-										copyDataForNewLeagueOrNewSeason ? TEXT_FOR_CREATE_PAGE.season.result : TEXT_FOR_CREATE_PAGE.league.result
+										copyDataForNewLeagueOrNewSeason.position === 'season' ? TEXT_FOR_CREATE_PAGE.season.result : TEXT_FOR_CREATE_PAGE.league.result
 									}
 								</Message>)
 							}
@@ -300,7 +320,7 @@ export const CreateLeague = ({
 							onClick={() => createLeague()}
 						>
 							{
-								copyDataForNewLeagueOrNewSeason ? TEXT_FOR_CREATE_PAGE.season.button : TEXT_FOR_CREATE_PAGE.league.button
+								copyDataForNewLeagueOrNewSeason.position === 'season' ? TEXT_FOR_CREATE_PAGE.season.button : TEXT_FOR_CREATE_PAGE.league.button
 							}
 						</button>
 					</div>
