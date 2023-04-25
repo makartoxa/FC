@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Button, SelectPicker, InputNumber } from "rsuite";
-import { NavLink } from "react-router-dom";
 
 import PageNextIcon from '@rsuite/icons/PageNext';
 import PagePreviousIcon from '@rsuite/icons/PagePrevious';

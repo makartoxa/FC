@@ -169,6 +169,7 @@ export const App = () => {
 											setUpdate={setUpdate}
 											updateHistory={updateHistory}
 											setUpdateHistory={setUpdateHistory}
+											localPageHistory={localPageHistory}
 											setCopyDataForNewLeagueOrNewSeason={setCopyDataForNewLeagueOrNewSeason}
 										/>
 									}
@@ -202,6 +203,7 @@ export const App = () => {
 										update={update}
 										updateHistory={updateHistory}
 										setUpdateHistory={setUpdateHistory}
+										localPageHistory={localPageHistory}
 										league={DUMMY_LEAGUE}
 										setCopyDataForNewLeagueOrNewSeason={setCopyDataForNewLeagueOrNewSeason}
 									/>

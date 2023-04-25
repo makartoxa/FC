@@ -23,7 +23,7 @@ export const FootballHeader = ({
 	                               setCopyDataForNewLeagueOrNewSeason }) => {
 
 
-	const [chooseSeason, setChooseSeason] = useState()
+	const [chooseSeason, setChooseSeason] = useState('')
 	const [activeMenuSeasons, setActiveMenuSeasons] = useState(false)
 
 	const refMenuSeasons = useRef(null)
@@ -230,11 +230,11 @@ export const FootballHeader = ({
 								};
 								return (
 								<NavLink
-									to={ `/${encodeURI(league.pathPage)}/${ encodeURI(activeLeague) }/${ encodeURI(season.seasonTime) }/table` }
+									to={`/${encodeURI(league.pathPage)}/${encodeURI(activeLeague)}/${encodeURI(season.seasonTime)}/table`}
 									key={i}
 									onClick={ () => {
-										setUpdateHistory(!updateHistory)
 										localPageHistory(dataForHistory)
+										setUpdateHistory(!updateHistory)
 										setChooseSeason(season.seasonTime)
 										setActiveMenuSeasons(false)
 									}}>
